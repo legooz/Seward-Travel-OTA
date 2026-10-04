@@ -15,5 +15,8 @@
   },
   "optionalDependencies": {
     "playwright": "1.63.0"
+  },
+  "dependencies": {
+    "cheerio": "1.2.0"
   }
 }

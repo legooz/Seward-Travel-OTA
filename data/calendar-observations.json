@@ -1,0 +1,146 @@
+{
+  "seward-ocean-excursions-half-day": {
+    "status": "observed",
+    "date": "2027-07-15",
+    "checkedAt": "2026-10-04T03:07:24.222Z",
+    "expiresAt": "2026-10-04T03:12:24.222Z",
+    "sourceUrl": "https://fareharbor.com/embeds/book/sewardoceanexcursions/items/192210/calendar/?flow=291643&full-items=yes",
+    "departures": [
+      {
+        "id": "availability-2024096619",
+        "time": "8:30 AM",
+        "label": "8:30 AM\nAvailable",
+        "remaining": null,
+        "unit": "unknown",
+        "evidenceText": "8:30 AM\nAvailable\nAvailable"
+      },
+      {
+        "id": "availability-2024096624",
+        "time": "1:00 PM",
+        "label": "1:00 PM\nAvailable",
+        "remaining": null,
+        "unit": "unknown",
+        "evidenceText": "1:00 PM\nAvailable\nAvailable"
+      },
+      {
+        "id": "availability-2113943326",
+        "time": "5:00 PM",
+        "label": "5:00 PM\nEvening Tour - Private Only (must buy all 6 seats)\nCall to book",
+        "remaining": null,
+        "unit": "unknown",
+        "evidenceText": "5:00 PM\nEvening Tour - Private Only (must buy all 6 seats)\nCall to book"
+      }
+    ],
+    "message": "Real departures read from the public calendar. The source does not publish an exact remaining-seat count for these departures."
+  },
+  "kayak-adventures-resurrection-bay": {
+    "status": "observed",
+    "date": "2027-07-15",
+    "checkedAt": "2026-10-04T03:04:19.196Z",
+    "expiresAt": "2026-10-04T03:09:19.196Z",
+    "sourceUrl": "https://fareharbor.com/embeds/book/kayakak/items/122343/calendar/2027/07/?flow=112838&full-items=yes",
+    "departures": [
+      {
+        "id": "2102744766",
+        "time": "8:00 AM",
+        "label": "8:00 AM Half Day Resurrection Bay Trip\nAdult Tour :: 14 yrs +",
+        "remaining": null,
+        "unit": "unknown",
+        "evidenceText": "8:00 AM Half Day Resurrection Bay Trip\nAdult Tour :: 14 yrs +"
+      },
+      {
+        "id": "2102744770",
+        "time": "8:00 AM",
+        "label": "8:00 AM Half Day Resurrection Bay Trip\nFamily Tour :: Traveling with 6-13 yr olds",
+        "remaining": null,
+        "unit": "unknown",
+        "evidenceText": "8:00 AM Half Day Resurrection Bay Trip\nFamily Tour :: Traveling with 6-13 yr olds"
+      },
+      {
+        "id": "2102744774",
+        "time": "11:30 AM",
+        "label": "11:30 AM Half Day Resurrection Bay Trip\nAdult Tour :: 14 yrs +",
+        "remaining": null,
+        "unit": "unknown",
+        "evidenceText": "11:30 AM Half Day Resurrection Bay Trip\nAdult Tour :: 14 yrs +"
+      },
+      {
+        "id": "2102744778",
+        "time": "11:30 AM",
+        "label": "11:30 AM Half Day Resurrection Bay Trip\nFamily Tour :: Traveling with 6-13 yr olds",
+        "remaining": null,
+        "unit": "unknown",
+        "evidenceText": "11:30 AM Half Day Resurrection Bay Trip\nFamily Tour :: Traveling with 6-13 yr olds"
+      },
+      {
+        "id": "2102744782",
+        "time": "6:00 PM",
+        "label": "6:00 PM Half Day Resurrection Bay Trip\nAdult Tour :: 14 yrs +",
+        "remaining": null,
+        "unit": "unknown",
+        "evidenceText": "6:00 PM Half Day Resurrection Bay Trip\nAdult Tour :: 14 yrs +"
+      },
+      {
+        "id": "2102744786",
+        "time": "6:00 PM",
+        "label": "6:00 PM Half Day Resurrection Bay Trip\nFamily Tour :: Traveling with 6-13 yr olds",
+        "remaining": null,
+        "unit": "unknown",
+        "evidenceText": "6:00 PM Half Day Resurrection Bay Trip\nFamily Tour :: Traveling with 6-13 yr olds"
+      }
+    ],
+    "message": "Real departures read from the public calendar. The source does not publish an exact remaining-seat count for these departures."
+  },
+  "adventure-sixty-north-tonsina-point": {
+    "status": "observed",
+    "date": "2027-07-15",
+    "checkedAt": "2026-10-04T03:04:25.199Z",
+    "expiresAt": "2026-10-04T03:09:25.199Z",
+    "sourceUrl": "https://fareharbor.com/embeds/book/adventure60/items/335727/calendar/2027/07/?ref=https://adventure60.com&branding=yes",
+    "departures": [
+      {
+        "id": "2141726874",
+        "time": "8:00 AM",
+        "label": "8:00 AM Tonsina Point Kayak",
+        "remaining": null,
+        "unit": "unknown",
+        "evidenceText": "8:00 AM Tonsina Point Kayak"
+      },
+      {
+        "id": "2141733192",
+        "time": "2:00 PM",
+        "label": "2:00 PM Tonsina Point Kayak",
+        "remaining": null,
+        "unit": "unknown",
+        "evidenceText": "2:00 PM Tonsina Point Kayak"
+      }
+    ],
+    "message": "Real departures read from the public calendar. The source does not publish an exact remaining-seat count for these departures."
+  },
+  "millers-landing-halibut": {
+    "status": "observed",
+    "date": "2027-07-15",
+    "checkedAt": "2026-10-04T03:04:32.411Z",
+    "expiresAt": "2026-10-04T03:09:32.411Z",
+    "sourceUrl": "https://fareharbor.com/embeds/book/millerslandingak/items/84318/calendar/?ref=https://www.millerslandingak.com&full-items=yes",
+    "departures": [
+      {
+        "id": "availability--35950309",
+        "time": "6:00 AM",
+        "label": "6:00 AM\nCombo Charter - 10 passenger boat\nCall to book",
+        "remaining": null,
+        "unit": "unknown",
+        "evidenceText": "6:00 AM\nCombo Charter - 10 passenger boat\nCall to book"
+      },
+      {
+        "id": "availability--35950548",
+        "time": "6:00 AM",
+        "label": "6:00 AM\nCombo Charter - 14 passenger boat\nCall to book",
+        "remaining": null,
+        "unit": "unknown",
+        "evidenceText": "6:00 AM\nCombo Charter - 14 passenger boat\nCall to book"
+      }
+    ],
+    "message": "Real departures read from the public calendar. The source does not publish an exact remaining-seat count for these departures."
+  }
+}
