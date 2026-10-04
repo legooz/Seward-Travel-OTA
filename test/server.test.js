@@ -118,7 +118,7 @@ test('manual feed is re-read, validated, and becomes stale on expiry', async t =
 
 test('dashboard assets and observed catalog are routed without network access', async t => {
   const base = await serve(t, services());
-  for (const [path, type] of [['/', 'text/html'], ['/app.js', 'text/javascript'], ['/style.css', 'text/css']]) {
+  for (const [path, type] of [['/', 'text/html'], ['/app.js', 'text/javascript'], ['/style.css', 'text/css'], ['/images/seward-hero.jpg', 'image/jpeg']]) {
     const response = await fetch(`${base}${path}`);
     assert.equal(response.status, 200, path);
     assert.ok(response.headers.get('content-type').startsWith(type));

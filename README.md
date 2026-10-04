@@ -2,6 +2,8 @@
 
 **A Seward travel directory with six tours, three lodging properties, and three transportation providers.** Search and filter listings, inspect their official sources and review dates, and continue to the provider. The six tour pages support catalog refresh; four FareHarbor products also have a browser-based check for a selected calendar date.
 
+The front page offers **Lodging**, **Activities**, and **Transport**, opening a compact photo list with location labels and map links. Eleven official provider photos are referenced with source credits; the taxi uses a neutral placeholder. The Framer component and local dashboard both keep one listing per row.
+
 The catalog has been refreshed successfully from all six real public sources. The app does not process bookings or payments, and no supplier API is connected. Exact remaining seats have not yet been verified: a visible departure or an “Available” label is not a numeric seat count or confirmation that a particular party can book.
 
 ## Run the dashboard

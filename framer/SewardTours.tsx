@@ -7,13 +7,14 @@ import { addPropertyControls, ControlType } from "framer"
 // Never place API keys, cookies, provider credentials, or secrets in this file.
 
 const DEFAULT_SOURCE = "https://raw.githubusercontent.com/legooz/Seward-Travel-OTA/main/data/catalog.json"
+const HERO_IMAGE = "https://raw.githubusercontent.com/legooz/Seward-Travel-OTA/main/public/images/seward-hero.jpg"
 type Departure = { id: string; time: string; label: string; remaining: number | null; unit: string; evidenceText: string }
 type Availability = { status: string; date: string; checkedAt?: string; expiresAt?: string; lastAttemptAt?: string; message?: string; departures: Departure[] }
 type ListingType = "tour" | "lodging" | "transportation"
 type BookingAction = "rates" | "schedule" | "contact" | "dates"
-type Product = { id: string; operator: string; name: string; category: string; listingType?: ListingType; subcategory?: string; serviceLabel?: string; serviceEvidence?: string; serviceNotes?: string; locationText?: string; bookingAction?: BookingAction; sourceReferences?: { label: string; url: string }[]; sourceMode?: string; platform: string; sourceUrl: string; bookingUrl: string; priceText: string | null; durationText: string | null; durationMinutesMin?: number | null; durationMinutesMax?: number | null; durationLabel?: string; durationBasis?: string; durationEvidence?: string; description?: string; detailsCheckedAt?: string; priceCaveat?: string; checkedAt?: string | null; lastAttemptAt?: string | null; fetchStatus: string; error?: string; calendarSupported?: boolean; availability?: Availability; inventoryUnit?: string | null }
+type Product = { id: string; operator: string; name: string; category: string; listingType?: ListingType; subcategory?: string; serviceLabel?: string; serviceEvidence?: string; serviceNotes?: string; locationText?: string; locationLabel?: string; mapQuery?: string; locationEvidence?: string; locationEvidenceUrl?: string; imageUrl?: string | null; imageAlt?: string | null; imageSourceUrl?: string | null; imageCredit?: string | null; mediaReviewedAt?: string; imageEvidence?: string; bookingAction?: BookingAction; sourceReferences?: { label: string; url: string }[]; sourceMode?: string; platform: string; sourceUrl: string; bookingUrl: string; priceText: string | null; durationText: string | null; durationMinutesMin?: number | null; durationMinutesMax?: number | null; durationLabel?: string; durationBasis?: string; durationEvidence?: string; description?: string; detailsCheckedAt?: string; priceCaveat?: string; checkedAt?: string | null; lastAttemptAt?: string | null; fetchStatus: string; error?: string; calendarSupported?: boolean; availability?: Availability; inventoryUnit?: string | null }
 type Catalog = { products: Product[]; refreshedAt: string | null; notice: string }
-type Props = { sourceURL?: string; apiBase?: string; style?: React.CSSProperties }
+type Props = { sourceURL?: string; apiBase?: string; showHero?: boolean; style?: React.CSSProperties }
 
 // Exact saved operator observations copied from data/catalog.json, not sample inventory.
 const SAVED_CATALOG: Catalog = {
@@ -41,7 +42,18 @@ const SAVED_CATALOG: Catalog = {
       "durationEvidence": "The operator labels this Full Day. The usual departure is 6 AM with a 5–6 PM return; departure changes to 7 AM beginning August 20. No single hourly duration is stated.",
       "description": "Fish the Gulf of Alaska for halibut and other seasonal species, with a captain and deckhand aboard.",
       "detailsCheckedAt": "2026-10-04T03:50:18.000Z",
-      "listingType": "tour"
+      "listingType": "tour",
+      "locationLabel": "Miller's Landing · beach boarding",
+      "locationText": "13880 Beach Drive, Seward, AK 99664. Boats load directly from the beach in front of Miller's Landing.",
+      "mapQuery": "Miller's Landing, 13880 Beach Drive, Seward, AK 99664",
+      "imageUrl": "https://www.millerslandingak.com/wp-content/uploads/sites/3698/2025/10/IMG-20250821-WA0002-e1761189896143.jpg?resize=360%2C240&zoom=2",
+      "imageAlt": "Anglers display their catch at Miller's Landing, with water and mountains behind them.",
+      "imageSourceUrl": "https://www.millerslandingak.com/seward-alaska-fishing/full-day-halibut-species-in-season-charter/",
+      "imageCredit": "Photo source: Miller's Landing official tour page",
+      "locationEvidenceUrl": "https://www.millerslandingak.com/seward-alaska-fishing/full-day-halibut-species-in-season-charter/",
+      "locationEvidence": "The charter page says its landing craft load directly off the beach in front of Miller's Landing. Its footer lists 13880 Beach Dr, Seward, AK 99664.",
+      "imageEvidence": "First visible photo in this charter page's image gallery; exact observed img src. The source alt describes anglers and their catch at Miller's Landing.",
+      "mediaReviewedAt": "2026-10-04T04:38:48.673Z"
     },
     {
       "id": "seward-ocean-excursions-half-day",
@@ -66,7 +78,18 @@ const SAVED_CATALOG: Catalog = {
       "durationEvidence": "The half-day tour section states a trip length of 3.5 hours, with morning and afternoon departures. The private evening charter is a separate option.",
       "description": "Explore Resurrection Bay and Kenai Fjords National Park by small boat, looking for whales, seabirds, and other wildlife along a flexible route.",
       "detailsCheckedAt": "2026-10-04T03:50:18.000Z",
-      "listingType": "tour"
+      "listingType": "tour",
+      "locationLabel": "Seward Boat Harbor · M dock",
+      "locationText": "Meet at slips M1, M3, M5 or M7 on the south side of Seward Boat Harbor, near the Seward Mariner's Memorial.",
+      "mapQuery": "Seward Ocean Excursions, Seward Boat Harbor, Seward, Alaska",
+      "imageUrl": "https://sewardoceanexcursions.com/wp-content/uploads/2019/10/LSH1987-1024x683.jpg",
+      "imageAlt": "Guests aboard Lost Lynx watch a humpback whale dive.",
+      "imageSourceUrl": "https://sewardoceanexcursions.com/tourssightseeing/",
+      "imageCredit": "Photo source: Seward Ocean Excursions official tour page",
+      "locationEvidenceUrl": "https://sewardoceanexcursions.com/location/",
+      "locationEvidence": "The official Location page explicitly identifies the meeting location as Seward Boat Harbor slips M1, M3, M5 and M7 in the south uplands area, with access by the Mariner's Memorial.",
+      "imageEvidence": "Observed image within the half-day tour section. Its figure caption identifies guests on Lost Lynx watching a humpback dive, before the separate seven-hour tour section begins.",
+      "mediaReviewedAt": "2026-10-04T04:38:48.673Z"
     },
     {
       "id": "kayak-adventures-resurrection-bay",
@@ -91,7 +114,18 @@ const SAVED_CATALOG: Catalog = {
       "durationEvidence": "Calculated from the published 8 AM–noon, 11:30 AM–3:30 PM, and 6–10 PM trip windows. The separate 2–2.5-hour figure refers to paddling time, not the whole tour.",
       "description": "Paddle Resurrection Bay’s western shoreline from Lowell Point with a guide, stopping ashore for snacks, hot drinks, and exploration.",
       "detailsCheckedAt": "2026-10-04T03:50:18.000Z",
-      "listingType": "tour"
+      "listingType": "tour",
+      "locationLabel": "Downtown Seward · office meeting point",
+      "locationText": "Meet at the downtown office at 328 3rd Avenue, Seward, AK 99664; the operator then drives guests to the launch beach at Lowell Point.",
+      "mapQuery": "Kayak Adventures Worldwide, 328 3rd Avenue, Seward, AK 99664",
+      "imageUrl": "https://www.kayakak.com/wp-content/uploads/2025/09/resurrection-bay-seward-alaska-sea-kayaking-tours-4-1600x1067.jpg",
+      "imageAlt": "Resurrection Bay sea kayaking tour photo from Kayak Adventures Worldwide.",
+      "imageSourceUrl": "https://www.kayakak.com/kayaking-trips/half-day-resurrection-bay-trip/",
+      "imageCredit": "Photo source: Kayak Adventures Worldwide official tour page",
+      "locationEvidenceUrl": "https://www.kayakak.com/kayaking-trips/half-day-resurrection-bay-trip/",
+      "locationEvidence": "The itinerary directs guests to meet at the downtown office 15 minutes before the tour and describes a drive to Lowell Point for launching. The page's address link lists 328 3rd Avenue, Seward, AK 99664.",
+      "imageEvidence": "Exact og:image URL observed in the official Resurrection Bay Half Day Kayak Tour page HTML; neutral alternative text describes the image's published tour context.",
+      "mediaReviewedAt": "2026-10-04T04:38:48.673Z"
     },
     {
       "id": "seward-helicopters-glacier-dog-sledding",
@@ -116,7 +150,18 @@ const SAVED_CATALOG: Catalog = {
       "durationEvidence": "The operator describes the excursion as approximately 90 minutes. Arrive 15 minutes early; it recommends allowing about two hours overall.",
       "description": "Fly to Godwin Glacier by helicopter, ride a dog sled with a musher, and meet the huskies at the glacier camp.",
       "detailsCheckedAt": "2026-10-04T03:50:18.000Z",
-      "listingType": "tour"
+      "listingType": "tour",
+      "locationLabel": "Airport Road · Seward office",
+      "locationText": "Seward Helicopter Tours, 2210 Airport Road, Seward, AK 99664. The tour visits Godwin Glacier.",
+      "mapQuery": "Seward Helicopter Tours, 2210 Airport Road, Seward, AK 99664",
+      "imageUrl": "https://media.sewardhelicopters.com/sewardhelicopters/2022/05/05050642/dog-sledding-with0turning-heads-kennel-on-godwin-glacier-1024x682.jpg",
+      "imageAlt": "Dog sledding on Godwin Glacier during a Seward Helicopter Tours excursion.",
+      "imageSourceUrl": "https://sewardhelicopters.com/seward-dog-sled-tours/",
+      "imageCredit": "Photo source: Seward Helicopter Tours official Glacier Dog Sledding page",
+      "locationEvidenceUrl": "https://sewardhelicopters.com/seward-dog-sled-tours/",
+      "locationEvidence": "The tour describes a visit to Godwin Glacier, parking at the operator's building, and early arrival. The official page's contact section lists 2210 Airport Road, Seward, AK 99664. The map points to the office, not to the glacier.",
+      "imageEvidence": "Exact og:image URL in the official tour HTML. The matching full-size hero image's source alt identifies glacier dog sledding on Godwin Glacier with Seward Helicopters.",
+      "mediaReviewedAt": "2026-10-04T04:38:48.673Z"
     },
     {
       "id": "sunny-cove-resurrection-bay",
@@ -141,7 +186,18 @@ const SAVED_CATALOG: Catalog = {
       "durationEvidence": "The operator labels this Half-Day. Listed trip windows are 7:30–11:15 AM and 11:30 AM–3:15 PM, while the detailed check-in-to-return itinerary spans four hours. Confirm timing with the operator.",
       "description": "Take a guided shoreline paddle in Resurrection Bay after a narrated drive through Seward and an introduction to kayaking.",
       "detailsCheckedAt": "2026-10-04T03:50:18.000Z",
-      "listingType": "tour"
+      "listingType": "tour",
+      "locationLabel": "Seward harbor · office meeting point",
+      "locationText": "Meet at Sunny Cove's downtown harbor office, 1304 B 4th Avenue, Seward, Alaska 99664, before the narrated drive to the kayak launch.",
+      "mapQuery": "Sunny Cove Kayaking, 1304 B 4th Avenue, Seward, Alaska 99664",
+      "imageUrl": "https://images.squarespace-cdn.com/content/v1/6564fe0bc1440f3f56d8c17f/f6356110-d43d-40f2-a9ff-828771e93a26/_O3A0997.jpg",
+      "imageAlt": "Sunny Cove Kayaking's Resurrection Bay tour photo.",
+      "imageSourceUrl": "https://www.sunnycove.com/resurrection-bay-tour",
+      "imageCredit": "Photo source: Sunny Cove Kayaking official Resurrection Bay tour page",
+      "locationEvidenceUrl": "https://www.sunnycove.com/resurrection-bay-tour",
+      "locationEvidence": "The tour introduction says guests meet at the downtown harbor office, followed by a narrated drive to the launch site. The page footer gives 1304 B 4th Avenue, Seward, Alaska 99664.",
+      "imageEvidence": "Exact observed hero-photo img src immediately before the Resurrection Bay tour title. The source has no descriptive alt or photographer credit on this image; the supplied alt stays neutral.",
+      "mediaReviewedAt": "2026-10-04T04:38:48.673Z"
     },
     {
       "id": "adventure-sixty-north-tonsina-point",
@@ -166,7 +222,18 @@ const SAVED_CATALOG: Catalog = {
       "durationEvidence": "The operator gives a 3–4-hour door-to-door duration and a separate 1.5–2-hour paddling estimate. Morning and afternoon departures are listed.",
       "description": "Paddle from Lowell Point toward Tonsina Point in a tandem kayak, exploring Resurrection Bay’s coastline with a guide.",
       "detailsCheckedAt": "2026-10-04T03:50:18.000Z",
-      "listingType": "tour"
+      "listingType": "tour",
+      "locationLabel": "Seward · shop meeting point",
+      "locationText": "Meet at Adventure Sixty North, 31872 Herman Leirer Road, Seward, AK 99664; the operator drives guests to Lowell Point Beach to launch.",
+      "mapQuery": "Adventure Sixty North, 31872 Herman Leirer Road, Seward, AK 99664",
+      "imageUrl": "https://adventure60.com/wp-content/uploads/sites/6285/2023/02/20250414_150927.jpg?resize=360%2C240&zoom=2",
+      "imageAlt": "Kayakers paddle toward snow-covered mountains on the Tonsina Point tour.",
+      "imageSourceUrl": "https://adventure60.com/kayaking/tonsina-point-resurrection-bay-kayaking-adventure/",
+      "imageCredit": "Photo source: Adventure Sixty North official Tonsina Point tour page",
+      "locationEvidenceUrl": "https://adventure60.com/kayaking/tonsina-point-resurrection-bay-kayaking-adventure/",
+      "locationEvidence": "The itinerary starts with meeting the guide at the shop, then a van ride to Lowell Point Beach. The official page's address link is 31872 Herman Leirer Rd, Seward, AK 99664.",
+      "imageEvidence": "Exact observed src of the first product-gallery photo. The source alt describes two people kayaking toward snowy mountains on a clear day.",
+      "mediaReviewedAt": "2026-10-04T04:38:48.673Z"
     },
     {
       "id": "harbor-360-hotel",
@@ -206,7 +273,17 @@ const SAVED_CATALOG: Catalog = {
       "lastAttemptAt": "2026-10-04T04:14:34.000Z",
       "fetchStatus": "ok",
       "calendarSupported": false,
-      "inventoryUnit": null
+      "inventoryUnit": null,
+      "locationLabel": "Seward Small Boat Harbor",
+      "mapQuery": "Harbor 360 Hotel, 1412 4th Avenue, Seward, AK 99664",
+      "imageUrl": "https://harbor360hotel.com/wp-content/uploads/elementor/thumbs/jodyo.photos-19F0603_001-008Pano-2-1800x1200-min-p3h5e4mp4oa0zlyeq4in4v4ok72es8gflpgvg8bee8.jpg",
+      "imageAlt": "Double queen standard guest room at Harbor 360 Hotel",
+      "imageSourceUrl": "https://harbor360hotel.com/rooms/",
+      "imageCredit": "Source: Harbor 360 Hotel official website",
+      "imageEvidence": "Observed img src on the official rooms page; its alt text is Double Queen Standard Room. HTTP 200 image/jpeg verified. Room photo, not an exterior view.",
+      "locationEvidenceUrl": "https://harbor360hotel.com/",
+      "locationEvidence": "1412 4th Avenue, Seward, AK 99664; beside the Seward Small Boat Harbor",
+      "mediaReviewedAt": "2026-10-04T04:38:48.673Z"
     },
     {
       "id": "hotel-seward",
@@ -250,7 +327,17 @@ const SAVED_CATALOG: Catalog = {
       "lastAttemptAt": "2026-10-04T04:14:34.000Z",
       "fetchStatus": "ok",
       "calendarSupported": false,
-      "inventoryUnit": null
+      "inventoryUnit": null,
+      "locationLabel": "Historic downtown Seward",
+      "mapQuery": "Hotel Seward, 221 Fifth Avenue, Seward, AK 99664",
+      "imageUrl": "https://hotelsewardalaska.com/hs-fs/hubfs/Compressed%20Photos/Hotel%20Seward%20Lobby%201.jpg?width=1000&height=667&name=Hotel%20Seward%20Lobby%201.jpg",
+      "imageAlt": "Lobby at Hotel Seward",
+      "imageSourceUrl": "https://hotelsewardalaska.com/",
+      "imageCredit": "Source: Hotel Seward official website",
+      "imageEvidence": "Observed 1000w srcset URL on the official homepage; its image alt is Hotel Seward Lobby 1. HTTP 200 image/jpeg verified.",
+      "locationEvidenceUrl": "https://hotelsewardalaska.com/",
+      "locationEvidence": "221 Fifth Avenue, Seward, AK 99664; historic downtown Seward",
+      "mediaReviewedAt": "2026-10-04T04:38:48.673Z"
     },
     {
       "id": "seward-windsong-lodge",
@@ -294,7 +381,17 @@ const SAVED_CATALOG: Catalog = {
       "lastAttemptAt": "2026-10-04T04:14:34.000Z",
       "fetchStatus": "ok",
       "calendarSupported": false,
-      "inventoryUnit": null
+      "inventoryUnit": null,
+      "locationLabel": "Exit Glacier Valley · near Seward",
+      "mapQuery": "Seward Windsong Lodge, 31772 Herman Leirer Road, Seward, AK 99664",
+      "imageUrl": "https://www.alaskacollection.com/getmedia/3297b14d-c3f3-4905-b540-4f8d47555dc4/PR-Exterior-of-Seward-Windsong-Lodge.jpg?width=547&height=357&ext=.jpg",
+      "imageAlt": "Exterior of Seward Windsong Lodge",
+      "imageSourceUrl": "https://www.alaskacollection.com/lodging/seward-windsong-lodge/",
+      "imageCredit": "Source: Alaska Collection / Seward Windsong Lodge official website",
+      "imageEvidence": "Observed relative img src on the official lodge page, resolved against its origin; its alt identifies the lodge exterior. HTTP 200 image/jpeg verified.",
+      "locationEvidenceUrl": "https://www.alaskacollection.com/lodging/seward-windsong-lodge/faqs/",
+      "locationEvidence": "31772 Herman Leirer Road, Seward, AK 99664; Exit Glacier Valley, three miles from downtown Seward",
+      "mediaReviewedAt": "2026-10-04T04:38:48.673Z"
     },
     {
       "id": "alaska-railroad-coastal-classic",
@@ -304,7 +401,7 @@ const SAVED_CATALOG: Catalog = {
       "category": "Transportation",
       "subcategory": "Train",
       "serviceLabel": "Seasonal scheduled train",
-      "locationText": "Anchorage – Girdwood – Seward",
+      "locationText": "Coastal Classic train route between Anchorage and Seward, with a Girdwood stop",
       "description": "Travel between Anchorage and Seward via Girdwood, following Turnagain Arm and mountain backcountry, with Adventure Class or GoldStar service and onboard dining available.",
       "sourceUrl": "https://alaskarailroad.com/ride-a-train/our-trains/coastal-classic",
       "bookingUrl": "https://alaskarailroad.com/ride-a-train/schedules",
@@ -344,7 +441,18 @@ const SAVED_CATALOG: Catalog = {
       "lastAttemptAt": "2026-10-04T04:14:34.000Z",
       "fetchStatus": "ok",
       "calendarSupported": false,
-      "inventoryUnit": null
+      "inventoryUnit": null,
+      "locationLabel": "Anchorage – Girdwood – Seward",
+      "mapQuery": "Anchorage to Seward via Girdwood, Alaska",
+      "imageUrl": "https://www.alaskarailroad.com/sites/default/files/uploads/alaska_railroad_coastal_classic_train.jpg",
+      "imageAlt": "Alaska Railroad Coastal Classic train",
+      "imageSourceUrl": "https://alaskarailroad.com/ride-a-train/our-trains/coastal-classic",
+      "imageCredit": "Glenn Aronwits / Alaska Railroad",
+      "imageEvidence": "Observed header background-image URL in the official Coastal Classic page. The page explicitly credits its header photograph to Glenn Aronwits. HTTP 200 image/jpeg verified.",
+      "mapNote": "Route search, not a claimed station address or exact boarding point.",
+      "locationEvidenceUrl": "https://alaskarailroad.com/ride-a-train/our-trains/coastal-classic",
+      "locationEvidence": "Coastal Classic train route between Anchorage and Seward, with a Girdwood stop. Route search, not a claimed station address or exact boarding point.",
+      "mediaReviewedAt": "2026-10-04T04:38:48.673Z"
     },
     {
       "id": "park-connection-seward-express",
@@ -354,7 +462,7 @@ const SAVED_CATALOG: Catalog = {
       "category": "Transportation",
       "subcategory": "Coach",
       "serviceLabel": "Seasonal scheduled motorcoach",
-      "locationText": "Anchorage – Seward",
+      "locationText": "Seward Express motorcoach route between Anchorage and Seward",
       "description": "Ride a scheduled motorcoach between Anchorage and Seward, with one daily trip in each direction during summer and pickups and drop-offs in both destinations.",
       "sourceUrl": "https://www.alaskacoach.com/routes/seward-express/",
       "bookingUrl": "https://www.alaskacoach.com/schedules/",
@@ -394,7 +502,18 @@ const SAVED_CATALOG: Catalog = {
       "lastAttemptAt": "2026-10-04T04:14:34.000Z",
       "fetchStatus": "ok",
       "calendarSupported": false,
-      "inventoryUnit": null
+      "inventoryUnit": null,
+      "locationLabel": "Anchorage – Seward",
+      "mapQuery": "Anchorage to Seward, Alaska",
+      "imageUrl": "https://akcoach.b-cdn.net/wp-content/uploads/park-connection-windsong-1024x683.jpg",
+      "imageAlt": "Park Connection motorcoach bus",
+      "imageSourceUrl": "https://www.alaskacoach.com/routes/seward-express/",
+      "imageCredit": "Source: Park Connection Motorcoach official website",
+      "imageEvidence": "Observed img src on the official Seward Express page; its alt identifies the Park Connection motorcoach bus. This is a representative operator vehicle, not a promise of a particular vehicle for a departure.",
+      "mapNote": "Route search, not a claimed pickup street address.",
+      "locationEvidenceUrl": "https://www.alaskacoach.com/routes/seward-express/",
+      "locationEvidence": "Seward Express motorcoach route between Anchorage and Seward. Route search, not a claimed pickup street address.",
+      "mediaReviewedAt": "2026-10-04T04:38:48.673Z"
     },
     {
       "id": "pjs-taxi-seward",
@@ -404,7 +523,7 @@ const SAVED_CATALOG: Catalog = {
       "category": "Transportation",
       "subcategory": "Taxi",
       "serviceLabel": "Private transportation by inquiry",
-      "locationText": "Custom pickups and drop-offs in Seward and surrounding communities",
+      "locationText": "Custom pickups and drop-offs in Seward and surrounding communities; arrange the pickup directly with PJS Taxi & Tours",
       "description": "Arrange private transportation around Seward and to surrounding communities, with advertised pickups and drop-offs at hotels, the train depot, airport, cruise ships and Exit Glacier.",
       "sourceUrl": "https://www.pjstaxi.net/",
       "bookingUrl": "https://www.pjstaxi.net/",
@@ -432,7 +551,18 @@ const SAVED_CATALOG: Catalog = {
       "lastAttemptAt": "2026-10-04T04:14:34.000Z",
       "fetchStatus": "ok",
       "calendarSupported": false,
-      "inventoryUnit": null
+      "inventoryUnit": null,
+      "locationLabel": "Seward & surrounding communities",
+      "mapQuery": "Seward, Alaska",
+      "imageUrl": null,
+      "imageAlt": null,
+      "imageSourceUrl": "https://www.pjstaxi.net/",
+      "imageCredit": null,
+      "imageEvidence": "The official website has uncaptioned gallery and og:image assets. No particular vehicle photo was verified, so use the neutral taxi fallback rather than a guessed image. The explicitly captioned Exit Glacier image depicts a destination, not a taxi.",
+      "mapNote": "Service-area search only. The source publishes a postal box, not a verified taxi office or boarding address.",
+      "locationEvidenceUrl": "https://www.pjstaxi.net/",
+      "locationEvidence": "Custom pickups and drop-offs in Seward and surrounding communities; arrange the pickup directly with PJS Taxi & Tours. Service-area search only. The source publishes a postal box, not a verified taxi office or boarding address.",
+      "mediaReviewedAt": "2026-10-04T04:38:48.673Z"
     }
   ],
   "refreshedAt": "2026-10-04T03:05:58.667Z",
@@ -494,6 +624,21 @@ function bookingAction(product: Product): BookingAction {
 
 function bookingLabel(product: Product): string {
     return { rates: "Check rates", schedule: "View schedule", contact: "Contact provider", dates: "Check dates" }[bookingAction(product)]
+}
+
+function mapURL(product: Product): string | null {
+    if (typeof product.mapQuery !== "string" || !product.mapQuery.trim()) return null
+    const url = new URL("https://www.google.com/maps/search/")
+    url.searchParams.set("api", "1")
+    url.searchParams.set("query", product.mapQuery.trim())
+    return url.href
+}
+
+function conciseServiceNotes(value?: string): string {
+    if (!value || value.length <= 220) return value || ""
+    const sentences = value.split(/(?<=[.!?])\s+/)
+    const caution = sentences.slice(1).find(sentence => /disagree|closure|closed|confirm/i.test(sentence))
+    return [sentences[0], caution].filter(Boolean).join(" ")
 }
 
 function compareName(a: Product, b: Product): number {
@@ -610,6 +755,8 @@ function readCatalog(value: any, withAvailability: boolean): Catalog {
             id: text(row.id), name: text(row.name), operator: text(row.operator), category: text(row.category) || "Experiences", platform: text(row.platform).toLowerCase(),
             listingType: row.listingType === "lodging" || row.listingType === "transportation" ? row.listingType : "tour",
             subcategory: text(row.subcategory), serviceLabel: text(row.serviceLabel), locationText: text(row.locationText),
+            locationLabel: text(row.locationLabel), mapQuery: text(row.mapQuery, 500), locationEvidence: text(row.locationEvidence), locationEvidenceUrl: publicURL(row.locationEvidenceUrl) || "",
+            imageUrl: publicURL(row.imageUrl) || "", imageAlt: text(row.imageAlt, 500), imageSourceUrl: publicURL(row.imageSourceUrl) || "", imageCredit: text(row.imageCredit, 500), mediaReviewedAt: text(row.mediaReviewedAt), imageEvidence: text(row.imageEvidence),
             serviceEvidence: text(row.serviceEvidence), serviceNotes: text(row.serviceNotes), sourceMode: text(row.sourceMode),
             bookingAction: ["rates", "schedule", "contact", "dates"].includes(row.bookingAction) ? row.bookingAction : undefined,
             sourceReferences: Array.isArray(row.sourceReferences) ? row.sourceReferences.slice(0, 20).filter((reference: any) => text(reference?.label) && publicURL(reference?.url)).map((reference: any) => ({ label: text(reference.label, 200), url: publicURL(reference.url)! })) : [],
@@ -645,27 +792,43 @@ function ExternalLink({ href, children, className = "" }: { href: string; childr
     return safe ? <a className={className} href={safe} target="_blank" rel="noopener noreferrer">{children}<span className="swt-sr"> (opens a new tab)</span></a> : <span className={className}>Link unavailable</span>
 }
 
+function TypeIcon({ type }: { type: ListingType }) {
+    return <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        {type === "lodging" ? <><path d="M4 25V13m24 12V13M4 20h24M4 16h24v4H4zM7 16v-5h18v5M9 13h5m4 0h5M4 23h24" /></> : type === "transportation" ? <><rect x="7" y="4" width="18" height="22" rx="4" /><path d="M7 17h18M11 8h10M11 22h1m8 0h1M11 26v3m10-3v3" /></> : <><path d="m3 25 10-18 7 12 4-7 6 13H3zM10 12l3 3 3-3M20 19l3 3 3-3" /></>}
+    </svg>
+}
+
+function ListingImage({ product }: { product: Product }) {
+    const source = publicURL(product.imageUrl)
+    const [failed, setFailed] = React.useState(false)
+    React.useEffect(() => setFailed(false), [source])
+    return <div className="swt-listing-image">{source && !failed ? <img src={source} alt={product.imageAlt || product.name} loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={() => setFailed(true)} /> : <div className="swt-image-fallback"><TypeIcon type={listingType(product)} /><span>{listingType(product) === "lodging" ? "Lodging" : listingType(product) === "tour" ? "Activity" : "Transport"}</span><small>Photo unavailable</small></div>}</div>
+}
+
 /**
  * @framerSupportedLayoutWidth any
  * @framerSupportedLayoutHeight auto
  * @framerIntrinsicWidth 1120
  * @framerIntrinsicHeight 1500
  */
-export default function SewardTours({ sourceURL = DEFAULT_SOURCE, apiBase = "", style }: Props) {
+export default function SewardTours({ sourceURL = DEFAULT_SOURCE, apiBase = "", showHero = true, style }: Props) {
     const [catalog, setCatalog] = React.useState<Catalog>(SAVED_CATALOG)
     const [mode, setMode] = React.useState<"embedded" | "snapshot" | "backend">("embedded")
     const [loading, setLoading] = React.useState(false)
     const [error, setError] = React.useState("")
     const [search, setSearch] = React.useState("")
-    const [selectedType, setSelectedType] = React.useState<ListingType | "all">("all")
+    const [selectedType, setSelectedType] = React.useState<ListingType | "all">("lodging")
     const [category, setCategory] = React.useState("all")
     const [duration, setDuration] = React.useState<DurationFilter>("all")
-    const [sort, setSort] = React.useState<SortOrder>("activity")
+    const [sort, setSort] = React.useState<SortOrder>("name")
     const [date, setDate] = React.useState("2027-07-15")
     const [checking, setChecking] = React.useState<string | null>(null)
     const [now, setNow] = React.useState(() => Date.now())
     const requestSequence = React.useRef(0)
     const active = React.useRef<AbortController | null>(null)
+    const resultsRef = React.useRef<HTMLElement | null>(null)
+    const scrollTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null)
+    React.useEffect(() => () => { if (scrollTimer.current) clearTimeout(scrollTimer.current) }, [])
     const backend = React.useMemo(() => backendBase(apiBase), [apiBase])
     const source = React.useMemo(() => publicURL(sourceURL), [sourceURL])
     const categories = Array.from(new Set(catalog.products.filter(product => listingType(product) === "tour").map(product => product.category))).sort((a, b) => a.localeCompare(b))
@@ -675,11 +838,20 @@ export default function SewardTours({ sourceURL = DEFAULT_SOURCE, apiBase = "", 
     const effectiveSort = lodgingView ? "name" : sort
     const filtered = catalog.products.filter(product => matchesListingType(product, selectedType) && (selectedType !== "tour" || activeCategory === "all" || product.category === activeCategory) && matchesDuration(product, effectiveDuration) && `${product.name} ${product.operator} ${product.category} ${product.subcategory || ""} ${product.serviceLabel || ""} ${product.locationText || ""} ${product.description || ""}`.toLowerCase().includes(search.toLowerCase().trim()))
     const groups = groupListings(filtered, effectiveSort)
-    function selectType(value: ListingType | "all") {
+    function selectType(value: ListingType | "all", scrollToResults = false) {
         setSelectedType(value)
         setCategory("all")
         setDuration("all")
+        setSearch("")
         setSort(value === "lodging" ? "name" : "activity")
+        if (scrollTimer.current) clearTimeout(scrollTimer.current)
+        if (scrollToResults && typeof window !== "undefined") {
+            // Framer resizes the component after a category changes. Scroll once
+            // that layout is applied, so the destination stays at the results.
+            scrollTimer.current = setTimeout(() => window.requestAnimationFrame(() => {
+                resultsRef.current?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" })
+            }), 180)
+        }
     }
     const configuredError = apiBase.trim() && !backend ? "API Base must be a public HTTPS URL without credentials, a query, or a fragment. Local addresses are not supported." : !backend && !source ? "Catalog URL must be a public HTTPS URL. The embedded saved snapshot is shown." : ""
 
@@ -778,10 +950,15 @@ export default function SewardTours({ sourceURL = DEFAULT_SOURCE, apiBase = "", 
 
     return <div id="seward-tours" className="swt-root" style={{ width: "100%", ...style }}>
         <style>{CSS}</style>
-        <section aria-label="Seward vendor directory" className="swt-content">
-            <div className="swt-section-head"><h2>Explore Seward</h2><p>Find tours, places to stay, and transportation from providers serving Seward.</p></div>
+        {showHero && <>
+            <header className="swt-home-header"><a className="swt-wordmark" href="#seward-tours" aria-label="Seward Travel OTA home">SEWARD<span>TRAVEL OTA</span></a><nav aria-label="Explore Seward">{([['lodging', 'Lodging'], ['tour', 'Activities'], ['transportation', 'Transport']] as const).map(([value, label]) => <button type="button" key={value} onClick={() => selectType(value, true)}>{label}</button>)}</nav></header>
+            <section className="swt-home-hero" aria-labelledby="swt-hero-title"><img className="swt-hero-photo" src={HERO_IMAGE} alt="A glacier and mountain-lined fjord in Kenai Fjords National Park" referrerPolicy="no-referrer" /><div className="swt-hero-shade" /><div className="swt-hero-copy"><p>SEWARD, ALASKA</p><h1 id="swt-hero-title">Make Seward<br />your next stop.</h1><span>Find a place to stay, a day to remember,<br className="swt-desktop-break" /> and your way around.</span></div><span className="swt-hero-credit">Photo: National Park Service</span></section>
+            <div className="swt-entry-buttons" role="group" aria-label="Start exploring Seward">{([['lodging', 'Lodging', 'Hotels & lodges'], ['tour', 'Activities', 'Tours & outdoor adventures'], ['transportation', 'Transport', 'Rail, coach & local rides']] as const).map(([value, label, detail]) => <button type="button" key={value} aria-pressed={selectedType === value} onClick={() => selectType(value, true)}><TypeIcon type={value} /><span><strong>{label}</strong><small>{detail}</small></span><span className="swt-entry-arrow" aria-hidden="true">↗</span></button>)}</div>
+        </>}
+        <section id="seward-listings" ref={resultsRef} aria-label="Seward vendor directory" className="swt-content">
+            <div className="swt-section-head"><div><p className="swt-directory-eyebrow">THE SEWARD DIRECTORY</p><h2>{selectedType === "lodging" ? "Find your stay" : selectedType === "tour" ? "Find your next adventure" : selectedType === "transportation" ? "Find your way here" : "Explore Seward"}</h2></div><span>{filtered.length} {filtered.length === 1 ? "listing" : "listings"}</span></div>
             <div className="swt-categories" role="group" aria-label="Filter by listing type">
-                {([['all', 'All listings'], ['tour', 'Tours & activities'], ['lodging', 'Lodging'], ['transportation', 'Transportation']] as const).map(([value, label]) => <button type="button" key={value} aria-pressed={selectedType === value} onClick={() => selectType(value)}>{label}</button>)}
+                {([['all', 'All listings'], ['lodging', 'Lodging'], ['tour', 'Activities'], ['transportation', 'Transport']] as const).map(([value, label]) => <button type="button" key={value} aria-pressed={selectedType === value} onClick={() => selectType(value)}>{label}</button>)}
             </div>
             <div className="swt-toolbar">
                 <label className="swt-search"><span>Search listings or providers</span><input type="search" placeholder="Tour, hotel, route, or provider" value={search} onChange={event => setSearch(event.target.value)} /></label>
@@ -798,16 +975,16 @@ export default function SewardTours({ sourceURL = DEFAULT_SOURCE, apiBase = "", 
                     {group.name && <div className="swt-group-heading"><h3>{group.name}</h3><span>{group.products.length} {group.products.length === 1 ? "listing" : "listings"}</span></div>}
                     {group.products.map(product => <article className="swt-row" key={product.id}>
                         <div className="swt-row-main">
-                            <div className="swt-row-copy"><p className="swt-operator">{product.operator}</p>{group.name ? <h4>{product.name}</h4> : <h3>{product.name}</h3>}{product.description && <p className="swt-description">{product.description}</p>}{product.locationText && <p className="swt-location">{product.locationText}</p>}{product.serviceNotes && <p className="swt-service-note">{product.serviceNotes}</p>}</div>
-                            <dl className="swt-duration"><dt>{listingType(product) === "lodging" ? "Stay" : listingType(product) === "transportation" ? "Service & travel time" : "Duration"}</dt><dd>{listingType(product) === "lodging" ? product.serviceLabel || product.subcategory || "Lodging" : listingType(product) === "transportation" ? <>{product.serviceLabel || product.subcategory || "Transportation"}<small className="swt-fact-note">{durationLabel(product) === "Not specified" ? "See route details for travel time" : durationLabel(product)}</small></> : durationLabel(product)}</dd></dl>
-                            <dl className="swt-price"><dt>{listingType(product) === "lodging" ? "Rates" : listingType(product) === "transportation" ? "Advertised fare" : "Advertised price"}</dt><dd>{product.priceText ? priceLabel(product.priceText) : listingType(product) === "lodging" ? "Check your stay dates" : listingType(product) === "transportation" ? "Ask for a quote" : "See operator website"}</dd>{listingType(product) === "lodging" && <dd className="swt-fact-note">Date-dependent rates</dd>}</dl>
-                            <div className="swt-action"><ExternalLink href={product.bookingUrl || product.sourceUrl} className="swt-book">{bookingLabel(product)} <span aria-hidden="true">↗</span></ExternalLink><span>{bookingAction(product) === "contact" ? "Arrange directly with provider" : listingType(product) === "tour" ? "Book with the operator" : "Visit the official website"}</span></div>
+                            <ListingImage product={product} />
+                            <div className="swt-row-copy"><p className="swt-operator">{product.operator === product.name ? product.subcategory || (listingType(product) === "lodging" ? "Stay in Seward" : "Local provider") : product.operator}</p>{group.name ? <h4>{product.name}</h4> : <h3>{product.name}</h3>}{(product.locationLabel || product.locationText || mapURL(product)) && <div className="swt-location"><span>{product.locationLabel || product.locationText}</span>{mapURL(product) && <ExternalLink href={mapURL(product)!} className="swt-map-link">View map ↗</ExternalLink>}</div>}{product.description && <p className="swt-description">{product.description}</p>}<p className="swt-inline-facts">{listingType(product) === "lodging" ? product.serviceLabel || product.subcategory || "Lodging" : listingType(product) === "transportation" ? <>{product.serviceLabel || product.subcategory || "Transportation"}{durationLabel(product) !== "Not specified" && <> · {durationLabel(product)}</>}</> : <><strong>Duration</strong> {durationLabel(product)}</>}</p>{product.serviceNotes && <p className="swt-service-note">{conciseServiceNotes(product.serviceNotes)}</p>}</div>
+                            <div className="swt-row-booking"><dl className="swt-price"><dt>{listingType(product) === "lodging" ? "Rates for your dates" : listingType(product) === "transportation" ? "Advertised fare" : "Advertised price"}</dt><dd>{product.priceText ? priceLabel(product.priceText) : listingType(product) === "lodging" ? "Choose your stay" : listingType(product) === "transportation" ? "Ask for a quote" : "See operator website"}</dd>{listingType(product) === "lodging" && <dd className="swt-fact-note">Rates vary by date and room</dd>}</dl><div className="swt-action"><ExternalLink href={product.bookingUrl || product.sourceUrl} className="swt-book">{bookingLabel(product)} <span aria-hidden="true">↗</span></ExternalLink><span>{bookingAction(product) === "contact" ? "Arrange directly with provider" : "Continue on provider website"}</span></div></div>
                         </div>
                         {product.fetchStatus === "error" && <p className="swt-source-warning">Latest source check failed. Confirm these details with the provider.</p>}
                         <details className="swt-operator-details"><summary>{listingType(product) === "tour" ? "Operator details" : "Provider details"}</summary><div className="swt-details-body">
-                            <div><h5>{listingType(product) === "lodging" ? "Property and stay information" : listingType(product) === "transportation" ? "Published service and duration" : "Published duration"}</h5>{listingType(product) !== "lodging" && <p>{product.durationEvidence || product.durationText || "A fixed travel duration has not been verified from the provider’s website."}</p>}{product.serviceEvidence && <p className="swt-detail-note">{product.serviceEvidence}</p>}{listingType(product) !== "lodging" && product.durationBasis && <p className="swt-detail-note">{product.durationBasis === "schedule" ? "Based on the provider’s published start and end times." : product.durationBasis === "published" ? "Duration stated by the provider." : product.durationBasis === "not-published" ? "A fixed duration is not published." : `Duration basis: ${product.durationBasis}`}</p>}</div>
+                            <div><h5>{listingType(product) === "lodging" ? "Property and stay information" : listingType(product) === "transportation" ? "Published service and duration" : "Published duration"}</h5>{listingType(product) !== "lodging" && <p>{product.durationEvidence || product.durationText || "A fixed travel duration has not been verified from the provider’s website."}</p>}{product.serviceEvidence && <p className="swt-detail-note">{product.serviceEvidence}</p>}{product.serviceNotes && <p className="swt-detail-note">{product.serviceNotes}</p>}{listingType(product) !== "lodging" && product.durationBasis && <p className="swt-detail-note">{product.durationBasis === "schedule" ? "Based on the provider’s published start and end times." : product.durationBasis === "published" ? "Duration stated by the provider." : product.durationBasis === "not-published" ? "A fixed duration is not published." : `Duration basis: ${product.durationBasis}`}</p>}</div>
                             <div><h5>Price and booking</h5><p>Published price: {product.priceText || "No verified quote"}</p><p className="swt-detail-note">{product.priceCaveat || "Advertised pricing is not a checkout quote. Confirm final charges and terms with the provider."}</p></div>
                             <div><h5>Source</h5><ExternalLink href={product.sourceUrl}>View provider page ↗</ExternalLink>{Boolean(product.sourceReferences?.length) && <ul className="swt-source-links">{product.sourceReferences?.map((reference, index) => <li key={`${reference.url}-${index}`}><ExternalLink href={reference.url}>{reference.label} ↗</ExternalLink></li>)}</ul>}<p className="swt-detail-note">{product.sourceMode === "website-review" ? "Website reviewed" : "Catalog checked"} {checkedTime(product.checkedAt)}{product.detailsCheckedAt && product.detailsCheckedAt !== product.checkedAt ? <><br />Listing details reviewed {checkedTime(product.detailsCheckedAt)}</> : null}</p>{product.fetchStatus === "error" && <p className="swt-error">{product.error || "Published details could not be refreshed."}{product.lastAttemptAt ? ` Last attempt: ${checkedTime(product.lastAttemptAt)}.` : ""}</p>}</div>
+                            {(product.locationEvidence || product.imageSourceUrl || product.imageCredit) && <div className="swt-media-details"><h5>Location & photography</h5>{product.locationEvidence && <p>{product.locationEvidence}</p>}{product.locationEvidenceUrl && <ExternalLink href={product.locationEvidenceUrl}>Location source ↗</ExternalLink>}{product.imageCredit && <p className="swt-detail-note">{product.imageCredit}</p>}{product.imageSourceUrl && <ExternalLink href={product.imageSourceUrl}>Photo source ↗</ExternalLink>}{product.imageEvidence && <p className="swt-detail-note">{product.imageEvidence}</p>}{product.mediaReviewedAt && <p className="swt-detail-note">Location and photo reviewed {checkedTime(product.mediaReviewedAt)}.</p>}</div>}
                         </div></details>
                         {listingType(product) === "tour" && mode === "backend" && (product.calendarSupported || product.availability) ? calendar(product) : null}
                     </article>)}
@@ -820,16 +997,16 @@ export default function SewardTours({ sourceURL = DEFAULT_SOURCE, apiBase = "", 
 }
 
 addPropertyControls(SewardTours, {
+    showHero: { type: ControlType.Boolean, title: "Show Hero", defaultValue: true },
     sourceURL: { type: ControlType.String, title: "Catalog URL", defaultValue: DEFAULT_SOURCE, description: "Public HTTPS saved catalog JSON. Refreshing this file is not a live scrape." },
     apiBase: { type: ControlType.String, title: "API Base", defaultValue: "", description: "Optional deployed HTTPS backend origin/base path with CORS. Leave blank for the saved catalog demo. Never use localhost or put credentials here." },
 })
 
 const CSS = `
-.swt-location{font-size:12px;color:#687d8c;line-height:1.7;margin-top:10px!important}.swt-service-note{font-size:12px;font-weight:500;color:#4c6474;line-height:1.7;margin-top:10px!important}.swt-row .swt-fact-note{display:block;font-size:12px;font-weight:400;line-height:1.7;color:#63717c;margin-top:7px!important}.swt-source-links{list-style:none;padding:0;margin:9px 0}.swt-source-links li{margin-top:5px}
-.swt-root{--ink:#102f47;--muted:#63717c;--line:#dfe5e9;--subtle:#f6f8f9;box-sizing:border-box;background:#fff;color:var(--ink);font:15px/1.6 Inter,"Segoe UI",Arial,sans-serif;container-type:inline-size;overflow:hidden}
-.swt-root *{box-sizing:border-box}.swt-root h2,.swt-root h3,.swt-root h4,.swt-root h5,.swt-root p,.swt-root dl,.swt-root dd{margin:0}.swt-root h2,.swt-root h3,.swt-root h4,.swt-root h5{font-family:inherit;color:var(--ink)}.swt-root a{color:var(--ink)}.swt-root button,.swt-root input,.swt-root select{font:inherit}.swt-root button,.swt-root summary{cursor:pointer}.swt-root button:disabled{cursor:wait;opacity:.55}.swt-root :focus-visible{outline:3px solid #2d658c;outline-offset:4px}.swt-content{width:calc(100% - 88px);max-width:1180px;margin:auto;padding:48px 0 40px}.swt-section-head{margin-bottom:23px}.swt-section-head h2{font-size:32px;font-weight:650;line-height:1.2;letter-spacing:-.8px}.swt-section-head>p{color:var(--muted);font-size:15px;line-height:1.7;margin-top:11px}.swt-categories{display:flex;gap:26px;overflow-x:auto;border-bottom:1px solid var(--line);margin-bottom:25px;scrollbar-width:thin}.swt-categories button{flex-shrink:0;border:0;border-bottom:2px solid transparent;background:transparent;color:var(--muted);padding:13px 0;font-size:14px;line-height:1.4;white-space:nowrap}.swt-categories button:hover{color:var(--ink)}.swt-categories button[aria-pressed=true]{color:var(--ink);border-bottom-color:var(--ink);font-weight:650}.swt-toolbar{display:flex;flex-wrap:wrap;gap:18px}.swt-toolbar>label{flex:1 1 165px;min-width:0}.swt-toolbar>.swt-search{flex:1.9 1 240px}.swt-toolbar label>span{display:block;color:#465866;font-size:12px;font-weight:600;margin-bottom:7px}.swt-toolbar input,.swt-toolbar select{display:block;width:100%;height:46px;padding:10px 13px;border:1px solid #cbd5dc;border-radius:3px;background:#fff;color:var(--ink);font-size:14px}.swt-toolbar input::placeholder{color:#85929b}.swt-toolbar select{cursor:pointer}.swt-filter-help{font-size:12px;color:var(--muted);margin-top:11px!important}.swt-results{display:flex;justify-content:space-between;align-items:baseline;gap:24px;padding:21px 0 25px}.swt-results>span{font-size:13px;font-weight:600;white-space:nowrap}.swt-results>p{font-size:12px;color:var(--muted);text-align:right;max-width:650px}.swt-error-banner{background:#fbf5ef;color:#714c2e;border-left:3px solid #c19364;padding:13px 16px;font-size:13px;margin-bottom:22px}.swt-error-banner details{font-size:12px;margin-top:6px}.swt-error-banner details p{margin-top:6px;overflow-wrap:anywhere}.swt-list{width:100%}.swt-group+.swt-group{margin-top:30px}.swt-group-heading{display:flex;gap:14px;align-items:baseline;padding:0 0 14px;border-bottom:1px solid #aebdc8}.swt-group-heading h3{font-size:18px;line-height:1.4;font-weight:650;letter-spacing:-.2px}.swt-group-heading>span{color:#7c8992;font-size:12px}.swt-row{padding:27px 0 22px;border-bottom:1px solid var(--line)}.swt-row-main{display:grid;grid-template-columns:minmax(0,1fr) 135px 185px 157px;gap:26px;align-items:start}.swt-operator{color:#607789;font-size:12px;font-weight:550;margin-bottom:7px!important}.swt-row-copy h3,.swt-row-copy h4{font-size:21px;font-weight:650;line-height:1.35;letter-spacing:-.3px}.swt-description{font-size:14px;line-height:1.7;color:var(--muted);margin-top:11px!important;max-width:590px}.swt-row dl{padding-top:1px}.swt-row dt{font-size:11px;font-weight:600;letter-spacing:.2px;color:#73818b;margin-bottom:9px}.swt-row dd{font-size:14px;font-weight:550;line-height:1.6;color:var(--ink);overflow-wrap:anywhere}.swt-duration dd{font-size:15px}.swt-action{padding-top:2px;text-align:center}.swt-book{display:flex;align-items:center;justify-content:space-between;gap:17px;background:#12374f;color:#fff!important;min-height:44px;padding:11px 14px;border-radius:3px;text-decoration:none;font-size:13px;font-weight:600;white-space:nowrap}.swt-book:hover{background:#204e6b}.swt-action>span{display:block;color:#82909a;font-size:10px;margin-top:8px}.swt-operator-details{margin-top:17px}.swt-operator-details>summary{width:fit-content;color:#637988;font-size:12px;list-style:none;display:flex;align-items:center;gap:8px}.swt-operator-details>summary:before{content:'+';font-size:16px;font-weight:400;line-height:1}.swt-operator-details[open]>summary:before{content:'−'}.swt-operator-details>summary::-webkit-details-marker{display:none}.swt-operator-details>summary:hover{color:var(--ink)}.swt-details-body{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:28px;background:var(--subtle);padding:20px 22px;margin-top:13px;font-size:12px;line-height:1.8;color:var(--muted)}.swt-details-body h5{font-size:12px;font-weight:650;margin-bottom:7px}.swt-details-body a{text-underline-offset:3px}.swt-detail-note{margin-top:8px!important;font-size:11px;color:#788590}.swt-source-warning,.swt-error{color:#885832;font-size:12px;margin-top:12px!important;overflow-wrap:anywhere}.swt-catalog-details{margin-top:27px;font-size:12px;color:var(--muted)}.swt-catalog-details>summary{width:fit-content}.swt-catalog-details>p{line-height:1.8;margin-top:12px;max-width:830px}.swt-text-button{background:transparent;border:0;border-bottom:1px solid #a6b6c2;color:var(--ink);font-size:12px!important;margin-top:13px;padding:2px 0}.swt-outline{border:1px solid #b8c7d1;background:#fff;color:var(--ink);border-radius:3px;min-height:42px;padding:9px 15px;font-size:13px!important}.swt-outline:hover{background:var(--subtle)}.swt-empty{text-align:center;padding:48px 20px;border-block:1px solid var(--line)}.swt-empty h3{font-size:20px;font-weight:600}.swt-empty p{font-size:14px;color:var(--muted);margin:10px 0 20px}.swt-calendar{padding:17px 20px;background:var(--subtle);border:1px solid var(--line);margin-top:18px;font-size:12px;max-width:760px}.swt-calendar-heading{display:flex;justify-content:space-between;gap:16px;font-size:12px;margin-bottom:10px}.swt-calendar-heading>span,.swt-calendar>p,.swt-calendar>small{color:var(--muted)}.swt-calendar>small{display:block;font-size:11px;margin-top:9px}.swt-calendar-button{border:0;border-bottom:1px solid #9eb5c5;background:transparent;color:var(--ink);font-size:12px!important;padding:4px 0;margin-top:10px}.swt-departures{list-style:none;padding:0;margin:0;max-height:300px;overflow:auto}.swt-departures li{padding:11px 0;border-top:1px solid var(--line);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 15px;font-size:12px}.swt-departures small{display:block;color:var(--muted);font-size:11px;overflow-wrap:anywhere}.swt-count,.swt-unknown{font-size:11px;font-weight:600}.swt-unknown{color:var(--muted);font-weight:400}.swt-departures details{grid-column:1/-1;font-size:11px;color:var(--muted)}.swt-departures details p{padding:8px 10px;background:#fff;white-space:pre-wrap;overflow-wrap:anywhere;margin-top:5px}.swt-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-@container(max-width:1000px){.swt-content{width:calc(100% - 64px)}.swt-row-main{grid-template-columns:minmax(0,1fr) 115px 145px 140px;gap:19px}.swt-row-copy h3,.swt-row-copy h4{font-size:20px}.swt-book{padding-inline:12px;font-size:12px;gap:12px}.swt-details-body{gap:20px;padding:18px}.swt-description{font-size:13px}.swt-row dd{font-size:13px}.swt-categories{gap:23px}}
-@container(max-width:780px){.swt-content{width:calc(100% - 44px);padding-top:34px}.swt-section-head h2{font-size:29px}.swt-section-head>p{font-size:14px}.swt-row-main{grid-template-columns:minmax(0,1fr) 160px;gap:18px 25px}.swt-row-copy{grid-column:1;grid-row:1/span 2}.swt-duration{grid-column:2}.swt-price{grid-column:2}.swt-action{grid-column:1/-1;text-align:left;display:flex;align-items:center;gap:15px}.swt-action .swt-book{width:150px}.swt-action>span{margin:0;font-size:11px}.swt-row dt{margin-bottom:5px}.swt-row dd{font-size:14px}.swt-row-copy h3,.swt-row-copy h4{font-size:21px}.swt-description{font-size:14px}.swt-details-body{grid-template-columns:1fr 1fr}.swt-details-body>div:last-child{grid-column:1/-1}.swt-results{display:block}.swt-results>p{text-align:left;margin-top:7px}.swt-toolbar{gap:15px}.swt-toolbar>.swt-search{flex-basis:100%}.swt-operator-details{margin-top:14px}}
-@container(max-width:530px){.swt-content{width:calc(100% - 36px);padding:28px 0 30px}.swt-section-head h2{font-size:27px;letter-spacing:-.6px}.swt-section-head>p{font-size:14px}.swt-categories{gap:22px;margin-bottom:20px}.swt-categories button{font-size:13px;padding:12px 0}.swt-toolbar{gap:14px 12px}.swt-toolbar>label{flex:1 1 130px}.swt-toolbar input,.swt-toolbar select{font-size:13px;padding-inline:10px}.swt-toolbar label>span{font-size:11px}.swt-results{padding-block:18px 23px}.swt-results>p{font-size:12px;line-height:1.7}.swt-group-heading{padding-bottom:12px}.swt-group-heading h3{font-size:17px}.swt-row{padding:23px 0 21px}.swt-row-main{display:flex;flex-wrap:wrap;gap:20px 26px}.swt-row-copy{width:100%}.swt-row-copy h3,.swt-row-copy h4{font-size:22px;line-height:1.3}.swt-operator{font-size:12px}.swt-description{font-size:14px;line-height:1.7;margin-top:9px!important}.swt-duration{flex:1 1 100px}.swt-price{flex:1.5 1 155px}.swt-row dt{font-size:11px}.swt-row dd{font-size:14px}.swt-action{width:100%;display:block}.swt-action .swt-book{width:100%;font-size:14px;min-height:46px}.swt-action>span{text-align:center;margin-top:7px;font-size:11px}.swt-details-body{grid-template-columns:1fr;padding:17px;gap:18px}.swt-details-body>div:last-child{grid-column:auto}.swt-group+.swt-group{margin-top:28px}.swt-catalog-details{font-size:11px}.swt-calendar{padding:14px}.swt-departures li{grid-template-columns:1fr}.swt-count,.swt-unknown{justify-self:start}}
-@container(max-width:530px){.swt-categories{flex-wrap:wrap;gap:0 18px;overflow-x:visible}.swt-toolbar>.swt-sort{flex-basis:100%}}
+.swt-root{--ink:#102f47;--muted:#677783;--line:#e0e6ea;--subtle:#f6f8f9;box-sizing:border-box;background:#fff;color:var(--ink);font:15px/1.6 Inter,"Segoe UI",Arial,sans-serif;container-type:inline-size;overflow:hidden;overflow-anchor:none}.swt-root *{box-sizing:border-box}.swt-root h1,.swt-root h2,.swt-root h3,.swt-root h4,.swt-root h5,.swt-root p,.swt-root dl,.swt-root dd{margin:0}.swt-root h1,.swt-root h2,.swt-root h3,.swt-root h4,.swt-root h5{font-family:inherit}.swt-root a{color:var(--ink)}.swt-root button,.swt-root input,.swt-root select{font:inherit}.swt-root button,.swt-root summary{cursor:pointer}.swt-root button:disabled{cursor:wait;opacity:.55}.swt-root :focus-visible{outline:3px solid #3d749b;outline-offset:4px}.swt-home-header,.swt-entry-buttons,.swt-content{width:calc(100% - 88px);max-width:1180px;margin-inline:auto}.swt-home-header{height:82px;display:flex;align-items:center;justify-content:space-between;gap:25px}.swt-wordmark{font-weight:800;letter-spacing:3.7px;font-size:24px;line-height:1;text-decoration:none}.swt-wordmark span{display:block;font-size:8px;letter-spacing:3px;font-weight:600;margin-top:8px}.swt-home-header nav{display:flex;gap:28px;align-items:center}.swt-home-header nav button{background:none;border:0;padding:10px 0;color:#415b6d;font-size:12px;font-weight:600}.swt-home-header nav button:hover{color:#0d2b42;text-decoration:underline;text-underline-offset:5px}.swt-home-hero{position:relative;isolation:isolate;min-height:308px;background:#1b3c50;max-width:1280px;width:calc(100% - 36px);margin:0 auto;border-radius:5px;overflow:hidden;display:flex;align-items:center}.swt-hero-photo,.swt-hero-shade{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 43%;z-index:-2}.swt-hero-shade{z-index:-1;background:linear-gradient(90deg,rgba(9,31,49,.79),rgba(12,37,54,.23) 65%,rgba(13,35,46,.13))}.swt-hero-copy{padding:33px 48px 52px;max-width:710px;color:#fff}.swt-hero-copy>p{font-size:10px;letter-spacing:2.2px;font-weight:600;margin-bottom:15px;color:#e3ecf0}.swt-hero-copy h1{font-size:47px;line-height:1.08;font-weight:650;letter-spacing:-1.6px;margin-bottom:15px}.swt-hero-copy>span{display:block;font-size:14px;line-height:1.8;color:#ecf2f5}.swt-hero-credit{position:absolute;right:17px;bottom:35px;font-size:8px;color:#eff4f6;text-shadow:0 1px 3px #102f47}.swt-entry-buttons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;position:relative;z-index:1;margin-top:-23px;max-width:1085px}.swt-entry-buttons>button{display:flex;align-items:center;gap:18px;min-height:88px;padding:19px 22px;background:#fff;color:var(--ink);border:1px solid #d8e1e7;border-radius:4px;box-shadow:0 4px 15px #102f4710;text-align:left}.swt-entry-buttons>button:hover,.swt-entry-buttons>button[aria-pressed=true]{border-color:#738d9e;background:#f9fbfc}.swt-entry-buttons svg{width:31px;height:31px;flex-shrink:0;color:#345b73}.swt-entry-buttons strong{display:block;font-size:18px;font-weight:650;line-height:1.3;letter-spacing:-.2px}.swt-entry-buttons small{display:block;font-size:11px;color:#7b8a94;margin-top:4px;line-height:1.5}.swt-entry-arrow{margin-left:auto;color:#59778c;font-size:21px}.swt-content{padding:44px 0 35px;scroll-margin-top:18px}.swt-section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:19px}.swt-directory-eyebrow{font-size:9px;font-weight:700;letter-spacing:1.8px;color:#738b9b;margin-bottom:8px!important}.swt-section-head h2{font-size:29px;line-height:1.2;font-weight:650;letter-spacing:-.6px}.swt-section-head>span{font-size:12px;color:#80909a;padding-bottom:3px}.swt-categories{display:flex;gap:27px;overflow-x:auto;border-bottom:1px solid var(--line);margin-bottom:19px;scrollbar-width:thin}.swt-categories button{flex-shrink:0;border:0;border-bottom:2px solid transparent;background:none;color:#788894;padding:11px 0;font-size:13px;line-height:1.4;white-space:nowrap}.swt-categories button[aria-pressed=true]{color:var(--ink);font-weight:650;border-bottom-color:var(--ink)}.swt-categories button:hover{color:var(--ink)}.swt-toolbar{display:flex;flex-wrap:wrap;gap:15px}.swt-toolbar>label{flex:1 1 150px;min-width:0}.swt-toolbar>.swt-search{flex:2 1 260px}.swt-toolbar label>span{display:block;color:#71828f;font-size:10px;font-weight:600;margin-bottom:6px}.swt-toolbar input,.swt-toolbar select{display:block;width:100%;height:42px;padding:9px 12px;border:1px solid #d2dce3;border-radius:3px;background:#fff;color:var(--ink);font-size:12px}.swt-toolbar input::placeholder{color:#8897a1}.swt-toolbar select{cursor:pointer}.swt-filter-help{font-size:11px;color:var(--muted);margin-top:10px!important}.swt-results{display:flex;justify-content:space-between;align-items:baseline;gap:24px;padding:18px 0 20px}.swt-results>span{font-size:11px;font-weight:600;white-space:nowrap}.swt-results>p{font-size:11px;color:var(--muted);text-align:right;max-width:670px}.swt-error-banner{background:#fbf5ef;color:#714c2e;border-left:3px solid #c19364;padding:12px 15px;font-size:12px;margin-bottom:19px}.swt-error-banner details{font-size:11px;margin-top:5px}.swt-error-banner details p{margin-top:6px;overflow-wrap:anywhere}.swt-list{width:100%}.swt-group+.swt-group{margin-top:25px}.swt-group-heading{display:flex;gap:12px;align-items:baseline;padding:0 0 12px;border-bottom:1px solid #c4d1da}.swt-group-heading h3{font-size:17px;line-height:1.4;font-weight:650;letter-spacing:-.2px}.swt-group-heading>span{color:#81909a;font-size:11px}.swt-row{padding:23px 0 20px;border-bottom:1px solid var(--line)}.swt-row-main{display:grid;grid-template-columns:220px minmax(0,1fr) 185px;gap:25px;align-items:start}.swt-listing-image{height:166px;width:100%;overflow:hidden;border-radius:4px;background:#edf1f3}.swt-listing-image>img{width:100%;height:100%;object-fit:cover;display:block}.swt-image-fallback{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#8ba0ae;background:linear-gradient(135deg,#f0f4f6,#e7edf0)}.swt-image-fallback svg{width:36px;height:36px;margin-bottom:9px}.swt-image-fallback>span{font-size:12px}.swt-image-fallback>small{font-size:9px;color:#9baab4;margin-top:3px}.swt-operator{font-size:10px;color:#7d929f;font-weight:550;margin:0 0 5px!important}.swt-row-copy h3,.swt-row-copy h4{font-size:22px;font-weight:650;line-height:1.25;letter-spacing:-.45px;color:var(--ink)}.swt-location{display:flex;flex-wrap:wrap;gap:2px 11px;align-items:baseline;margin-top:8px;font-size:11px;color:#778996;line-height:1.5}.swt-map-link{font-size:10px;color:#527b96!important;text-decoration:none;white-space:nowrap}.swt-map-link:hover{text-decoration:underline;text-underline-offset:3px}.swt-description{font-size:13px;line-height:1.65;color:#667a88;margin-top:10px!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.swt-inline-facts{font-size:11px;line-height:1.65;color:#4c6576;margin-top:10px!important}.swt-inline-facts strong{font-size:10px;font-weight:600;color:#82929e;margin-right:6px}.swt-service-note{font-size:10px;color:#7d8d96;line-height:1.6;margin-top:8px!important}.swt-row-booking{padding-top:4px;text-align:right}.swt-price dt{font-size:9px;color:#8a98a3;line-height:1.5;margin-bottom:8px}.swt-price dd{font-size:16px;font-weight:600;line-height:1.55;letter-spacing:-.1px;color:var(--ink);overflow-wrap:anywhere}.swt-row .swt-fact-note{display:block;font-size:10px;font-weight:400;line-height:1.6;color:#8495a1;margin-top:7px!important}.swt-action{margin-top:15px}.swt-book{display:flex;align-items:center;justify-content:space-between;gap:14px;background:#12374f;color:#fff!important;min-height:42px;padding:10px 13px;border-radius:3px;text-decoration:none;font-size:12px;font-weight:600;white-space:nowrap}.swt-book:hover{background:#254f6b}.swt-action>span{display:block;color:#98a4ac;font-size:9px;text-align:center;margin-top:7px}.swt-operator-details{margin:14px 0 0 245px}.swt-operator-details>summary{width:fit-content;color:#8495a1;font-size:10px;list-style:none;display:flex;align-items:center;gap:7px}.swt-operator-details>summary:before{content:'+';font-size:14px;line-height:1}.swt-operator-details[open]>summary:before{content:'−'}.swt-operator-details>summary::-webkit-details-marker{display:none}.swt-operator-details>summary:hover{color:var(--ink)}.swt-operator-details[open]{margin-left:0}.swt-details-body{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;background:var(--subtle);padding:20px;margin-top:11px;font-size:11px;line-height:1.8;color:var(--muted)}.swt-details-body h5{font-size:11px;font-weight:650;margin-bottom:7px}.swt-details-body a{text-underline-offset:3px}.swt-detail-note{margin-top:8px!important;font-size:10px;color:#7e8e99}.swt-media-details{grid-column:1/-1;padding-top:14px;border-top:1px solid #dfe6ea}.swt-media-details>a{display:inline-block;margin:7px 15px 0 0;font-size:10px}.swt-source-links{list-style:none;padding:0;margin:8px 0}.swt-source-links li{margin-top:4px}.swt-source-warning,.swt-error{color:#885832;font-size:11px;margin-top:11px!important;overflow-wrap:anywhere}.swt-catalog-details{margin-top:25px;font-size:11px;color:var(--muted)}.swt-catalog-details>summary{width:fit-content}.swt-catalog-details>p{line-height:1.8;margin-top:11px;max-width:860px}.swt-text-button{background:transparent;border:0;border-bottom:1px solid #a6b6c2;color:var(--ink);font-size:11px!important;margin-top:12px;padding:2px 0}.swt-outline{border:1px solid #b8c7d1;background:#fff;color:var(--ink);border-radius:3px;min-height:40px;padding:9px 15px;font-size:12px!important}.swt-outline:hover{background:var(--subtle)}.swt-empty{text-align:center;padding:38px 20px;border-block:1px solid var(--line)}.swt-empty h3{font-size:19px;font-weight:600}.swt-empty p{font-size:13px;color:var(--muted);margin:9px 0 18px}.swt-calendar{padding:16px 18px;background:var(--subtle);border:1px solid var(--line);margin-top:18px;font-size:12px;max-width:760px}.swt-calendar-heading{display:flex;justify-content:space-between;gap:16px;font-size:12px;margin-bottom:10px}.swt-calendar-heading>span,.swt-calendar>p,.swt-calendar>small{color:var(--muted)}.swt-calendar>small{display:block;font-size:11px;margin-top:9px}.swt-calendar-button{border:0;border-bottom:1px solid #9eb5c5;background:transparent;color:var(--ink);font-size:12px!important;padding:4px 0;margin-top:10px}.swt-departures{list-style:none;padding:0;margin:0;max-height:300px;overflow:auto}.swt-departures li{padding:11px 0;border-top:1px solid var(--line);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 15px;font-size:12px}.swt-departures small{display:block;color:var(--muted);font-size:11px;overflow-wrap:anywhere}.swt-count,.swt-unknown{font-size:11px;font-weight:600}.swt-unknown{color:var(--muted);font-weight:400}.swt-departures details{grid-column:1/-1;font-size:11px;color:var(--muted)}.swt-departures details p{padding:8px 10px;background:#fff;white-space:pre-wrap;overflow-wrap:anywhere;margin-top:5px}.swt-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@container(max-width:1000px){.swt-home-header,.swt-entry-buttons,.swt-content{width:calc(100% - 60px)}.swt-row-main{grid-template-columns:190px minmax(0,1fr) 163px;gap:20px}.swt-listing-image{height:158px}.swt-operator-details{margin-left:210px}.swt-row-copy h3,.swt-row-copy h4{font-size:20px}.swt-entry-buttons>button{padding:17px;gap:13px}.swt-entry-buttons strong{font-size:17px}.swt-entry-buttons small{font-size:10px}.swt-entry-arrow{font-size:18px}.swt-entry-buttons svg{width:28px;height:28px}.swt-price dd{font-size:14px}.swt-details-body{gap:18px;padding:18px}}
+@container(max-width:780px){.swt-home-header,.swt-entry-buttons,.swt-content{width:calc(100% - 44px)}.swt-home-header{height:75px}.swt-home-hero{min-height:282px;width:calc(100% - 24px)}.swt-hero-copy{padding:29px 30px 48px}.swt-hero-copy h1{font-size:43px}.swt-entry-buttons{gap:10px}.swt-entry-buttons>button{padding:15px 13px;min-height:85px;gap:10px}.swt-entry-buttons svg{width:24px;height:24px}.swt-entry-buttons strong{font-size:16px}.swt-entry-buttons small{font-size:9px}.swt-entry-arrow{display:none}.swt-content{padding-top:35px}.swt-section-head h2{font-size:27px}.swt-row-main{grid-template-columns:150px minmax(0,1fr) 150px;gap:17px}.swt-listing-image{height:154px}.swt-row-copy h3,.swt-row-copy h4{font-size:18px}.swt-description{font-size:12px}.swt-price dd{font-size:13px}.swt-book{font-size:11px;padding-inline:10px;gap:8px}.swt-operator-details{margin-left:167px}.swt-details-body{grid-template-columns:1fr 1fr}.swt-details-body>div:nth-child(3){grid-column:1/-1}.swt-results{display:block;padding:15px 0 18px}.swt-results>p{text-align:left;margin-top:6px}.swt-toolbar{gap:13px}.swt-toolbar>.swt-search{flex-basis:100%}.swt-home-header nav{gap:21px}.swt-home-header nav button{font-size:11px}.swt-wordmark{font-size:22px}}
+@container(max-width:640px){.swt-row-main{grid-template-columns:125px minmax(0,1fr);gap:14px 18px}.swt-listing-image{height:143px}.swt-row-copy h3,.swt-row-copy h4{font-size:21px}.swt-row-booking{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:20px;text-align:left;border-top:1px solid #edf1f3;padding-top:13px}.swt-row-booking>.swt-price{flex:1;max-width:360px}.swt-row-booking>.swt-action{width:160px;flex-shrink:0;margin-top:0}.swt-price dt{margin-bottom:4px}.swt-price dd{font-size:14px}.swt-price .swt-fact-note{margin-top:3px!important}.swt-operator-details{margin-left:0;margin-top:12px}.swt-book{font-size:12px;padding-inline:12px}.swt-action>span{font-size:8px}.swt-description{font-size:12px}.swt-location{font-size:10px}.swt-inline-facts{font-size:10px}.swt-service-note{font-size:10px}.swt-row{padding:20px 0 17px}.swt-details-body{grid-template-columns:1fr;gap:18px}.swt-details-body>div:nth-child(3){grid-column:auto}}
+@container(max-width:440px){.swt-home-header,.swt-entry-buttons,.swt-content{width:calc(100% - 34px)}.swt-home-header{height:73px;gap:15px}.swt-wordmark{font-size:19px;letter-spacing:2.8px}.swt-wordmark span{font-size:7px;letter-spacing:2.3px;margin-top:7px}.swt-home-header nav{gap:13px}.swt-home-header nav button{font-size:10px}.swt-home-hero{width:calc(100% - 18px);min-height:268px}.swt-hero-copy{padding:25px 22px 51px}.swt-hero-copy h1{font-size:38px;letter-spacing:-1.4px}.swt-hero-copy>p{font-size:8px;letter-spacing:1.8px;margin-bottom:14px}.swt-hero-copy>span{font-size:12px}.swt-hero-credit{font-size:6px;right:11px;bottom:28px}.swt-entry-buttons{gap:7px;margin-top:-22px}.swt-entry-buttons>button{display:flex;flex-direction:column;gap:8px;padding:12px 7px;min-height:105px;text-align:center}.swt-entry-buttons svg{width:25px;height:25px}.swt-entry-buttons strong{font-size:15px}.swt-entry-buttons small{font-size:8px;line-height:1.4;margin-top:3px}.swt-content{padding:31px 0 28px}.swt-section-head{margin-bottom:15px;align-items:flex-end}.swt-section-head h2{font-size:25px}.swt-section-head>span{font-size:10px}.swt-directory-eyebrow{font-size:8px;letter-spacing:1.4px}.swt-categories{gap:22px;margin-bottom:17px}.swt-categories button{font-size:12px;padding:10px 0}.swt-toolbar{gap:12px}.swt-toolbar>label{flex:1 1 125px}.swt-toolbar>.swt-sort{flex-basis:100%}.swt-toolbar input,.swt-toolbar select{font-size:12px}.swt-results>p{font-size:10px;line-height:1.7}.swt-row-main{grid-template-columns:106px minmax(0,1fr);gap:13px 14px}.swt-listing-image{height:130px}.swt-row-copy h3,.swt-row-copy h4{font-size:18px;line-height:1.26}.swt-operator{font-size:9px;margin-bottom:4px!important}.swt-description{font-size:11px;line-height:1.6;margin-top:8px!important}.swt-location{margin-top:6px;gap:3px 8px}.swt-map-link{font-size:9px}.swt-inline-facts{font-size:10px;margin-top:8px!important}.swt-service-note{font-size:9px;line-height:1.55;margin-top:7px!important}.swt-row-booking{gap:15px}.swt-row-booking>.swt-action{width:140px}.swt-price dd{font-size:13px}.swt-price dt{font-size:8px}.swt-row .swt-fact-note{font-size:9px}.swt-book{font-size:11px;min-height:41px}.swt-action>span{font-size:7px}.swt-group+.swt-group{margin-top:23px}.swt-group-heading h3{font-size:16px}.swt-catalog-details{font-size:10px}.swt-calendar{padding:13px}.swt-departures li{grid-template-columns:1fr}.swt-count,.swt-unknown{justify-self:start}}
+@media(prefers-reduced-motion:reduce){.swt-root *{scroll-behavior:auto!important}}
 `

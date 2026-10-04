@@ -1,8 +1,16 @@
-# Working Seward Travel OTA dashboard
+# Working Seward Travel OTA MVP
 
-The app displays six tours, three lodging properties, and three transportation providers, all linked to official sources. The tour collector has successfully fetched all six configured product pages. A live check of all four FareHarbor products returned 13 departure entries for July 15, 2027. None published an explicit remaining-seat count. Rezdy and Resmark calendar extraction is not implemented.
+The saved directory contains six tours, three lodging properties, and three transportation services, linked to official sources. The Framer front page opens with **Lodging**, **Activities**, and **Transport** choices and defaults to Lodging. Its self-contained component includes the hero and displays one photo listing per row with a location or route and an official provider action. The older native hero should be hidden.
 
-This is a discovery and referral MVP. It has no checkout, payment processing, confirmed reservations, supplier API connection, or production hosting.
+This is a discovery and referral MVP. Framer loads saved catalog facts; the local dashboard separately exercises the public tour collector and supported FareHarbor calendar reader. No exact remaining-seat count has been verified. Rezdy and Resmark calendar extraction is not implemented. Checkout, payment processing, confirmed reservations, and a supplier API connection are outside the current implementation.
+
+## Front-page photos and locations
+
+Eleven listing photos reference observed image URLs from official provider websites, with source links and credits in provider details. PJS Taxi uses a neutral transport placeholder; a failed image also falls back to a labeled placeholder. These provider photos are remotely referenced, not copied into the repository. The repository's NPS hero photograph has a separate credit in `public/images/CREDITS.md`.
+
+Location labels distinguish hotel addresses, tour offices/meeting points, and transportation routes or service areas. **View map** opens a Google Maps search from a source-based query; it does not promise an exact boarding point. The directory adds no fabricated ratings, distance measurements, or hotel room rates.
+
+For Framer controls, installation, source fields, and deployment requirements, see the [component guide](../framer/README.md). Browser verification of the new photo-list revision must follow the updated Framer preview; source and image-URL checks do not establish layout correctness.
 
 ## Run and try it
 
@@ -14,7 +22,7 @@ npx playwright install chromium
 npm start
 ```
 
-Open [the local dashboard](http://127.0.0.1:3000). Search or filter the real products and use the refresh control to collect their current public descriptions. Choose a date, such as **July 15, 2027**, then use a supported product's calendar check. Follow its booking link to confirm current options with the operator. Dates and observations are not reservations.
+Open [the local dashboard](http://127.0.0.1:3000). Search or filter the records and refresh supported public tour pages. Choose a date, such as **July 15, 2027**, then run a supported tour's calendar check. Confirm current options through its operator link. This local test dashboard is separate from the Framer front page; dates and observations are not reservations.
 
 Run the verification suite separately with `npm test`.
 
@@ -36,7 +44,7 @@ Platform labels come from product-specific booking links in the operator HTML. P
 
 ## Lodging and transportation
 
-Six source-reviewed directory records are maintained in `data/vendors.json`. They are merged into the saved catalog and API response; tour refreshes preserve their facts and review dates without fetching these providers or checking their inventory.
+Six manually reviewed directory records are maintained in `data/vendors.json`. They are merged into the saved catalog and API response; tour refreshes preserve their facts, media/location metadata, and review dates without fetching these providers or checking their inventory.
 
 | Provider | Directory details |
 | --- | --- |
@@ -47,7 +55,13 @@ Six source-reviewed directory records are maintained in `data/vendors.json`. The
 | [Park Connection Seward Express](https://www.alaskacoach.com/routes/seward-express/) | Anchorage–Seward coach; published 2027 fare and timetable. Its prose and timetable disagree on the northbound departure, so visitors are directed to confirm it. |
 | [PJS Taxi & Tours](https://www.pjstaxi.net/) | Local/private transportation; contact the provider for a route, quote, and pickup time. No price or travel duration is invented. |
 
-Hotel listings use stay dates rather than trip-duration filters. Room rates remain unknown until the visitor selects dates and room type with the property. Train and coach CTAs open schedules, with booking links retained in source details. Taxi is contact-only. None of these records claims live rooms, seats, or a supplier partnership.
+Lodging is listed alphabetically without trip-duration filters. Room rates remain unknown until the visitor selects stay dates and room type with the property. Train and coach actions open schedules; taxi is contact-only. None of these records claims live rooms, seats, or a supplier partnership.
+
+## Canonical reviewed metadata
+
+Tour `reviewedDetails` in `data/operators.json` and the records in `data/vendors.json` hold descriptions, locations, and photo provenance. `locationLabel`/`locationText` describe the place or route; `mapQuery` builds the map link; `locationEvidence`/`locationEvidenceUrl` retain support. `imageUrl`, `imageAlt`, `imageSourceUrl`, `imageCredit`, and `imageEvidence` identify the photograph and source.
+
+`detailsCheckedAt` and `mediaReviewedAt` retain their actual review dates. A tour refresh must preserve those fields and reviewed photo/location metadata. Update them only after checking the corresponding official sources. Rebuild `data/catalog.json`, synchronize Framer's embedded `SAVED_CATALOG`, and replace the pasted component when changing the saved fallback.
 
 ## Deterministic collection
 
@@ -55,7 +69,7 @@ The running app uses **Cheerio and Playwright, without an LLM extraction call**:
 
 1. `src/catalog.js` fetches only the public product URLs configured in `data/operators.json`. Source-specific rules isolate the selected product, read short factual fields, and validate its booking link. Related products and private variants must not supply the primary price.
 2. A refresh runs at most two HTML requests concurrently, each bounded to 15 seconds and 3 MiB. Redirects are refused. It does not fetch a booking provider API or retry indefinitely.
-3. `data/catalog.json` stores short product records. `checkedAt` records the successful capture; a failure preserves earlier good values and that timestamp, adds `lastAttemptAt`, and sets `fetchStatus` to `error`.
+3. `data/catalog.json` stores the assembled directory. A tour's `checkedAt` records its successful page capture; failure preserves earlier good values and that timestamp, adds `lastAttemptAt`, and sets `fetchStatus` to `error`. The overall tour-refresh timestamp does not renew manual detail or media reviews.
 4. `src/calendar.js` opens the configured public FareHarbor calendar, selects the requested year/month/day, and reads rendered departures. It does not select a party quantity, open checkout, create a hold, or make a booking.
 
 AI was useful for discovering operators, examining page structure, choosing extraction rules, and reviewing results. Live refresh uses the code and source evidence; missing facts remain unknown.
@@ -70,7 +84,7 @@ AI was useful for discovering operators, examining page structure, choosing extr
 - Calendar observations expire after five minutes. Recheck the source and confirm at operator checkout; do not represent expired evidence as current.
 - Adult/child composition, activity restrictions, resources, and minimum groups are not validated by this browser read.
 
-No exact remaining-seat count was verified during the initial catalog demonstration. A successful page scrape proves the catalog fields were retrieved, not that a tour has a particular number of seats.
+No exact remaining-seat count has been verified. A successful page scrape proves the catalog fields were retrieved, not that a tour has a particular number of seats.
 
 ## Local API examples
 
