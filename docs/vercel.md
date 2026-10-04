@@ -1,6 +1,6 @@
 # Vercel static deployment
 
-This repository is ready to build a public directory site from `public/` and the committed `data/catalog.json`. The build does not run the local server, request provider websites, or expose the scraping/calendar endpoints. No deployment or Vercel project has been created by this setup.
+This repository builds separate Welcome and Booking pages from `public/` and the committed `data/catalog.json`. The build does not deploy the site, run the local server, request provider websites, or expose the scraping/calendar endpoints.
 
 ## Import settings
 
@@ -20,9 +20,12 @@ Vercel documents [framework, install, build, output, and rewrite configuration](
 
 ## What the public site serves
 
-- `/`: the responsive directory, images, search, category filters, maps, and provider links.
+- `/`: the video-only Welcome page, with native controls, a concept-demo label, and **Browse bookings**. Autoplay respects reduced motion; this page does not fetch the catalog.
+- `/booking`: the restored photo hero and directory. Three hero choices lead into the listings. Keyword search and four primary filters remain: **Lodging**, **Activities**, **Transport**, and **All listings**. There are no duration or subcategory filter controls.
 - `/data/catalog.json`: a generated copy of the saved catalog.
 - `/api/catalog`: a same-origin rewrite to that same JSON, matching the frontend's catalog request.
+
+Both pages have **Welcome | Booking | Interest** navigation. Interest opens the [Seward OneStop interest form](https://forms.zohopublic.com/vcprovenzagm1/form/SewardOneStop/formperma/8Q_3lbfTA-WTfM0g8tOUpenqwokVZkm9vclwHw3Vxyg) in a new tab. Only approved QR placement codes are carried between internal pages. Vercel rewrites `/booking` and `/booking/` to `/booking/index.html`; the local server supports the same routes.
 
 The generated catalog has `mode: "snapshot"` and `capabilities: { refresh: false, calendar: false }`. Every listing has `calendarSupported: false`, and any saved `availability` observation is removed. The frontend uses these capabilities to hide live controls. Original source/review timestamps remain unchanged; deployment time is not a new verification date.
 
@@ -39,13 +42,13 @@ node scripts/build-vercel.mjs
 
 The script regenerates only `dist/`, copies `public/`, writes the snapshot JSON, and bundles the browser analytics entry with esbuild. The locked install includes esbuild's platform binary but skips package lifecycle scripts, including browser downloads. Do not commit generated `dist/` or `.vercel/` account settings. Update/review the catalog locally, commit the source changes, and rebuild or redeploy to publish a newer saved snapshot. No API secrets or provider credentials are needed.
 
-After choosing to deploy, check `/`, `/api/catalog`, category navigation, images, provider links, and that source-refresh/calendar buttons are absent. Live collection remains available through `npm start` on localhost. A future public inventory service needs a separate deployment with deliberate authentication, allowed origins, rate limits, and provider access; this static setup does not enable it.
+After deployment, check `/` and `/booking`, navigation in both directions, video playback/fallback, the Interest link, `/api/catalog`, all four filters, images, and provider links. Source-refresh/calendar buttons should be absent. Live collection remains available through `npm start` on localhost. A future public inventory service needs a separate deployment with deliberate authentication, allowed origins, rate limits, and provider access; this static setup does not enable it.
 
 ## Optional production analytics
 
 Enable **Web Analytics** in the Vercel project and set the environment variable `SEWARD_ANALYTICS_ENABLED=true` for the **Production** environment. Redeploy production to apply it. The build enables the SDK only when that exact value and Vercel's `VERCEL_ENV=production` are both present; preview, development, and ordinary local builds keep analytics disabled.
 
-The build bundles `public/analytics.js` and `@vercel/analytics` into an IIFE at `dist/analytics.js`, defines `__SEWARD_ANALYTICS_ENABLED__`, and inserts its deferred script after `app.js` in generated HTML. Source HTML stays unchanged, and the local app does not load the analytics entry. The bundle remains available in disabled builds, with collection guarded off.
+The build bundles `public/analytics.js` and `@vercel/analytics` into an IIFE at `dist/analytics.js` and defines `__SEWARD_ANALYTICS_ENABLED__`. It injects one deferred analytics script per generated page: after `welcome.js` on Welcome and after `app.js` on Booking. Source HTML stays unchanged, and the local app does not load the analytics entry. The bundle remains available in disabled builds, with collection guarded off.
 
 The build also passes Vercel's public `VERCEL_OBSERVABILITY_CLIENT_CONFIG` string to the SDK's `inject` function for its version 2 dynamic collection paths. Without that configuration, the SDK uses its default `/_vercel/insights/script.js` path. No other environment variables or secrets are bundled. See [dynamic configuration](https://vercel.com/docs/analytics/package#dynamic-configuration).
 
