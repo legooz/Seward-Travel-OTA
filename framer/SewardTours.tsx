@@ -809,7 +809,7 @@ function SiteHeader({ active }: { active: "welcome" | "booking" }) {
         <nav aria-label="Main navigation">
             <PageLink pageId={WELCOME_PAGE.webPageId} aria-current={active === "welcome" ? "page" : undefined}>Welcome</PageLink>
             <PageLink pageId={BOOKING_PAGE.webPageId} aria-current={active === "booking" ? "page" : undefined}>Booking</PageLink>
-            <a href={INTEREST_URL} target="_blank" rel="noopener noreferrer" aria-label="Interest (opens in a new tab)">Interest <span aria-hidden="true">↗</span></a>
+            <a href={INTEREST_URL} target="_blank" rel="noopener noreferrer" aria-label="Contact Us (opens in a new tab)">Contact Us <span aria-hidden="true">↗</span></a>
         </nav>
     </header>
 }

@@ -1,6 +1,6 @@
 # Framer Welcome and Booking pages
 
-`SewardTours.tsx` supplies two layouts selected through the **Page** property. Both show **Welcome | Booking | Interest** navigation. Interest opens the [Seward OneStop interest form](https://forms.zohopublic.com/vcprovenzagm1/form/SewardOneStop/formperma/8Q_3lbfTA-WTfM0g8tOUpenqwokVZkm9vclwHw3Vxyg) in a new tab.
+`SewardTours.tsx` supplies two layouts selected through the **Page** property. Both show **Welcome | Booking | Contact Us** navigation. Contact Us opens the [Seward OneStop contact form](https://forms.zohopublic.com/vcprovenzagm1/form/SewardOneStop/formperma/8Q_3lbfTA-WTfM0g8tOUpenqwokVZkm9vclwHw3Vxyg) in a new tab.
 
 | Page | Path | Framer page ID | Content |
 | --- | --- | --- | --- |
@@ -35,7 +35,7 @@ Use the [Seward OneStop Framer project](https://framer.com/projects/Seward-Trave
 | **Catalog URL** (`sourceURL`) | Public HTTPS saved JSON used by Booking. |
 | **API Base** (`apiBase`) | Blank by default. Keep blank for the saved-catalog demo. |
 
-Internal links use Framer's standard `Link`, the page IDs above, and `motionChild` with `motion.a`. Each page was individually reviewed in desktop and mobile editor preview. **Cross-page links did not switch pages in editor preview; navigation requires validation on a published Framer site.** Separate page previews are not an end-to-end routing check. The Interest destination was opened successfully and displayed the Seward OneStop form.
+Internal links use Framer's standard `Link`, the page IDs above, and `motionChild` with `motion.a`. Each page was individually reviewed in desktop and mobile editor preview. **Cross-page links did not switch pages in editor preview; navigation requires validation on a published Framer site.** Separate page previews are not an end-to-end routing check. The Contact Us destination was opened successfully and displayed the Seward OneStop form.
 
 The public website build and current 20 analytics/server tests pass. These checks do not establish published Framer navigation behavior.
 

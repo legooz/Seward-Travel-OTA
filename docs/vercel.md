@@ -25,7 +25,7 @@ Vercel documents [framework, install, build, output, and rewrite configuration](
 - `/data/catalog.json`: a generated copy of the saved catalog.
 - `/api/catalog`: a same-origin rewrite to that same JSON, matching the frontend's catalog request.
 
-Both pages have **Welcome | Booking | Interest** navigation. Interest opens the [Seward OneStop interest form](https://forms.zohopublic.com/vcprovenzagm1/form/SewardOneStop/formperma/8Q_3lbfTA-WTfM0g8tOUpenqwokVZkm9vclwHw3Vxyg) in a new tab. Only approved QR placement codes are carried between internal pages. Vercel rewrites `/booking` and `/booking/` to `/booking/index.html`; the local server supports the same routes.
+Both pages have **Welcome | Booking | Contact Us** navigation. Contact Us opens the [Seward OneStop contact form](https://forms.zohopublic.com/vcprovenzagm1/form/SewardOneStop/formperma/8Q_3lbfTA-WTfM0g8tOUpenqwokVZkm9vclwHw3Vxyg) in a new tab. Only approved QR placement codes are carried between internal pages. Vercel rewrites `/booking` and `/booking/` to `/booking/index.html`; the local server supports the same routes.
 
 The generated catalog has `mode: "snapshot"` and `capabilities: { refresh: false, calendar: false }`. Every listing has `calendarSupported: false`, and any saved `availability` observation is removed. The frontend uses these capabilities to hide live controls. Original source/review timestamps remain unchanged; deployment time is not a new verification date.
 
@@ -42,7 +42,7 @@ node scripts/build-vercel.mjs
 
 The script regenerates only `dist/`, copies `public/`, writes the snapshot JSON, and bundles the browser analytics entry with esbuild. The locked install includes esbuild's platform binary but skips package lifecycle scripts, including browser downloads. Do not commit generated `dist/` or `.vercel/` account settings. Update/review the catalog locally, commit the source changes, and rebuild or redeploy to publish a newer saved snapshot. No API secrets or provider credentials are needed.
 
-After deployment, check `/` and `/booking`, navigation in both directions, video playback/fallback, the Interest link, `/api/catalog`, all four filters, images, and provider links. Source-refresh/calendar buttons should be absent. Live collection remains available through `npm start` on localhost. A future public inventory service needs a separate deployment with deliberate authentication, allowed origins, rate limits, and provider access; this static setup does not enable it.
+After deployment, check `/` and `/booking`, navigation in both directions, video playback/fallback, the Contact Us link, `/api/catalog`, all four filters, images, and provider links. Source-refresh/calendar buttons should be absent. Live collection remains available through `npm start` on localhost. A future public inventory service needs a separate deployment with deliberate authentication, allowed origins, rate limits, and provider access; this static setup does not enable it.
 
 ## Optional production analytics
 
