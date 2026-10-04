@@ -9,7 +9,7 @@ import { addPropertyControls, ControlType } from "framer"
 const DEFAULT_SOURCE = "https://raw.githubusercontent.com/legooz/Seward-Travel-OTA/main/data/catalog.json"
 type Departure = { id: string; time: string; label: string; remaining: number | null; unit: string; evidenceText: string }
 type Availability = { status: string; date: string; checkedAt?: string; expiresAt?: string; lastAttemptAt?: string; message?: string; departures: Departure[] }
-type Product = { id: string; operator: string; name: string; category: string; platform: string; sourceUrl: string; bookingUrl: string; priceText: string | null; durationText: string | null; priceCaveat?: string; checkedAt?: string | null; lastAttemptAt?: string | null; fetchStatus: string; error?: string; calendarSupported?: boolean; availability?: Availability; inventoryUnit?: string }
+type Product = { id: string; operator: string; name: string; category: string; platform: string; sourceUrl: string; bookingUrl: string; priceText: string | null; durationText: string | null; durationMinutesMin?: number | null; durationMinutesMax?: number | null; durationLabel?: string; durationBasis?: string; durationEvidence?: string; description?: string; detailsCheckedAt?: string; priceCaveat?: string; checkedAt?: string | null; lastAttemptAt?: string | null; fetchStatus: string; error?: string; calendarSupported?: boolean; availability?: Availability; inventoryUnit?: string }
 type Catalog = { products: Product[]; refreshedAt: string | null; notice: string }
 type Props = { sourceURL?: string; apiBase?: string; style?: React.CSSProperties }
 
@@ -31,7 +31,14 @@ const SAVED_CATALOG: Catalog = {
       "checkedAt": "2026-10-04T03:05:56.061Z",
       "lastAttemptAt": "2026-10-04T03:05:56.061Z",
       "fetchStatus": "ok",
-      "calendarSupported": true
+      "calendarSupported": true,
+      "durationLabel": "Full day",
+      "durationMinutesMin": null,
+      "durationMinutesMax": null,
+      "durationBasis": "published",
+      "durationEvidence": "The operator labels this Full Day. The usual departure is 6 AM with a 5–6 PM return; departure changes to 7 AM beginning August 20. No single hourly duration is stated.",
+      "description": "Fish the Gulf of Alaska for halibut and other seasonal species, with a captain and deckhand aboard.",
+      "detailsCheckedAt": "2026-10-04T03:50:18.000Z"
     },
     {
       "id": "seward-ocean-excursions-half-day",
@@ -48,7 +55,14 @@ const SAVED_CATALOG: Catalog = {
       "checkedAt": "2026-10-04T03:05:56.076Z",
       "lastAttemptAt": "2026-10-04T03:05:56.076Z",
       "fetchStatus": "ok",
-      "calendarSupported": true
+      "calendarSupported": true,
+      "durationLabel": "3.5 hours",
+      "durationMinutesMin": 210,
+      "durationMinutesMax": 210,
+      "durationBasis": "published",
+      "durationEvidence": "The half-day tour section states a trip length of 3.5 hours, with morning and afternoon departures. The private evening charter is a separate option.",
+      "description": "Explore Resurrection Bay and Kenai Fjords National Park by small boat, looking for whales, seabirds, and other wildlife along a flexible route.",
+      "detailsCheckedAt": "2026-10-04T03:50:18.000Z"
     },
     {
       "id": "kayak-adventures-resurrection-bay",
@@ -65,7 +79,14 @@ const SAVED_CATALOG: Catalog = {
       "checkedAt": "2026-10-04T03:05:56.838Z",
       "lastAttemptAt": "2026-10-04T03:05:56.838Z",
       "fetchStatus": "ok",
-      "calendarSupported": true
+      "calendarSupported": true,
+      "durationLabel": "4 hours (scheduled)",
+      "durationMinutesMin": 240,
+      "durationMinutesMax": 240,
+      "durationBasis": "schedule",
+      "durationEvidence": "Calculated from the published 8 AM–noon, 11:30 AM–3:30 PM, and 6–10 PM trip windows. The separate 2–2.5-hour figure refers to paddling time, not the whole tour.",
+      "description": "Paddle Resurrection Bay’s western shoreline from Lowell Point with a guide, stopping ashore for snacks, hot drinks, and exploration.",
+      "detailsCheckedAt": "2026-10-04T03:50:18.000Z"
     },
     {
       "id": "seward-helicopters-glacier-dog-sledding",
@@ -82,7 +103,14 @@ const SAVED_CATALOG: Catalog = {
       "checkedAt": "2026-10-04T03:05:57.106Z",
       "lastAttemptAt": "2026-10-04T03:05:57.106Z",
       "fetchStatus": "ok",
-      "calendarSupported": false
+      "calendarSupported": false,
+      "durationLabel": "About 90 minutes",
+      "durationMinutesMin": 90,
+      "durationMinutesMax": 90,
+      "durationBasis": "published",
+      "durationEvidence": "The operator describes the excursion as approximately 90 minutes. Arrive 15 minutes early; it recommends allowing about two hours overall.",
+      "description": "Fly to Godwin Glacier by helicopter, ride a dog sled with a musher, and meet the huskies at the glacier camp.",
+      "detailsCheckedAt": "2026-10-04T03:50:18.000Z"
     },
     {
       "id": "sunny-cove-resurrection-bay",
@@ -99,7 +127,14 @@ const SAVED_CATALOG: Catalog = {
       "checkedAt": "2026-10-04T03:05:57.522Z",
       "lastAttemptAt": "2026-10-04T03:05:57.522Z",
       "fetchStatus": "ok",
-      "calendarSupported": false
+      "calendarSupported": false,
+      "durationLabel": "Half day",
+      "durationMinutesMin": null,
+      "durationMinutesMax": null,
+      "durationBasis": "published",
+      "durationEvidence": "The operator labels this Half-Day. Listed trip windows are 7:30–11:15 AM and 11:30 AM–3:15 PM, while the detailed check-in-to-return itinerary spans four hours. Confirm timing with the operator.",
+      "description": "Take a guided shoreline paddle in Resurrection Bay after a narrated drive through Seward and an introduction to kayaking.",
+      "detailsCheckedAt": "2026-10-04T03:50:18.000Z"
     },
     {
       "id": "adventure-sixty-north-tonsina-point",
@@ -116,7 +151,14 @@ const SAVED_CATALOG: Catalog = {
       "checkedAt": "2026-10-04T03:05:57.608Z",
       "lastAttemptAt": "2026-10-04T03:05:57.608Z",
       "fetchStatus": "ok",
-      "calendarSupported": true
+      "calendarSupported": true,
+      "durationLabel": "3–4 hours",
+      "durationMinutesMin": 180,
+      "durationMinutesMax": 240,
+      "durationBasis": "published",
+      "durationEvidence": "The operator gives a 3–4-hour door-to-door duration and a separate 1.5–2-hour paddling estimate. Morning and afternoon departures are listed.",
+      "description": "Paddle from Lowell Point toward Tonsina Point in a tandem kayak, exploring Resurrection Bay’s coastline with a guide.",
+      "detailsCheckedAt": "2026-10-04T03:50:18.000Z"
     }
   ],
   "refreshedAt": "2026-10-04T03:05:58.667Z",
@@ -160,7 +202,66 @@ function checkedTime(value?: string | null): string {
 }
 
 const text = (value: unknown, limit = 2000): string => typeof value === "string" ? value.slice(0, limit) : ""
-const platformLabel = (value: string) => value === "fareharbor" ? "FareHarbor" : value ? value[0].toUpperCase() + value.slice(1) : "Operator website"
+type DurationFilter = "all" | "up-to-2" | "2-to-4" | "over-4" | "half-day" | "full-day" | "unknown"
+type SortOrder = "activity" | "shortest" | "longest"
+
+function durationRange(product: Product): [number, number] | null {
+    const min = product.durationMinutesMin
+    const max = product.durationMinutesMax
+    return typeof min === "number" && typeof max === "number" && Number.isFinite(min) && Number.isFinite(max) && min > 0 && max >= min ? [min, max] : null
+}
+
+function isFullDay(product: Product): boolean {
+    // A published day label is a category, never an inferred number of hours.
+    return /\bfull[\s-]+day\b/i.test(product.durationText || "")
+}
+
+function matchesDuration(product: Product, filter: DurationFilter): boolean {
+    if (filter === "all") return true
+    const fullDay = isFullDay(product)
+    if (filter === "full-day") return fullDay
+    if (filter === "half-day") return /\bhalf[\s-]*day\b/i.test(`${product.durationText || ""} ${product.name}`)
+    const range = durationRange(product)
+    if (filter === "unknown") return range === null
+    if (fullDay) return false
+    if (!range) return false
+    const [min, max] = range
+    // A range must fit the whole band. Exact 2h belongs to the first band.
+    if (filter === "up-to-2") return max <= 120
+    if (filter === "2-to-4") return min >= 120 && max > 120 && max <= 240
+    return min > 240
+}
+
+function compareDuration(a: Product, b: Product, order: SortOrder): number {
+    const first = durationRange(a)
+    const second = durationRange(b)
+    if (!first || !second) {
+        if (first) return -1
+        if (second) return 1
+    } else {
+        const comparison = order === "longest" ? second[1] - first[1] || second[0] - first[0] : first[0] - second[0] || first[1] - second[1]
+        if (comparison) return comparison
+    }
+    return a.operator.localeCompare(b.operator) || a.name.localeCompare(b.name)
+}
+
+function durationLabel(product: Product): string {
+    // Preserve the operator's wording, including approximate and half-day labels.
+    if (product.durationLabel) return product.durationLabel
+    if (product.durationText) return product.durationText.replace(/^(?:Trip Length|Trips? & Duration|Duration):\s*/i, "")
+    const range = durationRange(product)
+    if (!range) return "Not specified"
+    const minutes = (value: number) => value % 60 === 0 ? `${value / 60} ${value === 60 ? "hour" : "hours"}` : `${value} minutes`
+    return range[0] === range[1] ? minutes(range[0]) : `${range[0]}–${range[1]} minutes`
+}
+
+function priceLabel(value: string | null): string {
+    if (!value) return "See operator website"
+    return value.replace(/^Cost:\s*/i, "").replace(/\$\s+(?=\d)/g, "$")
+        .replace(/^(\$[\d,.]+)\s*[—-]\s*Person$/i, "$1 per person")
+        .replace(/^(\$[\d,.]+)\s*[—-]\s*Adult Ages (\d+)\+$/i, "$1 per adult ($2+)")
+        .replace(/^(\$[\d,.]+)\/person$/i, "$1 per person")
+}
 
 function readAvailability(value: any): Availability | undefined {
     if (!value || typeof value !== "object" || !["observed", "not_checked", "error", "unsupported"].includes(value.status) || !isDate(text(value.date))) return undefined
@@ -184,6 +285,9 @@ function readCatalog(value: any, withAvailability: boolean): Catalog {
             id: text(row.id), name: text(row.name), operator: text(row.operator), category: text(row.category) || "Experiences", platform: text(row.platform).toLowerCase(),
             sourceUrl: publicURL(row.sourceUrl) || "", bookingUrl: publicURL(row.bookingUrl) || "",
             priceText: text(row.priceText) || null, durationText: text(row.durationText) || null, priceCaveat: text(row.priceCaveat),
+            durationMinutesMin: typeof row.durationMinutesMin === "number" && Number.isFinite(row.durationMinutesMin) ? row.durationMinutesMin : null,
+            durationMinutesMax: typeof row.durationMinutesMax === "number" && Number.isFinite(row.durationMinutesMax) ? row.durationMinutesMax : null,
+            durationLabel: text(row.durationLabel), durationBasis: text(row.durationBasis), durationEvidence: text(row.durationEvidence), description: text(row.description, 800), detailsCheckedAt: text(row.detailsCheckedAt),
             checkedAt: text(row.checkedAt), lastAttemptAt: text(row.lastAttemptAt), fetchStatus: row.fetchStatus === "ok" ? "ok" : "error", error: text(row.error?.message || row.error),
             calendarSupported: row.calendarSupported === true, availability: withAvailability ? readAvailability(row.availability) : undefined,
         }
@@ -223,7 +327,8 @@ export default function SewardTours({ sourceURL = DEFAULT_SOURCE, apiBase = "", 
     const [error, setError] = React.useState("")
     const [search, setSearch] = React.useState("")
     const [category, setCategory] = React.useState("all")
-    const [platform, setPlatform] = React.useState("all")
+    const [duration, setDuration] = React.useState<DurationFilter>("all")
+    const [sort, setSort] = React.useState<SortOrder>("activity")
     const [date, setDate] = React.useState("2027-07-15")
     const [checking, setChecking] = React.useState<string | null>(null)
     const [now, setNow] = React.useState(() => Date.now())
@@ -231,9 +336,11 @@ export default function SewardTours({ sourceURL = DEFAULT_SOURCE, apiBase = "", 
     const active = React.useRef<AbortController | null>(null)
     const backend = React.useMemo(() => backendBase(apiBase), [apiBase])
     const source = React.useMemo(() => publicURL(sourceURL), [sourceURL])
-    const categories = Array.from(new Set(catalog.products.map(product => product.category)))
-    const platforms = Array.from(new Set(catalog.products.map(product => product.platform)))
-    const filtered = catalog.products.filter(product => (category === "all" || product.category === category) && (platform === "all" || product.platform === platform) && `${product.name} ${product.operator} ${product.category}`.toLowerCase().includes(search.toLowerCase().trim()))
+    const categories = Array.from(new Set(catalog.products.map(product => product.category))).sort((a, b) => a.localeCompare(b))
+    const activeCategory = categories.includes(category) ? category : "all"
+    const filtered = catalog.products.filter(product => (activeCategory === "all" || product.category === activeCategory) && matchesDuration(product, duration) && `${product.name} ${product.operator} ${product.category} ${product.description || ""}`.toLowerCase().includes(search.toLowerCase().trim()))
+        .sort((a, b) => (sort === "activity" ? a.category.localeCompare(b.category) : 0) || compareDuration(a, b, sort))
+    const groups = sort === "activity" ? categories.map(name => ({ name, products: filtered.filter(product => product.category === name) })).filter(group => group.products.length) : [{ name: "", products: filtered }]
     const configuredError = apiBase.trim() && !backend ? "API Base must be a public HTTPS URL without credentials, a query, or a fragment. Local addresses are not supported." : !backend && !source ? "Catalog URL must be a public HTTPS URL. The embedded saved snapshot is shown." : ""
 
     const load = React.useCallback(async (refresh = false) => {
@@ -331,29 +438,44 @@ export default function SewardTours({ sourceURL = DEFAULT_SOURCE, apiBase = "", 
 
     return <div id="seward-tours" className="swt-root" style={{ width: "100%", ...style }}>
         <style>{CSS}</style>
-        <header className="swt-header"><div className="swt-brand">SEWARD<span>TRAVEL OTA</span></div><span className="swt-status"><i />{mode === "backend" ? "Backend connected" : "Saved catalog demo"}</span></header>
         <section aria-label="Seward tour catalog" className="swt-content">
-            <div className="swt-section-head"><div><p className="swt-eyebrow">MAKE A DAY OF IT</p><h2>Out here, there’s more.</h2></div><button className="swt-outline" type="button" disabled={loading || Boolean(checking)} onClick={() => load(Boolean(backend))}>{loading ? "Loading…" : backend ? "Refresh source pages ↻" : "Reload saved catalog ↻"}</button></div>
-            <div className="swt-toolbar"><label><span>FIND AN EXPERIENCE</span><input type="search" placeholder="Cruises, kayaking, operators…" value={search} onChange={event => setSearch(event.target.value)} /></label><label><span>ACTIVITY</span><select value={category} onChange={event => setCategory(event.target.value)}><option value="all">All activities</option>{categories.map(value => <option key={value} value={value}>{value}</option>)}</select></label><label><span>PLATFORM</span><select value={platform} onChange={event => setPlatform(event.target.value)}><option value="all">All platforms</option>{platforms.map(value => <option key={value} value={value}>{platformLabel(value)}</option>)}</select></label>{backend && <label><span>DATE · ALASKA TIME</span><input aria-invalid={!isDate(date)} type="date" value={date} onChange={event => setDate(event.target.value)} /></label>}</div>
-            <div className="swt-meta"><span aria-live="polite">{filtered.length} {filtered.length === 1 ? "experience" : "experiences"} · {new Set(catalog.products.map(product => product.operator)).size} operators</span><span>Source snapshot: {checkedTime(catalog.refreshedAt)}</span></div>
-            <p className="swt-notice">{mode === "backend" ? "Connected to the configured backend. Calendar results are timed observations, not reservations." : mode === "snapshot" ? "Saved catalog loaded from the public JSON source. Reloading downloads that file; it does not scrape operators or refresh inventory." : "Showing the embedded saved operator snapshot while the public catalog loads or is unavailable. No live inventory is connected."}</p>
-            {(configuredError || error) && <p className="swt-error-banner" role="alert">{configuredError || error} {catalog.products.length ? "The saved observations remain visible." : ""}</p>}
-            <div className="swt-grid" aria-busy={loading}>
-                {filtered.map(product => <article className="swt-card" key={product.id}>
-                    <div className="swt-card-top"><span>{product.category}</span><span>{platformLabel(product.platform)}</span></div>
-                    <p className="swt-operator">{product.operator}</p><h3>{product.name}</h3>
-                    <div className="swt-facts"><strong>{product.priceText || "Price on operator site"}</strong>{product.durationText && <span>{product.durationText}</span>}</div>
-                    {product.priceCaveat && <details className="swt-price-details"><summary>Price details</summary><p>{product.priceCaveat}</p></details>}
-                    <p className="swt-check">Source checked {checkedTime(product.checkedAt)}</p>
-                    {product.fetchStatus === "error" && <p className="swt-error">Source read failed{product.lastAttemptAt ? ` ${checkedTime(product.lastAttemptAt)}` : ""}. {product.error || "Published details are unverified."}</p>}
-                    {calendar(product)}
-                    <div className="swt-card-footer"><ExternalLink href={product.sourceUrl}>View source ↗</ExternalLink><ExternalLink href={product.bookingUrl || product.sourceUrl} className="swt-book">Check with operator ↗</ExternalLink></div>
-                </article>)}
-                {!filtered.length && <div className="swt-empty"><h3>A different adventure, perhaps.</h3><p>Try another search, activity, or platform.</p><button className="swt-outline" type="button" onClick={() => { setSearch(""); setCategory("all"); setPlatform("all") }}>Clear filters</button></div>}
+            <div className="swt-section-head"><h2>Explore Seward tours</h2><p>Compare activities, trip length, and published prices from local operators.</p></div>
+            <div className="swt-categories" role="group" aria-label="Filter tours by activity">
+                <button type="button" aria-pressed={activeCategory === "all"} onClick={() => setCategory("all")}>All activities</button>
+                {categories.map(value => <button type="button" key={value} aria-pressed={activeCategory === value} onClick={() => setCategory(value)}>{value}</button>)}
             </div>
-            <p className="swt-bottom-note">{catalog.notice || "Advertised prices are not checkout quotes. Confirm availability, fees, and terms directly with the operator."}</p>
+            <div className="swt-toolbar">
+                <label className="swt-search"><span>Search tours or operators</span><input type="search" placeholder="Search Seward tours" value={search} onChange={event => setSearch(event.target.value)} /></label>
+                <label><span>Duration</span><select value={duration} onChange={event => setDuration(event.target.value as DurationFilter)}><option value="all">All durations</option><option value="up-to-2">Up to 2 hours</option><option value="2-to-4">2–4 hours</option><option value="over-4">Over 4 hours</option><option value="half-day">Half day</option><option value="full-day">Full day</option><option value="unknown">Hours not specified</option></select></label>
+                <label className="swt-sort"><span>Sort by</span><select value={sort} onChange={event => setSort(event.target.value as SortOrder)}><option value="activity">Activity, then duration</option><option value="shortest">Shortest duration first</option><option value="longest">Longest duration first</option></select></label>
+                {backend && <label><span>Calendar date · Alaska time</span><input aria-invalid={!isDate(date)} type="date" value={date} onChange={event => setDate(event.target.value)} /></label>}
+            </div>
+            {duration !== "all" && <p className="swt-filter-help">Hour filters use the entire published range. Half-day and full-day labels are not converted into hours.</p>}
+            <div className="swt-results"><span aria-live="polite">{filtered.length} {filtered.length === 1 ? "tour" : "tours"}</span><p>{mode === "backend" ? "Calendar counts are timed observations. Confirm your party’s availability with the operator." : "Use Check dates to confirm availability with the operator. Live seat counts are not connected."}</p></div>
+            {(configuredError || error) && <div className="swt-error-banner" role="alert"><p>The latest tour information could not be loaded. Previously saved details are shown.</p><details><summary>Connection details</summary><p>{configuredError || error}</p></details></div>}
+            <div className="swt-list" aria-busy={loading}>
+                {groups.map(group => <section className="swt-group" key={group.name || "all-tours"} aria-label={group.name || "Tours ordered by duration"}>
+                    {group.name && <div className="swt-group-heading"><h3>{group.name}</h3><span>{group.products.length} {group.products.length === 1 ? "tour" : "tours"}</span></div>}
+                    {group.products.map(product => <article className="swt-row" key={product.id}>
+                        <div className="swt-row-main">
+                            <div className="swt-row-copy"><p className="swt-operator">{product.operator}</p>{group.name ? <h4>{product.name}</h4> : <h3>{product.name}</h3>}{product.description && <p className="swt-description">{product.description}</p>}</div>
+                            <dl className="swt-duration"><dt>Duration</dt><dd>{durationLabel(product)}</dd></dl>
+                            <dl className="swt-price"><dt>Advertised price</dt><dd>{priceLabel(product.priceText)}</dd></dl>
+                            <div className="swt-action"><ExternalLink href={product.bookingUrl || product.sourceUrl} className="swt-book">Check dates <span aria-hidden="true">↗</span></ExternalLink><span>Book with the operator</span></div>
+                        </div>
+                        {product.fetchStatus === "error" && <p className="swt-source-warning">Latest source check failed. Confirm these details with the operator.</p>}
+                        <details className="swt-operator-details"><summary>Operator details</summary><div className="swt-details-body">
+                            <div><h5>Published duration</h5><p>{product.durationEvidence || product.durationText || "A duration has not been verified from the operator’s website."}</p>{product.durationBasis && <p className="swt-detail-note">{product.durationBasis === "schedule" ? "Based on the operator’s published start and end times." : product.durationBasis === "published" ? "Duration stated by the operator." : `Duration basis: ${product.durationBasis}`}</p>}</div>
+                            <div><h5>Price and booking</h5><p>Published price: {product.priceText || "Not verified"}</p><p className="swt-detail-note">{product.priceCaveat || "Advertised pricing is not a checkout quote. Confirm final charges, group rules, and terms with the operator."}</p></div>
+                            <div><h5>Source</h5><ExternalLink href={product.sourceUrl}>View operator page ↗</ExternalLink><p className="swt-detail-note">Catalog checked {checkedTime(product.checkedAt)}{product.detailsCheckedAt ? <><br />Tour details checked {checkedTime(product.detailsCheckedAt)}</> : null}</p>{product.fetchStatus === "error" && <p className="swt-error">{product.error || "Published details could not be refreshed."}{product.lastAttemptAt ? ` Last attempt: ${checkedTime(product.lastAttemptAt)}.` : ""}</p>}</div>
+                        </div></details>
+                        {mode === "backend" && (product.calendarSupported || product.availability) ? calendar(product) : null}
+                    </article>)}
+                </section>)}
+                {!filtered.length && <div className="swt-empty"><h3>No tours match these filters</h3><p>Try another search, activity, or duration.</p><button className="swt-outline" type="button" onClick={() => { setSearch(""); setCategory("all"); setDuration("all") }}>Clear filters</button></div>}
+            </div>
+            <details className="swt-catalog-details"><summary>About this directory</summary><p>Tour information is saved from operator websites; prices and schedules can change. {sort === "longest" ? "Longest-first ordering uses the upper end of a published duration range." : "Duration ordering uses the lower end of a published range, then its upper end."} Tours without verified numeric durations appear last in their activity group, or last overall when sorting by duration.</p><p>Catalog observation: {checkedTime(catalog.refreshedAt)}. {mode === "backend" ? "The configured backend can refresh source pages and supported calendars." : "This page loads a saved catalog, not a live inventory feed."}</p><button className="swt-text-button" type="button" disabled={loading || Boolean(checking)} onClick={() => load(Boolean(backend))}>{loading ? "Loading…" : backend ? "Refresh source pages" : "Reload saved details"}</button></details>
         </section>
-        <footer className="swt-footer"><strong>SEWARD TRAVEL OTA</strong><span>Independent catalog demo · Reservations stay with the operator</span></footer>
     </div>
 }
 
@@ -363,9 +485,10 @@ addPropertyControls(SewardTours, {
 })
 
 const CSS = `
-.swt-content{padding-top:30px}
-.swt-root{--ink:#203b3a;--ocean:#164a50;--muted:#68766d;--paper:#f7f6f0;--line:#dcdfd4;--copper:#a65a38;box-sizing:border-box;background:var(--paper);color:var(--ink);font:14px/1.5 Inter,"Segoe UI",Arial,sans-serif;container-type:inline-size;overflow:hidden;border-radius:6px}
-.swt-root *{box-sizing:border-box}.swt-root h1,.swt-root h2,.swt-root h3,.swt-root p{margin:0}.swt-root a{color:inherit}.swt-root button,.swt-root input,.swt-root select{font:inherit}.swt-root button,.swt-root summary{cursor:pointer}.swt-root button:disabled{cursor:wait;opacity:.55}.swt-root :focus-visible{outline:3px solid var(--copper);outline-offset:4px}.swt-header,.swt-hero,.swt-content,.swt-footer{width:calc(100% - 88px);max-width:1160px;margin-inline:auto}.swt-header{height:96px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}.swt-brand{font-size:24px;line-height:1;letter-spacing:3px;font-weight:750}.swt-brand span{display:block;font-size:9px;letter-spacing:3px;margin-top:8px}.swt-status{font-size:11px;border:1px solid #cbd3c7;border-radius:30px;padding:7px 12px;color:var(--muted);display:flex;align-items:center;gap:7px}.swt-status i{width:6px;height:6px;background:#78917b;border-radius:50%}.swt-hero{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center;padding-block:46px 50px}.swt-eyebrow{font-size:10px!important;font-weight:750;letter-spacing:1.8px;color:var(--copper);margin-bottom:13px!important}.swt-root h1{font-family:Georgia,serif;font-size:clamp(43px,5.8cqw,72px);font-weight:400;line-height:1.06;letter-spacing:-2.6px;margin-bottom:22px}.swt-root h1 em{color:var(--copper)}.swt-intro{font-size:14px;line-height:1.8;color:var(--muted);max-width:390px}.swt-art{border-radius:140px 140px 4px 4px;overflow:hidden;position:relative;aspect-ratio:1.35}.swt-art svg{width:100%;height:100%;display:block;object-fit:cover}.swt-art>span{position:absolute;bottom:17px;left:22px;color:#faf2dd;font-size:10px;letter-spacing:.3px}.swt-section-head{display:flex;justify-content:space-between;align-items:center;gap:24px;margin-bottom:22px}.swt-section-head .swt-eyebrow{margin-bottom:6px!important}.swt-root h2{font-family:Georgia,serif;font-weight:400;font-size:34px;line-height:1.2;letter-spacing:-.8px}.swt-outline{background:transparent;border:1px solid #b4c2b2;border-radius:4px;color:var(--ink);padding:11px 15px;min-height:43px;font-size:11px!important;font-weight:650!important}.swt-outline:hover:not(:disabled){background:#e9eee3}.swt-toolbar{display:flex;flex-wrap:wrap;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:5px;overflow:hidden}.swt-toolbar label{flex:1 1 145px;background:#fffefa;padding:15px 17px;min-width:0}.swt-toolbar label:first-child{flex:1.7 1 230px}.swt-toolbar label>span{display:block;font-size:8px;font-weight:700;letter-spacing:1px;color:var(--muted);margin-bottom:7px}.swt-toolbar input,.swt-toolbar select{width:100%;min-width:0;border:0;border-radius:2px;background:transparent;height:25px;color:var(--ink);font-size:12px}.swt-toolbar input::placeholder{color:#849180}.swt-meta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:7px;font-size:10px;color:var(--muted);margin:15px 0 11px}.swt-notice{font-size:11px;line-height:1.75;color:var(--muted);padding-bottom:18px!important;margin-bottom:20px!important;border-bottom:1px solid var(--line)}.swt-error-banner{font-size:12px;background:#f8e8df;color:#853f2a;padding:13px 16px!important;border-radius:4px;margin-bottom:20px!important}.swt-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:21px}.swt-card{display:flex;flex-direction:column;background:#fffefa;border:1px solid var(--line);border-radius:5px;padding:23px}.swt-card-top{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:19px}.swt-card-top>span:first-child{font-size:9px;text-transform:uppercase;color:var(--copper);font-weight:700;letter-spacing:.8px}.swt-card-top>span:last-child{font-size:10px;background:#eff1e8;color:#617369;border-radius:3px;padding:4px 7px}.swt-operator{font-size:11px;color:var(--muted);margin-bottom:5px!important}.swt-root h3{font:400 26px/1.18 Georgia,serif;letter-spacing:-.5px;margin-bottom:15px}.swt-facts{display:flex;flex-wrap:wrap;gap:7px 14px;font-size:12px;margin-bottom:10px}.swt-facts strong{font-weight:600}.swt-facts>span{color:var(--muted)}.swt-price-details{font-size:10px;color:var(--muted);margin-bottom:12px}.swt-price-details summary{width:fit-content}.swt-price-details p{padding:8px 0!important;line-height:1.7}.swt-check{font-size:10px;color:#7c8676;margin-bottom:14px!important}.swt-error{font-size:11px;color:#943d31;margin-bottom:12px!important;overflow-wrap:anywhere}.swt-calendar{margin-top:auto;background:#f1f4e9;border:1px solid #e1e7d8;border-radius:4px;padding:14px;margin-bottom:18px}.swt-calendar-heading{display:flex;justify-content:space-between;gap:15px;margin-bottom:8px;font-size:10px}.swt-calendar-heading strong{font-weight:700}.swt-calendar-heading>span{color:var(--muted);font-size:9px}.swt-calendar>p{font-size:11px;line-height:1.7;color:var(--muted);margin-bottom:7px}.swt-calendar>small{display:block;font-size:9px;color:var(--muted);margin-top:10px}.swt-calendar-button{background:none;border:0;border-bottom:1px solid #a7bca5;padding:5px 0;margin-top:7px;color:var(--ocean);font-size:11px!important;font-weight:600!important}.swt-departures{margin:0;padding:0;list-style:none;max-height:300px;overflow-y:auto}.swt-departures li{border-top:1px solid #dce4d3;padding:10px 0;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 10px;font-size:11px}.swt-departures strong{font-weight:600}.swt-departures small{display:block;color:var(--muted);font-size:10px;overflow-wrap:anywhere}.swt-count,.swt-unknown{align-self:start;padding:3px 6px;background:#dce9d4;color:#345939;border-radius:3px;font-size:9px;white-space:nowrap}.swt-unknown{background:#e4e8dc;color:#6b7561}.swt-departures details{grid-column:1/-1;font-size:9px;color:var(--muted)}.swt-departures details p{white-space:pre-wrap;overflow-wrap:anywhere;background:#fafbf6;padding:8px!important;margin-top:5px!important}.swt-card-footer{display:flex;justify-content:space-between;align-items:center;gap:12px}.swt-card-footer a{font-size:10px;text-decoration:none}.swt-card-footer a:hover{text-decoration:underline;text-underline-offset:3px}.swt-card-footer .swt-book{background:var(--ocean);color:#fffef6;border-radius:4px;padding:11px 13px;font-weight:600}.swt-bottom-note{font-size:10px;line-height:1.8;color:var(--muted);margin:20px 0 35px!important}.swt-footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:15px;padding-block:25px;border-top:1px solid var(--line);font-size:9px;color:var(--muted)}.swt-footer strong{color:var(--ink);font-size:9px;letter-spacing:1px}.swt-empty{grid-column:1/-1;text-align:center;border:1px dashed #bccab1;padding:40px 20px;border-radius:5px}.swt-empty p{color:var(--muted);font-size:12px;margin-bottom:20px}.swt-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-@container(max-width:760px){.swt-header,.swt-hero,.swt-content,.swt-footer{width:calc(100% - 44px)}.swt-header{height:82px}.swt-brand{font-size:20px}.swt-status{font-size:9px}.swt-hero{gap:24px;padding-block:33px}.swt-root h1{font-size:48px}.swt-intro{font-size:12px}.swt-art{aspect-ratio:.95}.swt-art svg{width:140%;max-width:none;transform:translateX(-12%)}.swt-art>span{font-size:8px;left:13px;bottom:13px}.swt-root h2{font-size:29px}.swt-outline{font-size:10px!important;padding:9px 12px}.swt-card{padding:18px}.swt-root h3{font-size:23px}.swt-card-footer{flex-wrap:wrap}.swt-card-footer .swt-book{width:100%;text-align:center}.swt-departures li{grid-template-columns:1fr}.swt-count,.swt-unknown{justify-self:start}.swt-card-top>span:first-child{font-size:8px}.swt-calendar-heading{flex-wrap:wrap;gap:3px}}
-@container(max-width:530px){.swt-header,.swt-hero,.swt-content,.swt-footer{width:calc(100% - 36px)}.swt-header{height:76px}.swt-hero{display:block;padding-block:32px}.swt-root h1{font-size:53px;margin-bottom:17px}.swt-intro{max-width:320px}.swt-art{margin-top:23px;height:190px;aspect-ratio:auto;border-radius:100px 100px 3px 3px}.swt-art svg{width:100%;height:100%;transform:none}.swt-art>span{left:17px;bottom:12px}.swt-section-head{align-items:flex-start;gap:14px}.swt-root h2{font-size:28px}.swt-section-head .swt-outline{max-width:125px;align-self:center;line-height:1.5}.swt-eyebrow{font-size:8px!important}.swt-toolbar label:first-child{flex-basis:100%}.swt-toolbar label{flex-basis:110px;padding:12px}.swt-toolbar label>span{font-size:7px}.swt-grid{grid-template-columns:1fr;gap:16px}.swt-card{padding:21px}.swt-root h3{font-size:27px}.swt-card-footer{flex-wrap:nowrap}.swt-card-footer .swt-book{width:auto}.swt-departures li{grid-template-columns:minmax(0,1fr) auto}.swt-calendar-heading{flex-wrap:nowrap}.swt-card-top>span:first-child{font-size:9px}.swt-meta{font-size:9px}.swt-footer{font-size:8px}.swt-brand{font-size:19px}.swt-status{font-size:8px;padding:6px 9px}}
+.swt-root{--ink:#102f47;--muted:#63717c;--line:#dfe5e9;--subtle:#f6f8f9;box-sizing:border-box;background:#fff;color:var(--ink);font:15px/1.6 Inter,"Segoe UI",Arial,sans-serif;container-type:inline-size;overflow:hidden}
+.swt-root *{box-sizing:border-box}.swt-root h2,.swt-root h3,.swt-root h4,.swt-root h5,.swt-root p,.swt-root dl,.swt-root dd{margin:0}.swt-root h2,.swt-root h3,.swt-root h4,.swt-root h5{font-family:inherit;color:var(--ink)}.swt-root a{color:var(--ink)}.swt-root button,.swt-root input,.swt-root select{font:inherit}.swt-root button,.swt-root summary{cursor:pointer}.swt-root button:disabled{cursor:wait;opacity:.55}.swt-root :focus-visible{outline:3px solid #2d658c;outline-offset:4px}.swt-content{width:calc(100% - 88px);max-width:1180px;margin:auto;padding:48px 0 40px}.swt-section-head{margin-bottom:23px}.swt-section-head h2{font-size:32px;font-weight:650;line-height:1.2;letter-spacing:-.8px}.swt-section-head>p{color:var(--muted);font-size:15px;line-height:1.7;margin-top:11px}.swt-categories{display:flex;gap:26px;overflow-x:auto;border-bottom:1px solid var(--line);margin-bottom:25px;scrollbar-width:thin}.swt-categories button{flex-shrink:0;border:0;border-bottom:2px solid transparent;background:transparent;color:var(--muted);padding:13px 0;font-size:14px;line-height:1.4;white-space:nowrap}.swt-categories button:hover{color:var(--ink)}.swt-categories button[aria-pressed=true]{color:var(--ink);border-bottom-color:var(--ink);font-weight:650}.swt-toolbar{display:flex;flex-wrap:wrap;gap:18px}.swt-toolbar>label{flex:1 1 165px;min-width:0}.swt-toolbar>.swt-search{flex:1.9 1 240px}.swt-toolbar label>span{display:block;color:#465866;font-size:12px;font-weight:600;margin-bottom:7px}.swt-toolbar input,.swt-toolbar select{display:block;width:100%;height:46px;padding:10px 13px;border:1px solid #cbd5dc;border-radius:3px;background:#fff;color:var(--ink);font-size:14px}.swt-toolbar input::placeholder{color:#85929b}.swt-toolbar select{cursor:pointer}.swt-filter-help{font-size:12px;color:var(--muted);margin-top:11px!important}.swt-results{display:flex;justify-content:space-between;align-items:baseline;gap:24px;padding:21px 0 25px}.swt-results>span{font-size:13px;font-weight:600;white-space:nowrap}.swt-results>p{font-size:12px;color:var(--muted);text-align:right;max-width:650px}.swt-error-banner{background:#fbf5ef;color:#714c2e;border-left:3px solid #c19364;padding:13px 16px;font-size:13px;margin-bottom:22px}.swt-error-banner details{font-size:12px;margin-top:6px}.swt-error-banner details p{margin-top:6px;overflow-wrap:anywhere}.swt-list{width:100%}.swt-group+.swt-group{margin-top:30px}.swt-group-heading{display:flex;gap:14px;align-items:baseline;padding:0 0 14px;border-bottom:1px solid #aebdc8}.swt-group-heading h3{font-size:18px;line-height:1.4;font-weight:650;letter-spacing:-.2px}.swt-group-heading>span{color:#7c8992;font-size:12px}.swt-row{padding:27px 0 22px;border-bottom:1px solid var(--line)}.swt-row-main{display:grid;grid-template-columns:minmax(0,1fr) 135px 185px 157px;gap:26px;align-items:start}.swt-operator{color:#607789;font-size:12px;font-weight:550;margin-bottom:7px!important}.swt-row-copy h3,.swt-row-copy h4{font-size:21px;font-weight:650;line-height:1.35;letter-spacing:-.3px}.swt-description{font-size:14px;line-height:1.7;color:var(--muted);margin-top:11px!important;max-width:590px}.swt-row dl{padding-top:1px}.swt-row dt{font-size:11px;font-weight:600;letter-spacing:.2px;color:#73818b;margin-bottom:9px}.swt-row dd{font-size:14px;font-weight:550;line-height:1.6;color:var(--ink);overflow-wrap:anywhere}.swt-duration dd{font-size:15px}.swt-action{padding-top:2px;text-align:center}.swt-book{display:flex;align-items:center;justify-content:space-between;gap:17px;background:#12374f;color:#fff!important;min-height:44px;padding:11px 14px;border-radius:3px;text-decoration:none;font-size:13px;font-weight:600;white-space:nowrap}.swt-book:hover{background:#204e6b}.swt-action>span{display:block;color:#82909a;font-size:10px;margin-top:8px}.swt-operator-details{margin-top:17px}.swt-operator-details>summary{width:fit-content;color:#637988;font-size:12px;list-style:none;display:flex;align-items:center;gap:8px}.swt-operator-details>summary:before{content:'+';font-size:16px;font-weight:400;line-height:1}.swt-operator-details[open]>summary:before{content:'−'}.swt-operator-details>summary::-webkit-details-marker{display:none}.swt-operator-details>summary:hover{color:var(--ink)}.swt-details-body{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:28px;background:var(--subtle);padding:20px 22px;margin-top:13px;font-size:12px;line-height:1.8;color:var(--muted)}.swt-details-body h5{font-size:12px;font-weight:650;margin-bottom:7px}.swt-details-body a{text-underline-offset:3px}.swt-detail-note{margin-top:8px!important;font-size:11px;color:#788590}.swt-source-warning,.swt-error{color:#885832;font-size:12px;margin-top:12px!important;overflow-wrap:anywhere}.swt-catalog-details{margin-top:27px;font-size:12px;color:var(--muted)}.swt-catalog-details>summary{width:fit-content}.swt-catalog-details>p{line-height:1.8;margin-top:12px;max-width:830px}.swt-text-button{background:transparent;border:0;border-bottom:1px solid #a6b6c2;color:var(--ink);font-size:12px!important;margin-top:13px;padding:2px 0}.swt-outline{border:1px solid #b8c7d1;background:#fff;color:var(--ink);border-radius:3px;min-height:42px;padding:9px 15px;font-size:13px!important}.swt-outline:hover{background:var(--subtle)}.swt-empty{text-align:center;padding:48px 20px;border-block:1px solid var(--line)}.swt-empty h3{font-size:20px;font-weight:600}.swt-empty p{font-size:14px;color:var(--muted);margin:10px 0 20px}.swt-calendar{padding:17px 20px;background:var(--subtle);border:1px solid var(--line);margin-top:18px;font-size:12px;max-width:760px}.swt-calendar-heading{display:flex;justify-content:space-between;gap:16px;font-size:12px;margin-bottom:10px}.swt-calendar-heading>span,.swt-calendar>p,.swt-calendar>small{color:var(--muted)}.swt-calendar>small{display:block;font-size:11px;margin-top:9px}.swt-calendar-button{border:0;border-bottom:1px solid #9eb5c5;background:transparent;color:var(--ink);font-size:12px!important;padding:4px 0;margin-top:10px}.swt-departures{list-style:none;padding:0;margin:0;max-height:300px;overflow:auto}.swt-departures li{padding:11px 0;border-top:1px solid var(--line);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 15px;font-size:12px}.swt-departures small{display:block;color:var(--muted);font-size:11px;overflow-wrap:anywhere}.swt-count,.swt-unknown{font-size:11px;font-weight:600}.swt-unknown{color:var(--muted);font-weight:400}.swt-departures details{grid-column:1/-1;font-size:11px;color:var(--muted)}.swt-departures details p{padding:8px 10px;background:#fff;white-space:pre-wrap;overflow-wrap:anywhere;margin-top:5px}.swt-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@container(max-width:1000px){.swt-content{width:calc(100% - 64px)}.swt-row-main{grid-template-columns:minmax(0,1fr) 115px 145px 140px;gap:19px}.swt-row-copy h3,.swt-row-copy h4{font-size:20px}.swt-book{padding-inline:12px;font-size:12px;gap:12px}.swt-details-body{gap:20px;padding:18px}.swt-description{font-size:13px}.swt-row dd{font-size:13px}.swt-categories{gap:23px}}
+@container(max-width:780px){.swt-content{width:calc(100% - 44px);padding-top:34px}.swt-section-head h2{font-size:29px}.swt-section-head>p{font-size:14px}.swt-row-main{grid-template-columns:minmax(0,1fr) 160px;gap:18px 25px}.swt-row-copy{grid-column:1;grid-row:1/span 2}.swt-duration{grid-column:2}.swt-price{grid-column:2}.swt-action{grid-column:1/-1;text-align:left;display:flex;align-items:center;gap:15px}.swt-action .swt-book{width:150px}.swt-action>span{margin:0;font-size:11px}.swt-row dt{margin-bottom:5px}.swt-row dd{font-size:14px}.swt-row-copy h3,.swt-row-copy h4{font-size:21px}.swt-description{font-size:14px}.swt-details-body{grid-template-columns:1fr 1fr}.swt-details-body>div:last-child{grid-column:1/-1}.swt-results{display:block}.swt-results>p{text-align:left;margin-top:7px}.swt-toolbar{gap:15px}.swt-toolbar>.swt-search{flex-basis:100%}.swt-operator-details{margin-top:14px}}
+@container(max-width:530px){.swt-content{width:calc(100% - 36px);padding:28px 0 30px}.swt-section-head h2{font-size:27px;letter-spacing:-.6px}.swt-section-head>p{font-size:14px}.swt-categories{gap:22px;margin-bottom:20px}.swt-categories button{font-size:13px;padding:12px 0}.swt-toolbar{gap:14px 12px}.swt-toolbar>label{flex:1 1 130px}.swt-toolbar input,.swt-toolbar select{font-size:13px;padding-inline:10px}.swt-toolbar label>span{font-size:11px}.swt-results{padding-block:18px 23px}.swt-results>p{font-size:12px;line-height:1.7}.swt-group-heading{padding-bottom:12px}.swt-group-heading h3{font-size:17px}.swt-row{padding:23px 0 21px}.swt-row-main{display:flex;flex-wrap:wrap;gap:20px 26px}.swt-row-copy{width:100%}.swt-row-copy h3,.swt-row-copy h4{font-size:22px;line-height:1.3}.swt-operator{font-size:12px}.swt-description{font-size:14px;line-height:1.7;margin-top:9px!important}.swt-duration{flex:1 1 100px}.swt-price{flex:1.5 1 155px}.swt-row dt{font-size:11px}.swt-row dd{font-size:14px}.swt-action{width:100%;display:block}.swt-action .swt-book{width:100%;font-size:14px;min-height:46px}.swt-action>span{text-align:center;margin-top:7px;font-size:11px}.swt-details-body{grid-template-columns:1fr;padding:17px;gap:18px}.swt-details-body>div:last-child{grid-column:auto}.swt-group+.swt-group{margin-top:28px}.swt-catalog-details{font-size:11px}.swt-calendar{padding:14px}.swt-departures li{grid-template-columns:1fr}.swt-count,.swt-unknown{justify-self:start}}
+@container(max-width:530px){.swt-categories{flex-wrap:wrap;gap:0 18px;overflow-x:visible}.swt-toolbar>.swt-sort{flex-basis:100%}}
 `

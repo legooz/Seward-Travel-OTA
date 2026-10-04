@@ -1,20 +1,35 @@
 # Framer catalog component
 
-`SewardTours.tsx` is a self-contained React 18-compatible Framer code component with Seward Travel OTA branding, search, activity/platform filters, advertised prices and caveats, source timestamps, and operator booking links. It includes a compact header and footer; the main page hero stays in Framer. Its root anchor is `seward-tours`.
+`SewardTours.tsx` is a self-contained React 18-compatible Framer code component with one full-width tour listing per row, activity categories, duration filters, search, duration sorting, advertised prices, and operator booking links. The native page hero stays in Framer. Its root anchor is `seward-tours`.
 
 ## Current data connection
 
-By default, the component fetches the [public saved catalog JSON](https://raw.githubusercontent.com/legooz/Seward-Travel-OTA/main/data/catalog.json). **Reload saved catalog** downloads that file again; it does not scrape an operator or refresh inventory.
+By default, the component fetches the [public saved catalog JSON](https://raw.githubusercontent.com/legooz/Seward-Travel-OTA/main/data/catalog.json). Loading the file does not scrape an operator or refresh inventory. The visitor-facing directory keeps technical data-source information out of the primary listing flow.
 
 Six real operator records are embedded as a fallback while the request loads or if it fails: Miller’s Landing, Seward Ocean Excursions, Kayak Adventures Worldwide, Seward Helicopter Tours, Sunny Cove Kayaking, and Adventure Sixty North. The embedded snapshot retains its original October 3, 2026 Alaska-time observations. Errors are displayed, and previous observations remain visible.
 
-This default mode has no public live scraper or live seat inventory. It does not use availability values from the saved JSON, and it hides calendar dates because no live date check is connected. Advertised prices are not checkout quotes; visitors finish booking on the operator’s website.
+This default mode has no public live scraper or live seat inventory. It does not use availability values from the saved JSON. A section-level note directs visitors to confirm availability with the operator. Advertised prices are not checkout quotes; visitors finish booking on the operator’s website.
+
+## Website-informed durations
+
+The six descriptions and duration fields were reviewed against each record's official `sourceUrl`; evidence and a separate `detailsCheckedAt` are retained in `data/operators.json` and exposed in the listing's operator details. Catalog refreshes preserve that review date rather than claiming summaries were newly reviewed with each price fetch.
+
+- Seward Helicopter Tours: approximately 90 minutes; early arrival is additional.
+- Seward Ocean Excursions: 3.5 hours, explicitly published for the half-day tour.
+- Adventure Sixty North: 3–4 hours door to door; the shorter paddling estimate is not total trip time.
+- Kayak Adventures Worldwide: 4 hours calculated from its three published start/end windows, displayed as **scheduled**. Its 2–2.5-hour paddling estimate is not the whole tour.
+- Sunny Cove: **Half day**. Published tour windows and the detailed check-in-to-return itinerary differ, so no numeric duration is asserted.
+- Miller's Landing: **Full day**. Departure timing changes seasonally, so no single numeric duration is asserted.
+
+Numeric duration filters and sorting use explicit published hours or clearly labeled schedule calculations. Day labels remain available as filters without converting them into invented hour counts. Numeric ranges must fit inside the selected hour band; unknown numeric durations sort after known values.
 
 ## Add or update in Framer
 
 The component is installed on the Home page of the [Seward Travel OTA Framer project](https://framer.com/projects/Seward-Travel-OTA--A33lhKdvf8vZbhWz3M9d-1b3iI). The saved draft includes Seward hero copy, the NPS glacier photo credited in `public/images/CREDITS.md`, updated homepage metadata, and the catalog below the hero. Generic template sections and shared navigation/footer are hidden, not deleted. Other template pages have not been rewritten. No public Framer publish was performed.
 
-Verified in Framer preview: the public JSON loaded six experiences; Kayaking filtered to three; Kayaking plus Resmark filtered to one; a Miller search returned Miller’s Landing; the hero anchor reached the catalog; and the catalog fit a 390-pixel phone preview without horizontal overflow. TSX transpilation also passed.
+Validate each update in Framer preview: all six listings, category/search/duration controls, shortest and longest sort order, operator links, the hero anchor, and the 390-pixel phone layout. The component is also checked for TSX compilation and duration-filter behavior before delivery.
+
+The current revision was checked in Framer: Kayaking returned three tours; Kayaking plus 2–4 hours returned two in the expected longest-first order; shortest-first ordered all four numeric durations before the two day-label records; search and unspecified-hours filtering worked; and the 390-pixel preview had no page or category-bar horizontal overflow. The 45 backend tests and focused component duration/sorting/price/snapshot checks passed.
 
 1. Open **Assets → Code → Create Code File**, or open the existing component code file.
 2. Paste the complete contents of `SewardTours.tsx` and save.
