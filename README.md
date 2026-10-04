@@ -1,6 +1,6 @@
 # Seward Travel OTA
 
-**A working local tour dashboard with real catalog data from six Seward operators.** Search and filter products, refresh their public pages, inspect the source and capture time, and open the operator's booking page. Four FareHarbor products have a browser-based check for a selected calendar date; Rezdy and Resmark products link to their booking providers.
+**A Seward travel directory with six tours, three lodging properties, and three transportation providers.** Search and filter listings, inspect their official sources and review dates, and continue to the provider. The six tour pages support catalog refresh; four FareHarbor products also have a browser-based check for a selected calendar date.
 
 The catalog has been refreshed successfully from all six real public sources. The app does not process bookings or payments, and no supplier API is connected. Exact remaining seats have not yet been verified: a visible departure or an “Available” label is not a numeric seat count or confirmation that a particular party can book.
 
@@ -17,7 +17,7 @@ npm start
 
 Open [http://127.0.0.1:3000](http://127.0.0.1:3000). The server binds to the local computer only. Search or filter the catalog, refresh source data, then choose a date and check a supported calendar. **July 15, 2027** is the future-season demonstration date; it is a date to inspect, not a promise that inventory exists.
 
-The initial catalog is a saved real scrape. Refreshing makes new public-page requests and updates each successful product's capture time. A failed catalog fetch retains the previous values and timestamp while reporting the error. Advertised prices can change and may exclude fees; they are not checkout quotes.
+The initial catalog combines saved tour scrapes with source-reviewed lodging and transportation records in `data/vendors.json`. Refreshing requests the six configured tour pages and updates each successful tour's capture time. It preserves the manually reviewed vendor facts and their original timestamps. A failed catalog fetch retains previous values and reports the error. Advertised prices can change and may exclude fees; they are not checkout quotes. Hotel rates and room availability require stay dates on the provider's site.
 
 ## Guides and integration research
 

@@ -87,9 +87,39 @@ test('missing cache is unverified metadata with null scraped values', async () =
   try {
     const result = await loadCatalog({ cachePath: join(directory, 'missing.json') });
     assert.equal(result.refreshedAt, null);
-    assert.ok(result.products.every(item => item.checkedAt === null && item.priceText === null && item.fetchStatus === 'error'));
+    assert.ok(result.products.filter(item => item.listingType === 'tour').every(item => item.checkedAt === null && item.priceText === null && item.fetchStatus === 'error'));
+    const reviewed = result.products.filter(item => item.sourceMode === 'website-review');
+    assert.equal(reviewed.length, 6);
+    assert.ok(reviewed.every(item => item.checkedAt && item.calendarSupported === false));
     const target = getOperator('millers-landing-halibut'); target.sourceUrl = 'https://example.com/changed';
     assert.notEqual(getOperator('millers-landing-halibut').sourceUrl, target.sourceUrl);
     assert.equal(getOperator('not-a-target'), undefined);
+  } finally { await rm(directory, { recursive: true, force: true }); }
+});
+
+test('lodging and transportation stay source-reviewed without fresh inventory claims', async () => {
+  const directory = await mkdtemp(join(tmpdir(), 'seward-vendors-'));
+  const cachePath = join(directory, 'catalog.json');
+  try {
+    const before = await loadCatalog({ cachePath });
+    const vendors = before.products.filter(item => item.sourceMode === 'website-review');
+    const lodging = vendors.filter(item => item.listingType === 'lodging');
+    assert.equal(lodging.length, 3);
+    assert.ok(lodging.every(item => item.priceText === null && item.durationMinutesMin === null && item.bookingAction === 'rates'));
+    const taxi = getOperator('pjs-taxi-seward');
+    assert.equal(taxi.priceText, null);
+    assert.equal(taxi.durationMinutesMin, null);
+    assert.equal(taxi.bookingAction, 'contact');
+    let requests = 0;
+    const after = await refreshCatalog({ cachePath, clock: () => Date.parse('2026-10-05T20:00:00Z'), fetchImpl: async url => {
+      requests++;
+      assert.ok(!vendors.some(item => item.sourceUrl === url));
+      return new Response('offline', { status: 503 });
+    } });
+    assert.equal(requests, 6);
+    assert.equal(after.products.length, 12);
+    assert.equal(new Set(after.products.map(item => item.id)).size, 12);
+    assert.deepEqual(after.products.filter(item => item.sourceMode === 'website-review'), vendors);
+    assert.ok(vendors.every(item => item.inventoryUnit === null && item.calendarSupported === false && !item.availability));
   } finally { await rm(directory, { recursive: true, force: true }); }
 });

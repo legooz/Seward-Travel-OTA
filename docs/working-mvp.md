@@ -1,6 +1,6 @@
 # Working Seward Travel OTA dashboard
 
-The app now displays a real catalog from six Seward operators. Its catalog collector has successfully fetched all six public product pages and saved the extracted facts. A live check of all four configured FareHarbor products returned 13 departure entries for July 15, 2027. None published an explicit remaining-seat count. Rezdy and Resmark calendar extraction is not implemented.
+The app displays six tours, three lodging properties, and three transportation providers, all linked to official sources. The tour collector has successfully fetched all six configured product pages. A live check of all four FareHarbor products returned 13 departure entries for July 15, 2027. None published an explicit remaining-seat count. Rezdy and Resmark calendar extraction is not implemented.
 
 This is a discovery and referral MVP. It has no checkout, payment processing, confirmed reservations, supplier API connection, or production hosting.
 
@@ -33,6 +33,21 @@ Five additional operators are included:
 | [Adventure Sixty North — Tonsina Point Kayak](https://adventure60.com/kayaking/tonsina-point-resurrection-bay-kayaking-adventure/) | FareHarbor | Adult rate, duration, booking link; browser date check supported. |
 
 Platform labels come from product-specific booking links in the operator HTML. Prices are raw advertised wording, with a separate `priceCaveat` where relevant. They may exclude fees, vary by participant type, or change before checkout. These catalog facts do not establish live remaining capacity.
+
+## Lodging and transportation
+
+Six source-reviewed directory records are maintained in `data/vendors.json`. They are merged into the saved catalog and API response; tour refreshes preserve their facts and review dates without fetching these providers or checking their inventory.
+
+| Provider | Directory details |
+| --- | --- |
+| [Harbor 360 Hotel](https://harbor360hotel.com/) | Waterfront hotel beside Seward's Small Boat Harbor; official room and reservation links. |
+| [Hotel Seward](https://hotelsewardalaska.com/) | Downtown hotel; official accommodation and reservation links. |
+| [Seward Windsong Lodge](https://www.alaskacollection.com/lodging/seward-windsong-lodge/) | Seasonal lodge near Seward in the Exit Glacier Valley; published 2027 season May 13–September 14. |
+| [Alaska Railroad Coastal Classic](https://alaskarailroad.com/ride-a-train/our-trains/coastal-classic) | Anchorage–Girdwood–Seward train; published 2027 fare, season, and timetable. Direction-dependent travel time is calculated from the timetable. |
+| [Park Connection Seward Express](https://www.alaskacoach.com/routes/seward-express/) | Anchorage–Seward coach; published 2027 fare and timetable. Its prose and timetable disagree on the northbound departure, so visitors are directed to confirm it. |
+| [PJS Taxi & Tours](https://www.pjstaxi.net/) | Local/private transportation; contact the provider for a route, quote, and pickup time. No price or travel duration is invented. |
+
+Hotel listings use stay dates rather than trip-duration filters. Room rates remain unknown until the visitor selects dates and room type with the property. Train and coach CTAs open schedules, with booking links retained in source details. Taxi is contact-only. None of these records claims live rooms, seats, or a supplier partnership.
 
 ## Deterministic collection
 

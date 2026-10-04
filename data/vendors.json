@@ -1,0 +1,268 @@
+[
+  {
+    "id": "harbor-360-hotel",
+    "operator": "Harbor 360 Hotel",
+    "name": "Harbor 360 Hotel",
+    "listingType": "lodging",
+    "category": "Lodging",
+    "subcategory": "Hotel",
+    "serviceLabel": "Hotel in Seward",
+    "locationText": "1412 4th Avenue, Seward, AK 99664; beside the Seward Small Boat Harbor",
+    "description": "Stay beside Seward's small boat harbor in a locally owned hotel with harbor or mountain views, complimentary breakfast, a swimming pool, and a hot tub.",
+    "sourceUrl": "https://harbor360hotel.com/",
+    "bookingUrl": "https://us01.iqwebbook.com/H360HAK651/",
+    "bookingAction": "rates",
+    "platform": "direct",
+    "sourceMode": "website-review",
+    "priceText": null,
+    "priceCaveat": "Check the official booking page for rates for your dates and room choice. No nightly quote was retrieved.",
+    "durationText": null,
+    "durationLabel": "Stay dates",
+    "durationMinutesMin": null,
+    "durationMinutesMax": null,
+    "serviceEvidence": "Check-in 4:00 PM; checkout 11:00 AM. The official homepage and rooms page link Book Now to this IQWebBook property URL. Its JavaScript booking page provides no static inventory or rate evidence.",
+    "serviceNotes": "Open year-round. The rooms page separately lists an annual pool closure October 18–25.",
+    "sourceReferences": [
+      {
+        "label": "Property website",
+        "url": "https://harbor360hotel.com/"
+      },
+      {
+        "label": "Rooms and policies",
+        "url": "https://harbor360hotel.com/rooms/"
+      }
+    ],
+    "checkedAt": "2026-10-04T04:14:34.000Z",
+    "detailsCheckedAt": "2026-10-04T04:14:34.000Z",
+    "lastAttemptAt": "2026-10-04T04:14:34.000Z",
+    "fetchStatus": "ok",
+    "calendarSupported": false,
+    "inventoryUnit": null
+  },
+  {
+    "id": "hotel-seward",
+    "operator": "Hotel Seward",
+    "name": "Hotel Seward",
+    "listingType": "lodging",
+    "category": "Lodging",
+    "subcategory": "Hotel",
+    "serviceLabel": "Hotel in downtown Seward",
+    "locationText": "221 Fifth Avenue, Seward, AK 99664; historic downtown Seward",
+    "description": "Stay in historic downtown Seward at a hotel established in 1905, near the Alaska SeaLife Center, the Seward museum, restaurants, and shops.",
+    "sourceUrl": "https://hotelsewardalaska.com/",
+    "bookingUrl": "https://res.windsurfercrs.com/ibe/index.aspx?lang=en-us&nono=1&propertyID=17694",
+    "bookingAction": "rates",
+    "platform": "direct",
+    "sourceMode": "website-review",
+    "priceText": null,
+    "priceCaveat": "Check the official booking page for rates for your dates, occupancy, and room choice. No nightly quote was retrieved.",
+    "durationText": null,
+    "durationLabel": "Stay dates",
+    "durationMinutesMin": null,
+    "durationMinutesMax": null,
+    "serviceEvidence": "Check-in 4:00 PM; checkout 11:00 AM. The main official Book Now navigation points to this Windsurfer page, which identifies Hotel Seward and its Fifth Avenue address. A separate footer booking link uses another provider; use the verified main navigation target.",
+    "serviceNotes": "Confirm operating dates and stay policies with the hotel.",
+    "sourceReferences": [
+      {
+        "label": "Property website",
+        "url": "https://hotelsewardalaska.com/"
+      },
+      {
+        "label": "Rooms and policies",
+        "url": "https://hotelsewardalaska.com/accommodations"
+      },
+      {
+        "label": "Official booking page",
+        "url": "https://res.windsurfercrs.com/ibe/index.aspx?lang=en-us&nono=1&propertyID=17694"
+      }
+    ],
+    "checkedAt": "2026-10-04T04:14:34.000Z",
+    "detailsCheckedAt": "2026-10-04T04:14:34.000Z",
+    "lastAttemptAt": "2026-10-04T04:14:34.000Z",
+    "fetchStatus": "ok",
+    "calendarSupported": false,
+    "inventoryUnit": null
+  },
+  {
+    "id": "seward-windsong-lodge",
+    "operator": "Seward Windsong Lodge",
+    "name": "Seward Windsong Lodge",
+    "listingType": "lodging",
+    "category": "Lodging",
+    "subcategory": "Lodge",
+    "serviceLabel": "Lodge near Seward",
+    "locationText": "31772 Herman Leirer Road, Seward, AK 99664; Exit Glacier Valley, three miles from downtown Seward",
+    "description": "Stay beside Resurrection River in Exit Glacier Valley, with lodge accommodations, on-site dining, and a setting near Seward and Kenai Fjords National Park.",
+    "sourceUrl": "https://www.alaskacollection.com/lodging/seward-windsong-lodge/",
+    "bookingUrl": "https://www.alaskacollection.com/lodging/seward-windsong-lodge/",
+    "bookingAction": "rates",
+    "platform": "direct",
+    "sourceMode": "website-review",
+    "priceText": null,
+    "priceCaveat": "Check the official Rates & Availability control for your stay dates and room choice. No nightly quote was retrieved.",
+    "durationText": null,
+    "durationLabel": "Stay dates",
+    "durationMinutesMin": null,
+    "durationMinutesMax": null,
+    "serviceEvidence": "Check-in 4:00 PM; checkout 11:00 AM. Use the official lodge details page and its Rates & Availability control. The control resolved to this same page in the public document; no unverified booking-engine URL is supplied.",
+    "serviceNotes": "2026 season: May 14–September 15. 2027 season: May 13–September 14.",
+    "sourceReferences": [
+      {
+        "label": "Property website",
+        "url": "https://www.alaskacollection.com/lodging/seward-windsong-lodge/"
+      },
+      {
+        "label": "Location and directions",
+        "url": "https://www.alaskacollection.com/lodging/seward-windsong-lodge/getting-here/"
+      },
+      {
+        "label": "Lodge FAQs",
+        "url": "https://www.alaskacollection.com/lodging/seward-windsong-lodge/faqs/"
+      }
+    ],
+    "checkedAt": "2026-10-04T04:14:34.000Z",
+    "detailsCheckedAt": "2026-10-04T04:14:34.000Z",
+    "lastAttemptAt": "2026-10-04T04:14:34.000Z",
+    "fetchStatus": "ok",
+    "calendarSupported": false,
+    "inventoryUnit": null
+  },
+  {
+    "id": "alaska-railroad-coastal-classic",
+    "operator": "Alaska Railroad",
+    "name": "Coastal Classic Train",
+    "listingType": "transportation",
+    "category": "Transportation",
+    "subcategory": "Train",
+    "serviceLabel": "Seasonal scheduled train",
+    "locationText": "Anchorage – Girdwood – Seward",
+    "description": "Travel between Anchorage and Seward via Girdwood, following Turnagain Arm and mountain backcountry, with Adventure Class or GoldStar service and onboard dining available.",
+    "sourceUrl": "https://alaskarailroad.com/ride-a-train/our-trains/coastal-classic",
+    "bookingUrl": "https://alaskarailroad.com/ride-a-train/schedules",
+    "bookingAction": "schedule",
+    "platform": "direct",
+    "sourceMode": "website-review",
+    "priceText": "$133 per adult, one-way Adventure Class, Anchorage–Seward, 2027 season",
+    "priceCaveat": "Published 2027 adult one-way Adventure Class fare for Anchorage to Seward or Seward to Anchorage; child ages 2–11 is $67. GoldStar is a separate fare. Not a checkout quote.",
+    "durationText": "Anchorage to Seward: 4 hr 35 min; Seward to Anchorage: 4 hr 15 min (calculated from the published 2027 timetable)",
+    "durationLabel": "4 hr 15–35 min (scheduled)",
+    "durationMinutesMin": 255,
+    "durationMinutesMax": 275,
+    "durationBasis": "schedule",
+    "durationEvidence": "Anchorage departs 6:45 AM; Seward arrives 11:20 AM. Seward departs 6:00 PM; Anchorage arrives 10:15 PM. These calculations apply to the full Anchorage–Seward route, not the shorter Girdwood legs.",
+    "serviceEvidence": "Daily seasonal service May 14–September 12, 2027, according to the official Coastal Classic schedule. Travel times and fares shown apply to the full Anchorage–Seward route.",
+    "serviceNotes": "Daily seasonal service May 14–September 12, 2027, according to the official Coastal Classic schedule.",
+    "sourceReferences": [
+      {
+        "label": "Service details",
+        "url": "https://alaskarailroad.com/ride-a-train/our-trains/coastal-classic"
+      },
+      {
+        "label": "2027 timetable",
+        "url": "https://alaskarailroad.com/ride-a-train/schedules"
+      },
+      {
+        "label": "2027 fares",
+        "url": "https://alaskarailroad.com/ride-a-train/fares"
+      },
+      {
+        "label": "Official booking page",
+        "url": "https://alaskarailroad.com/ride-a-train/buy-tickets/coastal-classic"
+      }
+    ],
+    "checkedAt": "2026-10-04T04:14:34.000Z",
+    "detailsCheckedAt": "2026-10-04T04:14:34.000Z",
+    "lastAttemptAt": "2026-10-04T04:14:34.000Z",
+    "fetchStatus": "ok",
+    "calendarSupported": false,
+    "inventoryUnit": null
+  },
+  {
+    "id": "park-connection-seward-express",
+    "operator": "Park Connection Motorcoach",
+    "name": "Seward Express",
+    "listingType": "transportation",
+    "category": "Transportation",
+    "subcategory": "Coach",
+    "serviceLabel": "Seasonal scheduled motorcoach",
+    "locationText": "Anchorage – Seward",
+    "description": "Ride a scheduled motorcoach between Anchorage and Seward, with one daily trip in each direction during summer and pickups and drop-offs in both destinations.",
+    "sourceUrl": "https://www.alaskacoach.com/routes/seward-express/",
+    "bookingUrl": "https://www.alaskacoach.com/schedules/",
+    "bookingAction": "schedule",
+    "platform": "direct",
+    "sourceMode": "website-review",
+    "priceText": "$80 per adult, one-way Anchorage–Seward, 2027 season",
+    "priceCaveat": "Official 2027 one-way route rate in either direction: adult age 12+ $80; child age 0–11 $40. Not a checkout quote.",
+    "durationText": "Anchorage to Seward: 2 hr 45 min; Seward to Anchorage: 3 hr (calculated from the published 2027 timetable)",
+    "durationLabel": "2 hr 45 min–3 hr (scheduled)",
+    "durationMinutesMin": 165,
+    "durationMinutesMax": 180,
+    "durationBasis": "schedule",
+    "durationEvidence": "Seward Express timetable: Anchorage to Seward 7:00 AM–9:45 AM; Seward to Anchorage 6:30 PM–9:30 PM. These times appear in the official schedule and route-page tables.",
+    "serviceEvidence": "Seward Express operates daily May 12–September 13, 2027. Other Park Connection routes and designated cruise transfers have different schedules. Travel times and fares shown apply to the full Anchorage–Seward route.",
+    "serviceNotes": "Seward Express operates daily May 12–September 13, 2027. Other Park Connection routes and designated cruise transfers have different schedules. The route description and timetable disagree on the Seward departure time; confirm your departure with the provider.",
+    "sourceReferences": [
+      {
+        "label": "Service details",
+        "url": "https://www.alaskacoach.com/routes/seward-express/"
+      },
+      {
+        "label": "2027 timetable",
+        "url": "https://www.alaskacoach.com/schedules/"
+      },
+      {
+        "label": "2027 fares",
+        "url": "https://www.alaskacoach.com/rates/"
+      },
+      {
+        "label": "Official booking page",
+        "url": "https://www.alaskacoach.com/book/"
+      }
+    ],
+    "checkedAt": "2026-10-04T04:14:34.000Z",
+    "detailsCheckedAt": "2026-10-04T04:14:34.000Z",
+    "lastAttemptAt": "2026-10-04T04:14:34.000Z",
+    "fetchStatus": "ok",
+    "calendarSupported": false,
+    "inventoryUnit": null
+  },
+  {
+    "id": "pjs-taxi-seward",
+    "operator": "PJS Taxi & Tours",
+    "name": "Seward Taxi & Private Transportation",
+    "listingType": "transportation",
+    "category": "Transportation",
+    "subcategory": "Taxi",
+    "serviceLabel": "Private transportation by inquiry",
+    "locationText": "Custom pickups and drop-offs in Seward and surrounding communities",
+    "description": "Arrange private transportation around Seward and to surrounding communities, with advertised pickups and drop-offs at hotels, the train depot, airport, cruise ships and Exit Glacier.",
+    "sourceUrl": "https://www.pjstaxi.net/",
+    "bookingUrl": "https://www.pjstaxi.net/",
+    "bookingAction": "contact",
+    "platform": "direct",
+    "sourceMode": "website-review",
+    "priceText": null,
+    "priceCaveat": "No fare is published on the reviewed official page; obtain a route-specific quote from the provider.",
+    "durationText": null,
+    "durationLabel": "Depends on route",
+    "durationMinutesMin": null,
+    "durationMinutesMax": null,
+    "durationBasis": "not-published",
+    "durationEvidence": "Trip length depends on the requested pickup and destination. No fixed duration is published.",
+    "serviceEvidence": "The official website offers private transfers by inquiry. No fare, dated operating schedule, or online inventory was observed.",
+    "serviceNotes": "Contact the provider for a route-specific quote and pickup arrangement.",
+    "sourceReferences": [
+      {
+        "label": "Service details",
+        "url": "https://www.pjstaxi.net/"
+      }
+    ],
+    "checkedAt": "2026-10-04T04:14:34.000Z",
+    "detailsCheckedAt": "2026-10-04T04:14:34.000Z",
+    "lastAttemptAt": "2026-10-04T04:14:34.000Z",
+    "fetchStatus": "ok",
+    "calendarSupported": false,
+    "inventoryUnit": null
+  }
+]

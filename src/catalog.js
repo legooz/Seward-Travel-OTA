@@ -5,17 +5,26 @@ import { fileURLToPath } from 'node:url';
 import { load } from 'cheerio';
 
 const TARGETS = JSON.parse(readFileSync(new URL('../data/operators.json', import.meta.url), 'utf8'));
+const REVIEWED_VENDORS = JSON.parse(readFileSync(new URL('../data/vendors.json', import.meta.url), 'utf8'));
 const CACHE_PATH = fileURLToPath(new URL('../data/catalog.json', import.meta.url));
 const MAX_HTML_BYTES = 3 * 1024 * 1024;
-const NOTICE = 'Public operator product pages were read for catalog facts only. Prices are advertised wording, not live quotes; schedules and capacity descriptions are not remaining inventory. Check each source and its fees before booking.';
+const NOTICE = 'Published provider information, not live quotes or inventory. Confirm dates, final prices, room availability, transfers, and booking terms directly with each provider.';
 let refreshInProgress;
 
 const clean = value => String(value ?? '').replace(/\s+/g, ' ').trim();
 const short = value => { const text = clean(value); return text && text.length <= 450 ? text : null; };
 
 export function getOperator(id) {
-  const target = TARGETS.find(item => item.id === id);
+  const target = TARGETS.find(item => item.id === id) ?? REVIEWED_VENDORS.find(item => item.id === id);
   return target ? structuredClone(target) : undefined;
+}
+
+function withReviewedVendors(products) {
+  // These directory entries were reviewed on their official websites. The tour
+  // scraper does not query hotel rates or transportation inventory, and a tour
+  // refresh must not renew these entries' source observation timestamps.
+  const ids = new Set(REVIEWED_VENDORS.map(item => item.id));
+  return [...products.filter(item => !ids.has(item.id)), ...structuredClone(REVIEWED_VENDORS)];
 }
 
 function platformFor(url) {
@@ -107,7 +116,7 @@ export function extractCatalogProduct(target, html, checkedAt) {
     // Editorial summaries and duration normalization have their own review date.
     // A price refresh must not claim these details were reviewed again.
     ...target.reviewedDetails,
-    id: target.id, operator: target.operator, name, category: target.category,
+    id: target.id, operator: target.operator, name, category: target.category, listingType: 'tour',
     platform: target.platform, sourceUrl: target.sourceUrl, bookingUrl,
     priceText, durationText, priceCaveat: target.priceCaveat,
     inventoryUnit: target.inventoryUnit ?? null,
@@ -119,7 +128,7 @@ export function extractCatalogProduct(target, html, checkedAt) {
 function emptyProduct(target) {
   return {
     ...target.reviewedDetails,
-    id: target.id, operator: target.operator, name: target.name, category: target.category,
+    id: target.id, operator: target.operator, name: target.name, category: target.category, listingType: 'tour',
     platform: target.platform, sourceUrl: target.sourceUrl, bookingUrl: target.bookingUrl,
     priceText: null, durationText: null, priceCaveat: target.priceCaveat,
     inventoryUnit: target.inventoryUnit ?? null, checkedAt: null, lastAttemptAt: null,
@@ -132,10 +141,10 @@ export async function loadCatalog({ cachePath = CACHE_PATH } = {}) {
   try {
     const value = JSON.parse(await readFile(cachePath, 'utf8'));
     if (!Array.isArray(value.products)) throw new Error('Catalog cache has no products array');
-    return value;
+    return { ...value, products: withReviewedVendors(value.products) };
   } catch (error) {
     if (error.code !== 'ENOENT') throw error;
-    return { products: TARGETS.map(emptyProduct), refreshedAt: null, notice: NOTICE };
+    return { products: withReviewedVendors(TARGETS.map(emptyProduct)), refreshedAt: null, notice: NOTICE };
   }
 }
 
@@ -182,7 +191,7 @@ async function performRefresh({ fetchImpl = fetch, clock = Date.now, cachePath =
     }
   }
   await Promise.all([worker(), worker()]);
-  const catalog = { products, refreshedAt: new Date(clock()).toISOString(), notice: NOTICE };
+  const catalog = { products: withReviewedVendors(products), refreshedAt: new Date(clock()).toISOString(), notice: NOTICE };
   await mkdir(dirname(cachePath), { recursive: true });
   const temporary = `${cachePath}.${process.pid}.${Date.now()}.tmp`;
   try {
