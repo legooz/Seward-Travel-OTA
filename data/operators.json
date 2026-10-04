@@ -24,7 +24,18 @@
       "durationBasis": "published",
       "durationEvidence": "The operator labels this Full Day. The usual departure is 6 AM with a 5–6 PM return; departure changes to 7 AM beginning August 20. No single hourly duration is stated.",
       "description": "Fish the Gulf of Alaska for halibut and other seasonal species, with a captain and deckhand aboard.",
-      "detailsCheckedAt": "2026-10-04T03:50:18.000Z"
+      "detailsCheckedAt": "2026-10-04T03:50:18.000Z",
+      "locationLabel": "Miller's Landing · beach boarding",
+      "locationText": "13880 Beach Drive, Seward, AK 99664. Boats load directly from the beach in front of Miller's Landing.",
+      "mapQuery": "Miller's Landing, 13880 Beach Drive, Seward, AK 99664",
+      "imageUrl": "https://www.millerslandingak.com/wp-content/uploads/sites/3698/2025/10/IMG-20250821-WA0002-e1761189896143.jpg?resize=360%2C240&zoom=2",
+      "imageAlt": "Anglers display their catch at Miller's Landing, with water and mountains behind them.",
+      "imageSourceUrl": "https://www.millerslandingak.com/seward-alaska-fishing/full-day-halibut-species-in-season-charter/",
+      "imageCredit": "Photo source: Miller's Landing official tour page",
+      "locationEvidenceUrl": "https://www.millerslandingak.com/seward-alaska-fishing/full-day-halibut-species-in-season-charter/",
+      "locationEvidence": "The charter page says its landing craft load directly off the beach in front of Miller's Landing. Its footer lists 13880 Beach Dr, Seward, AK 99664.",
+      "imageEvidence": "First visible photo in this charter page's image gallery; exact observed img src. The source alt describes anglers and their catch at Miller's Landing.",
+      "mediaReviewedAt": "2026-10-04T04:38:48.673Z"
     }
   },
   {
@@ -50,7 +61,18 @@
       "durationBasis": "published",
       "durationEvidence": "The half-day tour section states a trip length of 3.5 hours, with morning and afternoon departures. The private evening charter is a separate option.",
       "description": "Explore Resurrection Bay and Kenai Fjords National Park by small boat, looking for whales, seabirds, and other wildlife along a flexible route.",
-      "detailsCheckedAt": "2026-10-04T03:50:18.000Z"
+      "detailsCheckedAt": "2026-10-04T03:50:18.000Z",
+      "locationLabel": "Seward Boat Harbor · M dock",
+      "locationText": "Meet at slips M1, M3, M5 or M7 on the south side of Seward Boat Harbor, near the Seward Mariner's Memorial.",
+      "mapQuery": "Seward Ocean Excursions, Seward Boat Harbor, Seward, Alaska",
+      "imageUrl": "https://sewardoceanexcursions.com/wp-content/uploads/2019/10/LSH1987-1024x683.jpg",
+      "imageAlt": "Guests aboard Lost Lynx watch a humpback whale dive.",
+      "imageSourceUrl": "https://sewardoceanexcursions.com/tourssightseeing/",
+      "imageCredit": "Photo source: Seward Ocean Excursions official tour page",
+      "locationEvidenceUrl": "https://sewardoceanexcursions.com/location/",
+      "locationEvidence": "The official Location page explicitly identifies the meeting location as Seward Boat Harbor slips M1, M3, M5 and M7 in the south uplands area, with access by the Mariner's Memorial.",
+      "imageEvidence": "Observed image within the half-day tour section. Its figure caption identifies guests on Lost Lynx watching a humpback dive, before the separate seven-hour tour section begins.",
+      "mediaReviewedAt": "2026-10-04T04:38:48.673Z"
     }
   },
   {
@@ -76,7 +98,18 @@
       "durationBasis": "schedule",
       "durationEvidence": "Calculated from the published 8 AM–noon, 11:30 AM–3:30 PM, and 6–10 PM trip windows. The separate 2–2.5-hour figure refers to paddling time, not the whole tour.",
       "description": "Paddle Resurrection Bay’s western shoreline from Lowell Point with a guide, stopping ashore for snacks, hot drinks, and exploration.",
-      "detailsCheckedAt": "2026-10-04T03:50:18.000Z"
+      "detailsCheckedAt": "2026-10-04T03:50:18.000Z",
+      "locationLabel": "Downtown Seward · office meeting point",
+      "locationText": "Meet at the downtown office at 328 3rd Avenue, Seward, AK 99664; the operator then drives guests to the launch beach at Lowell Point.",
+      "mapQuery": "Kayak Adventures Worldwide, 328 3rd Avenue, Seward, AK 99664",
+      "imageUrl": "https://www.kayakak.com/wp-content/uploads/2025/09/resurrection-bay-seward-alaska-sea-kayaking-tours-4-1600x1067.jpg",
+      "imageAlt": "Resurrection Bay sea kayaking tour photo from Kayak Adventures Worldwide.",
+      "imageSourceUrl": "https://www.kayakak.com/kayaking-trips/half-day-resurrection-bay-trip/",
+      "imageCredit": "Photo source: Kayak Adventures Worldwide official tour page",
+      "locationEvidenceUrl": "https://www.kayakak.com/kayaking-trips/half-day-resurrection-bay-trip/",
+      "locationEvidence": "The itinerary directs guests to meet at the downtown office 15 minutes before the tour and describes a drive to Lowell Point for launching. The page's address link lists 328 3rd Avenue, Seward, AK 99664.",
+      "imageEvidence": "Exact og:image URL observed in the official Resurrection Bay Half Day Kayak Tour page HTML; neutral alternative text describes the image's published tour context.",
+      "mediaReviewedAt": "2026-10-04T04:38:48.673Z"
     }
   },
   {
@@ -100,7 +133,18 @@
       "durationBasis": "published",
       "durationEvidence": "The operator describes the excursion as approximately 90 minutes. Arrive 15 minutes early; it recommends allowing about two hours overall.",
       "description": "Fly to Godwin Glacier by helicopter, ride a dog sled with a musher, and meet the huskies at the glacier camp.",
-      "detailsCheckedAt": "2026-10-04T03:50:18.000Z"
+      "detailsCheckedAt": "2026-10-04T03:50:18.000Z",
+      "locationLabel": "Airport Road · Seward office",
+      "locationText": "Seward Helicopter Tours, 2210 Airport Road, Seward, AK 99664. The tour visits Godwin Glacier.",
+      "mapQuery": "Seward Helicopter Tours, 2210 Airport Road, Seward, AK 99664",
+      "imageUrl": "https://media.sewardhelicopters.com/sewardhelicopters/2022/05/05050642/dog-sledding-with0turning-heads-kennel-on-godwin-glacier-1024x682.jpg",
+      "imageAlt": "Dog sledding on Godwin Glacier during a Seward Helicopter Tours excursion.",
+      "imageSourceUrl": "https://sewardhelicopters.com/seward-dog-sled-tours/",
+      "imageCredit": "Photo source: Seward Helicopter Tours official Glacier Dog Sledding page",
+      "locationEvidenceUrl": "https://sewardhelicopters.com/seward-dog-sled-tours/",
+      "locationEvidence": "The tour describes a visit to Godwin Glacier, parking at the operator's building, and early arrival. The official page's contact section lists 2210 Airport Road, Seward, AK 99664. The map points to the office, not to the glacier.",
+      "imageEvidence": "Exact og:image URL in the official tour HTML. The matching full-size hero image's source alt identifies glacier dog sledding on Godwin Glacier with Seward Helicopters.",
+      "mediaReviewedAt": "2026-10-04T04:38:48.673Z"
     }
   },
   {
@@ -124,7 +168,18 @@
       "durationBasis": "published",
       "durationEvidence": "The operator labels this Half-Day. Listed trip windows are 7:30–11:15 AM and 11:30 AM–3:15 PM, while the detailed check-in-to-return itinerary spans four hours. Confirm timing with the operator.",
       "description": "Take a guided shoreline paddle in Resurrection Bay after a narrated drive through Seward and an introduction to kayaking.",
-      "detailsCheckedAt": "2026-10-04T03:50:18.000Z"
+      "detailsCheckedAt": "2026-10-04T03:50:18.000Z",
+      "locationLabel": "Seward harbor · office meeting point",
+      "locationText": "Meet at Sunny Cove's downtown harbor office, 1304 B 4th Avenue, Seward, Alaska 99664, before the narrated drive to the kayak launch.",
+      "mapQuery": "Sunny Cove Kayaking, 1304 B 4th Avenue, Seward, Alaska 99664",
+      "imageUrl": "https://images.squarespace-cdn.com/content/v1/6564fe0bc1440f3f56d8c17f/f6356110-d43d-40f2-a9ff-828771e93a26/_O3A0997.jpg",
+      "imageAlt": "Sunny Cove Kayaking's Resurrection Bay tour photo.",
+      "imageSourceUrl": "https://www.sunnycove.com/resurrection-bay-tour",
+      "imageCredit": "Photo source: Sunny Cove Kayaking official Resurrection Bay tour page",
+      "locationEvidenceUrl": "https://www.sunnycove.com/resurrection-bay-tour",
+      "locationEvidence": "The tour introduction says guests meet at the downtown harbor office, followed by a narrated drive to the launch site. The page footer gives 1304 B 4th Avenue, Seward, Alaska 99664.",
+      "imageEvidence": "Exact observed hero-photo img src immediately before the Resurrection Bay tour title. The source has no descriptive alt or photographer credit on this image; the supplied alt stays neutral.",
+      "mediaReviewedAt": "2026-10-04T04:38:48.673Z"
     }
   },
   {
@@ -152,7 +207,18 @@
       "durationBasis": "published",
       "durationEvidence": "The operator gives a 3–4-hour door-to-door duration and a separate 1.5–2-hour paddling estimate. Morning and afternoon departures are listed.",
       "description": "Paddle from Lowell Point toward Tonsina Point in a tandem kayak, exploring Resurrection Bay’s coastline with a guide.",
-      "detailsCheckedAt": "2026-10-04T03:50:18.000Z"
+      "detailsCheckedAt": "2026-10-04T03:50:18.000Z",
+      "locationLabel": "Seward · shop meeting point",
+      "locationText": "Meet at Adventure Sixty North, 31872 Herman Leirer Road, Seward, AK 99664; the operator drives guests to Lowell Point Beach to launch.",
+      "mapQuery": "Adventure Sixty North, 31872 Herman Leirer Road, Seward, AK 99664",
+      "imageUrl": "https://adventure60.com/wp-content/uploads/sites/6285/2023/02/20250414_150927.jpg?resize=360%2C240&zoom=2",
+      "imageAlt": "Kayakers paddle toward snow-covered mountains on the Tonsina Point tour.",
+      "imageSourceUrl": "https://adventure60.com/kayaking/tonsina-point-resurrection-bay-kayaking-adventure/",
+      "imageCredit": "Photo source: Adventure Sixty North official Tonsina Point tour page",
+      "locationEvidenceUrl": "https://adventure60.com/kayaking/tonsina-point-resurrection-bay-kayaking-adventure/",
+      "locationEvidence": "The itinerary starts with meeting the guide at the shop, then a van ride to Lowell Point Beach. The official page's address link is 31872 Herman Leirer Rd, Seward, AK 99664.",
+      "imageEvidence": "Exact observed src of the first product-gallery photo. The source alt describes two people kayaking toward snowy mountains on a clear day.",
+      "mediaReviewedAt": "2026-10-04T04:38:48.673Z"
     }
   }
 ]

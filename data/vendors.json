@@ -37,7 +37,17 @@
     "lastAttemptAt": "2026-10-04T04:14:34.000Z",
     "fetchStatus": "ok",
     "calendarSupported": false,
-    "inventoryUnit": null
+    "inventoryUnit": null,
+    "locationLabel": "Seward Small Boat Harbor",
+    "mapQuery": "Harbor 360 Hotel, 1412 4th Avenue, Seward, AK 99664",
+    "imageUrl": "https://harbor360hotel.com/wp-content/uploads/elementor/thumbs/jodyo.photos-19F0603_001-008Pano-2-1800x1200-min-p3h5e4mp4oa0zlyeq4in4v4ok72es8gflpgvg8bee8.jpg",
+    "imageAlt": "Double queen standard guest room at Harbor 360 Hotel",
+    "imageSourceUrl": "https://harbor360hotel.com/rooms/",
+    "imageCredit": "Source: Harbor 360 Hotel official website",
+    "imageEvidence": "Observed img src on the official rooms page; its alt text is Double Queen Standard Room. HTTP 200 image/jpeg verified. Room photo, not an exterior view.",
+    "locationEvidenceUrl": "https://harbor360hotel.com/",
+    "locationEvidence": "1412 4th Avenue, Seward, AK 99664; beside the Seward Small Boat Harbor",
+    "mediaReviewedAt": "2026-10-04T04:38:48.673Z"
   },
   {
     "id": "hotel-seward",
@@ -81,7 +91,17 @@
     "lastAttemptAt": "2026-10-04T04:14:34.000Z",
     "fetchStatus": "ok",
     "calendarSupported": false,
-    "inventoryUnit": null
+    "inventoryUnit": null,
+    "locationLabel": "Historic downtown Seward",
+    "mapQuery": "Hotel Seward, 221 Fifth Avenue, Seward, AK 99664",
+    "imageUrl": "https://hotelsewardalaska.com/hs-fs/hubfs/Compressed%20Photos/Hotel%20Seward%20Lobby%201.jpg?width=1000&height=667&name=Hotel%20Seward%20Lobby%201.jpg",
+    "imageAlt": "Lobby at Hotel Seward",
+    "imageSourceUrl": "https://hotelsewardalaska.com/",
+    "imageCredit": "Source: Hotel Seward official website",
+    "imageEvidence": "Observed 1000w srcset URL on the official homepage; its image alt is Hotel Seward Lobby 1. HTTP 200 image/jpeg verified.",
+    "locationEvidenceUrl": "https://hotelsewardalaska.com/",
+    "locationEvidence": "221 Fifth Avenue, Seward, AK 99664; historic downtown Seward",
+    "mediaReviewedAt": "2026-10-04T04:38:48.673Z"
   },
   {
     "id": "seward-windsong-lodge",
@@ -125,7 +145,17 @@
     "lastAttemptAt": "2026-10-04T04:14:34.000Z",
     "fetchStatus": "ok",
     "calendarSupported": false,
-    "inventoryUnit": null
+    "inventoryUnit": null,
+    "locationLabel": "Exit Glacier Valley · near Seward",
+    "mapQuery": "Seward Windsong Lodge, 31772 Herman Leirer Road, Seward, AK 99664",
+    "imageUrl": "https://www.alaskacollection.com/getmedia/3297b14d-c3f3-4905-b540-4f8d47555dc4/PR-Exterior-of-Seward-Windsong-Lodge.jpg?width=547&height=357&ext=.jpg",
+    "imageAlt": "Exterior of Seward Windsong Lodge",
+    "imageSourceUrl": "https://www.alaskacollection.com/lodging/seward-windsong-lodge/",
+    "imageCredit": "Source: Alaska Collection / Seward Windsong Lodge official website",
+    "imageEvidence": "Observed relative img src on the official lodge page, resolved against its origin; its alt identifies the lodge exterior. HTTP 200 image/jpeg verified.",
+    "locationEvidenceUrl": "https://www.alaskacollection.com/lodging/seward-windsong-lodge/faqs/",
+    "locationEvidence": "31772 Herman Leirer Road, Seward, AK 99664; Exit Glacier Valley, three miles from downtown Seward",
+    "mediaReviewedAt": "2026-10-04T04:38:48.673Z"
   },
   {
     "id": "alaska-railroad-coastal-classic",
@@ -135,7 +165,7 @@
     "category": "Transportation",
     "subcategory": "Train",
     "serviceLabel": "Seasonal scheduled train",
-    "locationText": "Anchorage – Girdwood – Seward",
+    "locationText": "Coastal Classic train route between Anchorage and Seward, with a Girdwood stop",
     "description": "Travel between Anchorage and Seward via Girdwood, following Turnagain Arm and mountain backcountry, with Adventure Class or GoldStar service and onboard dining available.",
     "sourceUrl": "https://alaskarailroad.com/ride-a-train/our-trains/coastal-classic",
     "bookingUrl": "https://alaskarailroad.com/ride-a-train/schedules",
@@ -175,7 +205,18 @@
     "lastAttemptAt": "2026-10-04T04:14:34.000Z",
     "fetchStatus": "ok",
     "calendarSupported": false,
-    "inventoryUnit": null
+    "inventoryUnit": null,
+    "locationLabel": "Anchorage – Girdwood – Seward",
+    "mapQuery": "Anchorage to Seward via Girdwood, Alaska",
+    "imageUrl": "https://www.alaskarailroad.com/sites/default/files/uploads/alaska_railroad_coastal_classic_train.jpg",
+    "imageAlt": "Alaska Railroad Coastal Classic train",
+    "imageSourceUrl": "https://alaskarailroad.com/ride-a-train/our-trains/coastal-classic",
+    "imageCredit": "Glenn Aronwits / Alaska Railroad",
+    "imageEvidence": "Observed header background-image URL in the official Coastal Classic page. The page explicitly credits its header photograph to Glenn Aronwits. HTTP 200 image/jpeg verified.",
+    "mapNote": "Route search, not a claimed station address or exact boarding point.",
+    "locationEvidenceUrl": "https://alaskarailroad.com/ride-a-train/our-trains/coastal-classic",
+    "locationEvidence": "Coastal Classic train route between Anchorage and Seward, with a Girdwood stop. Route search, not a claimed station address or exact boarding point.",
+    "mediaReviewedAt": "2026-10-04T04:38:48.673Z"
   },
   {
     "id": "park-connection-seward-express",
@@ -185,7 +226,7 @@
     "category": "Transportation",
     "subcategory": "Coach",
     "serviceLabel": "Seasonal scheduled motorcoach",
-    "locationText": "Anchorage – Seward",
+    "locationText": "Seward Express motorcoach route between Anchorage and Seward",
     "description": "Ride a scheduled motorcoach between Anchorage and Seward, with one daily trip in each direction during summer and pickups and drop-offs in both destinations.",
     "sourceUrl": "https://www.alaskacoach.com/routes/seward-express/",
     "bookingUrl": "https://www.alaskacoach.com/schedules/",
@@ -225,7 +266,18 @@
     "lastAttemptAt": "2026-10-04T04:14:34.000Z",
     "fetchStatus": "ok",
     "calendarSupported": false,
-    "inventoryUnit": null
+    "inventoryUnit": null,
+    "locationLabel": "Anchorage – Seward",
+    "mapQuery": "Anchorage to Seward, Alaska",
+    "imageUrl": "https://akcoach.b-cdn.net/wp-content/uploads/park-connection-windsong-1024x683.jpg",
+    "imageAlt": "Park Connection motorcoach bus",
+    "imageSourceUrl": "https://www.alaskacoach.com/routes/seward-express/",
+    "imageCredit": "Source: Park Connection Motorcoach official website",
+    "imageEvidence": "Observed img src on the official Seward Express page; its alt identifies the Park Connection motorcoach bus. This is a representative operator vehicle, not a promise of a particular vehicle for a departure.",
+    "mapNote": "Route search, not a claimed pickup street address.",
+    "locationEvidenceUrl": "https://www.alaskacoach.com/routes/seward-express/",
+    "locationEvidence": "Seward Express motorcoach route between Anchorage and Seward. Route search, not a claimed pickup street address.",
+    "mediaReviewedAt": "2026-10-04T04:38:48.673Z"
   },
   {
     "id": "pjs-taxi-seward",
@@ -235,7 +287,7 @@
     "category": "Transportation",
     "subcategory": "Taxi",
     "serviceLabel": "Private transportation by inquiry",
-    "locationText": "Custom pickups and drop-offs in Seward and surrounding communities",
+    "locationText": "Custom pickups and drop-offs in Seward and surrounding communities; arrange the pickup directly with PJS Taxi & Tours",
     "description": "Arrange private transportation around Seward and to surrounding communities, with advertised pickups and drop-offs at hotels, the train depot, airport, cruise ships and Exit Glacier.",
     "sourceUrl": "https://www.pjstaxi.net/",
     "bookingUrl": "https://www.pjstaxi.net/",
@@ -263,6 +315,17 @@
     "lastAttemptAt": "2026-10-04T04:14:34.000Z",
     "fetchStatus": "ok",
     "calendarSupported": false,
-    "inventoryUnit": null
+    "inventoryUnit": null,
+    "locationLabel": "Seward & surrounding communities",
+    "mapQuery": "Seward, Alaska",
+    "imageUrl": null,
+    "imageAlt": null,
+    "imageSourceUrl": "https://www.pjstaxi.net/",
+    "imageCredit": null,
+    "imageEvidence": "The official website has uncaptioned gallery and og:image assets. No particular vehicle photo was verified, so use the neutral taxi fallback rather than a guessed image. The explicitly captioned Exit Glacier image depicts a destination, not a taxi.",
+    "mapNote": "Service-area search only. The source publishes a postal box, not a verified taxi office or boarding address.",
+    "locationEvidenceUrl": "https://www.pjstaxi.net/",
+    "locationEvidence": "Custom pickups and drop-offs in Seward and surrounding communities; arrange the pickup directly with PJS Taxi & Tours. Service-area search only. The source publishes a postal box, not a verified taxi office or boarding address.",
+    "mediaReviewedAt": "2026-10-04T04:38:48.673Z"
   }
 ]
