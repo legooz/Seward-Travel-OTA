@@ -1,0 +1,6 @@
+{
+  "pageUrl": null,
+  "product": { "id": "replace-product-id", "name": "Replace with verified operator and tour", "bookingUrl": null },
+  "ttlSeconds": 300,
+  "selectors": { "ready": "", "departure": "", "time": "", "evidence": "" }
+}

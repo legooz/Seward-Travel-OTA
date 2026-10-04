@@ -11,12 +11,13 @@ Start with three to five cooperating Seward operators, approved booking/referral
 - [MVP scope, architecture, and pilot backlog](docs/mvp-plan.md)
 - [FareHarbor access, capacity semantics, and website/agent options](docs/fareharbor.md)
 - [Rezdy, Bókun, Viator, OCTO, and verified local operator leads](docs/integration-options.md)
+- [FareHarbor scraper prototype: offline demo, configuration, and limits](docs/scraper.md)
 
 Research checked October 3, 2026. Supplier access and commercial terms still need confirmation.
 
 ## Run locally
 
-Requires Node.js 22 or later. No npm dependencies, account, or API key are required for the demo.
+Requires Node.js 22 or later. The availability demo needs no npm dependencies, account, or API key. The optional browser scraper uses Playwright; see its setup guide above.
 
 ```sh
 npm test

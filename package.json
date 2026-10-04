@@ -4,10 +4,16 @@
   "private": true,
   "description": "Local availability MVP with explicit provenance, freshness and party-size scope.",
   "type": "module",
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "start": "node src/server.js",
     "demo": "node src/cli.js",
+    "scrape": "node src/scrape/cli.js",
     "test": "node --test"
+  },
+  "optionalDependencies": {
+    "playwright": "1.63.0"
   }
 }

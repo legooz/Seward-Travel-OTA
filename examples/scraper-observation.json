@@ -1,0 +1,11 @@
+{
+  "product": { "id": "fixture-tour", "name": "OFFLINE FIXTURE — fictional tour", "bookingUrl": null },
+  "sourceUrl": "https://example.com/offline-fixture",
+  "observedAt": "2020-01-01T00:00:00Z",
+  "ttlSeconds": 300,
+  "rows": [
+    { "id": "fixture-count", "startAt": "2027-06-15T09:00:00-08:00", "evidenceText": "Only 6 seats left", "priceText": "$150 per adult" },
+    { "id": "fixture-unknown", "startAt": "2027-06-15T12:00:00-08:00", "evidenceText": "Up to 6 guests" },
+    { "id": "fixture-unavailable", "startAt": "2027-06-15T15:00:00-08:00", "evidenceText": "Sold out" }
+  ]
+}
