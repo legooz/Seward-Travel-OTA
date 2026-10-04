@@ -15,7 +15,14 @@
       "checkedAt": "2026-10-04T03:05:56.061Z",
       "lastAttemptAt": "2026-10-04T03:05:56.061Z",
       "fetchStatus": "ok",
-      "calendarSupported": true
+      "calendarSupported": true,
+      "durationLabel": "Full day",
+      "durationMinutesMin": null,
+      "durationMinutesMax": null,
+      "durationBasis": "published",
+      "durationEvidence": "The operator labels this Full Day. The usual departure is 6 AM with a 5–6 PM return; departure changes to 7 AM beginning August 20. No single hourly duration is stated.",
+      "description": "Fish the Gulf of Alaska for halibut and other seasonal species, with a captain and deckhand aboard.",
+      "detailsCheckedAt": "2026-10-04T03:50:18.000Z"
     },
     {
       "id": "seward-ocean-excursions-half-day",
@@ -32,7 +39,14 @@
       "checkedAt": "2026-10-04T03:05:56.076Z",
       "lastAttemptAt": "2026-10-04T03:05:56.076Z",
       "fetchStatus": "ok",
-      "calendarSupported": true
+      "calendarSupported": true,
+      "durationLabel": "3.5 hours",
+      "durationMinutesMin": 210,
+      "durationMinutesMax": 210,
+      "durationBasis": "published",
+      "durationEvidence": "The half-day tour section states a trip length of 3.5 hours, with morning and afternoon departures. The private evening charter is a separate option.",
+      "description": "Explore Resurrection Bay and Kenai Fjords National Park by small boat, looking for whales, seabirds, and other wildlife along a flexible route.",
+      "detailsCheckedAt": "2026-10-04T03:50:18.000Z"
     },
     {
       "id": "kayak-adventures-resurrection-bay",
@@ -49,7 +63,14 @@
       "checkedAt": "2026-10-04T03:05:56.838Z",
       "lastAttemptAt": "2026-10-04T03:05:56.838Z",
       "fetchStatus": "ok",
-      "calendarSupported": true
+      "calendarSupported": true,
+      "durationLabel": "4 hours (scheduled)",
+      "durationMinutesMin": 240,
+      "durationMinutesMax": 240,
+      "durationBasis": "schedule",
+      "durationEvidence": "Calculated from the published 8 AM–noon, 11:30 AM–3:30 PM, and 6–10 PM trip windows. The separate 2–2.5-hour figure refers to paddling time, not the whole tour.",
+      "description": "Paddle Resurrection Bay’s western shoreline from Lowell Point with a guide, stopping ashore for snacks, hot drinks, and exploration.",
+      "detailsCheckedAt": "2026-10-04T03:50:18.000Z"
     },
     {
       "id": "seward-helicopters-glacier-dog-sledding",
@@ -66,7 +87,14 @@
       "checkedAt": "2026-10-04T03:05:57.106Z",
       "lastAttemptAt": "2026-10-04T03:05:57.106Z",
       "fetchStatus": "ok",
-      "calendarSupported": false
+      "calendarSupported": false,
+      "durationLabel": "About 90 minutes",
+      "durationMinutesMin": 90,
+      "durationMinutesMax": 90,
+      "durationBasis": "published",
+      "durationEvidence": "The operator describes the excursion as approximately 90 minutes. Arrive 15 minutes early; it recommends allowing about two hours overall.",
+      "description": "Fly to Godwin Glacier by helicopter, ride a dog sled with a musher, and meet the huskies at the glacier camp.",
+      "detailsCheckedAt": "2026-10-04T03:50:18.000Z"
     },
     {
       "id": "sunny-cove-resurrection-bay",
@@ -83,7 +111,14 @@
       "checkedAt": "2026-10-04T03:05:57.522Z",
       "lastAttemptAt": "2026-10-04T03:05:57.522Z",
       "fetchStatus": "ok",
-      "calendarSupported": false
+      "calendarSupported": false,
+      "durationLabel": "Half day",
+      "durationMinutesMin": null,
+      "durationMinutesMax": null,
+      "durationBasis": "published",
+      "durationEvidence": "The operator labels this Half-Day. Listed trip windows are 7:30–11:15 AM and 11:30 AM–3:15 PM, while the detailed check-in-to-return itinerary spans four hours. Confirm timing with the operator.",
+      "description": "Take a guided shoreline paddle in Resurrection Bay after a narrated drive through Seward and an introduction to kayaking.",
+      "detailsCheckedAt": "2026-10-04T03:50:18.000Z"
     },
     {
       "id": "adventure-sixty-north-tonsina-point",
@@ -100,7 +135,14 @@
       "checkedAt": "2026-10-04T03:05:57.608Z",
       "lastAttemptAt": "2026-10-04T03:05:57.608Z",
       "fetchStatus": "ok",
-      "calendarSupported": true
+      "calendarSupported": true,
+      "durationLabel": "3–4 hours",
+      "durationMinutesMin": 180,
+      "durationMinutesMax": 240,
+      "durationBasis": "published",
+      "durationEvidence": "The operator gives a 3–4-hour door-to-door duration and a separate 1.5–2-hour paddling estimate. Morning and afternoon departures are listed.",
+      "description": "Paddle from Lowell Point toward Tonsina Point in a tandem kayak, exploring Resurrection Bay’s coastline with a guide.",
+      "detailsCheckedAt": "2026-10-04T03:50:18.000Z"
     }
   ],
   "refreshedAt": "2026-10-04T03:05:58.667Z",

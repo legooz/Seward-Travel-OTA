@@ -34,6 +34,29 @@ test('missing price stays unknown, and scripts cannot supply booking evidence', 
   assert.throws(() => extractCatalogProduct(target, html.replace('<a ', '<script><a ').replace('</a>', '</a></script>'), captured), /booking link/);
 });
 
+test('a catalog read preserves the separate duration review and its schedule basis', () => {
+  const target = getOperator('kayak-adventures-resurrection-bay');
+  const html = `<main><h1>${target.name}</h1><div id="book-container"><div class="acf-text price">$149</div><a href="${target.bookingUrl}">Book</a></div></main>`;
+  const product = extractCatalogProduct(target, html, captured);
+  assert.equal(product.durationText, 'Half Day');
+  assert.equal(product.durationLabel, '4 hours (scheduled)');
+  assert.equal(product.durationMinutesMin, 240);
+  assert.equal(product.durationMinutesMax, 240);
+  assert.equal(product.durationBasis, 'schedule');
+  assert.equal(product.detailsCheckedAt, target.reviewedDetails.detailsCheckedAt);
+  assert.notEqual(product.detailsCheckedAt, product.checkedAt);
+  assert.match(product.durationEvidence, /paddling time, not the whole tour/);
+});
+
+test('day labels and conflicting schedules do not create numeric durations', () => {
+  for (const id of ['millers-landing-halibut', 'sunny-cove-resurrection-bay']) {
+    const details = getOperator(id).reviewedDetails;
+    assert.equal(details.durationMinutesMin, null);
+    assert.equal(details.durationMinutesMax, null);
+    assert.match(details.durationLabel, /day/i);
+  }
+});
+
 test('a failed refresh preserves successful data and checkedAt, reports attempt separately, and bounds concurrency', async () => {
   const directory = await mkdtemp(join(tmpdir(), 'seward-catalog-'));
   const cachePath = join(directory, 'catalog.json');

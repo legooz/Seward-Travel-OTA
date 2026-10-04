@@ -104,6 +104,9 @@ export function extractCatalogProduct(target, html, checkedAt) {
   }
   const bookingUrl = productBookingLink($, scope, target);
   return {
+    // Editorial summaries and duration normalization have their own review date.
+    // A price refresh must not claim these details were reviewed again.
+    ...target.reviewedDetails,
     id: target.id, operator: target.operator, name, category: target.category,
     platform: target.platform, sourceUrl: target.sourceUrl, bookingUrl,
     priceText, durationText, priceCaveat: target.priceCaveat,
@@ -115,6 +118,7 @@ export function extractCatalogProduct(target, html, checkedAt) {
 
 function emptyProduct(target) {
   return {
+    ...target.reviewedDetails,
     id: target.id, operator: target.operator, name: target.name, category: target.category,
     platform: target.platform, sourceUrl: target.sourceUrl, bookingUrl: target.bookingUrl,
     priceText: null, durationText: null, priceCaveat: target.priceCaveat,
