@@ -1,4 +1,4 @@
-# Working Seward Travel OTA MVP
+# Working Seward OneStop MVP
 
 The saved directory contains six tours, three lodging properties, and three transportation services, linked to official sources. The Framer front page opens with **Lodging**, **Activities**, and **Transport** choices and defaults to Lodging. Its self-contained component includes the hero and displays one photo listing per row with a location or route and an official provider action. The older native hero should be hidden.
 

@@ -62,7 +62,7 @@ Numeric duration filters and sorting use explicit published hours or clearly lab
 
 ## Add or update in Framer
 
-Use the Home page of the [Seward Travel OTA Framer project](https://framer.com/projects/Seward-Travel-OTA--A33lhKdvf8vZbhWz3M9d-1b3iI). The component supplies the complete hero and directory; hide the older native hero to avoid duplication. Existing hidden template sections can remain hidden. Updating repository files does not update Framer or publish the site.
+Use the Home page of the [Seward OneStop Framer project](https://framer.com/projects/Seward-Travel-OTA--A33lhKdvf8vZbhWz3M9d-1b3iI). The component supplies the complete hero and directory; hide the older native hero to avoid duplication. Existing hidden template sections can remain hidden. Updating repository files does not update Framer or publish the site.
 
 1. Open **Assets → Code → Create Code File**, or open the existing component code file.
 2. Paste the complete contents of `SewardTours.tsx` and save.

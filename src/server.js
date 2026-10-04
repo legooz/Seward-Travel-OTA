@@ -195,7 +195,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     const server = createServer({ mode, feedPath: process.env.INVENTORY_FILE });
     server.on('error', error => { console.error(error.message); process.exitCode = 1; });
     server.listen(port, '127.0.0.1', () => {
-      console.log(`Seward Travel OTA real catalog dashboard: http://127.0.0.1:${port}`);
+      console.log(`Seward OneStop real catalog dashboard: http://127.0.0.1:${port}`);
       console.log(`Legacy /api/availability uses ${mode === 'demo' ? 'SYNTHETIC DEMO DATA — no real inventory' : 'a local manual feed'}. Catalog observations are snapshots, not reservations.`);
     });
   } catch (error) {

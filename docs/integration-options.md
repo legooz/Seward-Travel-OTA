@@ -1,4 +1,4 @@
-# Seward Travel OTA: integration options
+# Seward OneStop: integration options
 
 Research checked October 3, 2026. These are documented integration paths, not evidence that this project has credentials, supplier agreements, or live inventory. All factual platform claims below use official documentation or operators' own booking links.
 

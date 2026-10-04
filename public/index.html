@@ -3,15 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="Find lodging, local activities, and transportation in Seward, Alaska. Compare locations and provider details, then book directly.">
   <meta name="theme-color" content="#123e44">
-  <title>Seward Travel OTA — Explore the waterfront and beyond</title>
+  <title>Seward OneStop — Explore the waterfront and beyond</title>
   <link rel="stylesheet" href="/style.css">
   <script type="module" src="/app.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#experiences">Skip to listings</a>
   <header class="site-header page-width">
-    <a class="wordmark" href="/" aria-label="Seward Travel OTA home">SEWARD<span>TRAVEL OTA</span></a>
+    <a class="wordmark" href="#hero-title" aria-label="Seward OneStop home">Seward<span>OneStop</span></a>
     <nav aria-label="Main navigation">
       <a class="nav-link" href="#experiences">Explore Seward <span aria-hidden="true">↗</span></a>
       <span class="preview-label"><span class="status-dot" aria-hidden="true"></span>Local preview</span>
@@ -23,7 +25,7 @@
       <div class="hero-copy">
         <p class="eyebrow"><span class="small-rule" aria-hidden="true"></span>SEWARD, ALASKA</p>
         <h1 id="hero-title">Your Seward<br>starts here.</h1>
-        <p class="hero-description">Plan your time in Seward. Explore tours, places to stay, and transportation using published provider details and supported tour calendars.</p>
+        <p class="hero-description">Plan your time in Seward. Explore tours, places to stay, and transportation and book directly with local providers.</p>
         <div class="hero-choices" role="group" aria-label="Explore Seward by category">
           <button type="button" data-explore-type="lodging"><strong>Lodging</strong><span>Find your place to stay ↗</span></button>
           <button type="button" data-explore-type="tour"><strong>Activities</strong><span>Get out and explore ↗</span></button>
@@ -62,12 +64,13 @@
 
     <section class="how-it-works page-width" aria-labelledby="how-title">
       <div><p class="eyebrow">KNOW WHAT YOU’RE SEEING</p><h2 id="how-title">Real sources.<br>Clear limits.</h2></div>
-      <div class="explanation"><span class="explanation-number">01</span><h3>Published provider details</h3><p>Refresh reads configured tour pages. Lodging and transportation show their separate website review dates. Each listing links to its source.</p></div>
-      <div class="explanation"><span class="explanation-number">02</span><h3>Counts with evidence</h3><p>A remaining count appears only when the calendar explicitly reports people. Boat capacities and missing values never become seat counts.</p></div>
+      <div class="explanation"><span class="explanation-number">01</span><h3>Published provider details</h3><p>Explore details from provider websites. Each listing includes its source and review date.</p></div>
+      <div class="explanation"><span class="explanation-number">02</span><h3>Plan your visit</h3><p>Compare locations, trip lengths, and published prices. Open a provider’s website for current dates and availability.</p></div>
       <div class="explanation"><span class="explanation-number">03</span><h3>Book with the provider</h3><p>Confirm tour seats, room rates, stay dates, or transportation directly with each provider. Published details and calendar observations can change.</p></div>
     </section>
   </main>
-  <footer class="site-footer page-width"><span class="footer-brand">SEWARD TRAVEL OTA</span><p>An independent local prototype. Reservations stay with the provider.</p><a href="#hero-title">Back to top ↑</a></footer>
+  <footer class="site-footer page-width"><span class="footer-brand">SEWARD ONESTOP</span><p>An independent local prototype. Reservations stay with the provider.</p><a href="#hero-title">Back to top ↑</a></footer>
+  <details class="analytics-notice page-width"><summary>About visit analytics</summary><p>When enabled, we use Vercel Web Analytics to measure visits, QR placement codes, category choices, and provider or map clicks. These reports do not tell us your name or email. We do not request your precise location, and booking takes place on the provider’s website. Our analytics integration respects Do Not Track and Global Privacy Control signals.</p></details>
   <p class="sr-only" id="announcer" role="status" aria-live="polite" aria-atomic="true"></p>
 </body>
 </html>

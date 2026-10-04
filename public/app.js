@@ -1,5 +1,5 @@
 const $ = selector => document.querySelector(selector);
-const state = { products: [], type: 'lodging', category: 'all', platform: 'all', search: '', loading: true, refreshing: false, checking: new Set(), refreshedAt: null };
+const state = { products: [], type: 'lodging', category: 'all', platform: 'all', search: '', loading: true, refreshing: false, checking: new Set(), refreshedAt: null, capabilities: { refresh: false, calendar: false } };
 const cards = $('#cards');
 const dateInput = $('#travel-date');
 const announcer = $('#announcer');
@@ -78,10 +78,11 @@ function providerAction(product) {
 }
 
 function canReadCalendar(product) {
-  return listingType(product) === 'tour' && String(product.platform).toLowerCase() === 'fareharbor' && product.calendarSupported === true;
+  return state.capabilities.calendar && listingType(product) === 'tour' && String(product.platform).toLowerCase() === 'fareharbor' && product.calendarSupported === true;
 }
 
 function chooseType(value, scroll = false) {
+  window.SewardAnalytics?.send('category_select', value);
   state.type = value;
   state.category = 'all';
   state.platform = 'all';
@@ -98,6 +99,7 @@ function showError(message) {
 }
 
 function updateControls() {
+  $('#refresh-button').hidden = !state.capabilities.refresh;
   $('#refresh-button').disabled = state.loading || state.refreshing || state.checking.size > 0;
   $('#refresh-label').textContent = state.refreshing ? 'Reading source pages…' : 'Refresh source pages';
   $('#refresh-button').classList.toggle('is-loading', state.refreshing);
@@ -107,7 +109,7 @@ function updateControls() {
 async function request(path, options = {}) {
   const response = await fetch(path, { ...options, headers: { Accept: 'application/json', ...(options.body ? { 'Content-Type': 'application/json' } : {}), ...options.headers } });
   let body;
-  try { body = await response.json(); } catch { throw new Error('The local server did not return a catalog response.'); }
+  try { body = await response.json(); } catch { throw new Error('The catalog service did not return a valid response.'); }
   if (!response.ok) throw new Error(body?.error?.message || body?.message || (typeof body?.error === 'string' ? body.error : `The request failed (HTTP ${response.status}).`));
   return body;
 }
@@ -116,6 +118,8 @@ function readSnapshot(snapshot) {
   if (!snapshot || !Array.isArray(snapshot.products)) throw new Error('The catalog response is missing its product list.');
   state.products = snapshot.products.filter(product => product && typeof product.id === 'string' && typeof product.name === 'string');
   state.refreshedAt = snapshot.refreshedAt;
+  state.capabilities = { refresh: snapshot.mode !== 'snapshot' && snapshot.capabilities?.refresh !== false, calendar: snapshot.mode !== 'snapshot' && snapshot.capabilities?.calendar !== false };
+  $('.preview-label').hidden = snapshot.mode === 'snapshot';
   $('#catalog-notice').textContent = snapshot.notice || 'Published source observations are snapshots. Confirm current details and availability with the operator.';
   buildFilters();
 }
@@ -169,6 +173,10 @@ function buildFilters() {
 function calendarPanel(product) {
   const panel = element('section', 'availability-panel');
   panel.setAttribute('aria-label', `Calendar observations for ${product.name}`);
+  if (!state.capabilities.calendar) {
+    panel.append(element('h4', '', 'Choose your departure'), element('p', 'availability-message', 'Check dates, departure times, and current availability on the operator’s website.'));
+    return panel;
+  }
   const heading = element('div', 'availability-heading');
   heading.append(element('h4', '', 'Booking calendar'), element('span', 'calendar-date', formatDate(dateInput.value)));
   panel.append(heading);
@@ -283,6 +291,7 @@ function productCard(product, index) {
   if (product.operator !== product.name) copy.append(element('p', 'operator-name', product.operator || 'Local provider'));
   const location = element('p', 'location-text', product.locationLabel || product.locationText || 'Seward, Alaska');
   if (product.mapQuery) location.append(document.createTextNode(' · '), link('View map', `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(product.mapQuery)}`, 'map-link'));
+  location.querySelector('a')?.addEventListener('click', () => window.SewardAnalytics?.send('map_click', product.id));
   copy.append(location);
   if (product.description) copy.append(element('p', 'listing-description', product.description));
   const duration = product.durationLabel || product.durationText;
@@ -291,7 +300,9 @@ function productCard(product, index) {
   const action = element('div', 'listing-action');
   action.append(element('p', 'price-text', product.priceText || (listingType(product) === 'lodging' ? 'Choose your stay dates' : listingType(product) === 'transportation' ? 'Ask for a quote' : 'See provider rates')));
   action.append(element('p', 'rate-context', listingType(product) === 'lodging' ? 'Rates vary by date and room' : product.priceText ? 'Published price · confirm with provider' : 'Arrange directly with provider'));
-  action.append(link(providerAction(product), product.bookingUrl || product.sourceUrl, 'button button-dark'));
+  const providerLink = link(providerAction(product), product.bookingUrl || product.sourceUrl, 'button button-dark');
+  providerLink.addEventListener('click', () => window.SewardAnalytics?.send('provider_click', product.id));
+  action.append(providerLink);
   const details = element('details', 'listing-details');
   details.open = expandedListings.has(product.id);
   details.addEventListener('toggle', () => {
@@ -343,7 +354,7 @@ function render() {
   if (state.loading) return;
   const typeLabels = { lodging: 'Places to stay', tour: 'Activities in Seward', transportation: 'Getting here & around', all: 'Explore Seward' };
   $('#catalog-title').textContent = typeLabels[state.type];
-  const tourControls = state.type === 'tour' || state.type === 'all';
+  const tourControls = state.capabilities.calendar && (state.type === 'tour' || state.type === 'all');
   $('.date-field').hidden = !tourControls;
   $('#date-note').hidden = !tourControls;
   $('.search-bar').classList.toggle('without-calendar', !tourControls);
@@ -374,6 +385,7 @@ function render() {
 }
 
 async function loadCatalog(refresh = false) {
+  if (refresh && !state.capabilities.refresh) return;
   showError('');
   if (refresh) state.refreshing = true;
   updateControls();

@@ -1,4 +1,4 @@
-# Seward Travel OTA: MVP plan
+# Seward OneStop: MVP plan
 
 Decision draft, October 3, 2026. OTA means online travel agency. This repository starts the availability service; it is not a launched marketplace.
 

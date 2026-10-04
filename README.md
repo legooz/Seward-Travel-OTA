@@ -1,4 +1,4 @@
-# Seward Travel OTA
+# Seward OneStop
 
 **A Seward travel directory with six tours, three lodging properties, and three transportation providers.** Search and filter listings, inspect their official sources and review dates, and continue to the provider. The six tour pages support catalog refresh; four FareHarbor products also have a browser-based check for a selected calendar date.
 
@@ -23,6 +23,8 @@ The initial catalog combines saved tour scrapes with source-reviewed lodging and
 
 ## Guides and integration research
 
+- [Vercel static hosting and optional production analytics](docs/vercel.md)
+- [Venue QR placement codes and privacy-conscious click tracking](docs/venue-qr-tracking.md)
 - [Working dashboard, live collectors, sources, and API examples](docs/working-mvp.md)
 - [Miller's Landing pilot brief, data requirements, and outreach draft](docs/operator-pilot.md)
 - [MVP scope, architecture, and pilot backlog](docs/mvp-plan.md)

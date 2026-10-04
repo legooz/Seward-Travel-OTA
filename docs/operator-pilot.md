@@ -52,7 +52,7 @@ Days 1–2: agree permissions, fields, owner, and dates. Days 3–4: connect one
 
 Hello Miller's Landing team,
 
-We're building Seward Travel OTA to help visitors find local tours and book directly with the operator. We'd like to test your Full-Day Halibut & Species in Season Charter, FareHarbor item 84318, on two or three dates you choose.
+We're building Seward OneStop to help visitors find local tours and book directly with the operator. We'd like to test your Full-Day Halibut & Species in Season Charter, FareHarbor item 84318, on two or three dates you choose.
 
 Could we work with one team member to confirm departure variants, the available per-person quantity, party restrictions, approved booking links, and how quickly observations expire? We can use a small operator-maintained feed, or pursue an approved FareHarbor connection with your participation. Please don't send credentials by email.
 

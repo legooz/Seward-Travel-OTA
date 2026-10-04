@@ -17,6 +17,10 @@
     "playwright": "1.63.0"
   },
   "dependencies": {
+    "@vercel/analytics": "2.0.1",
     "cheerio": "1.2.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
   }
 }
