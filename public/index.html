@@ -21,21 +21,20 @@
   </header>
 
   <main>
-    <section class="hero page-width" aria-labelledby="hero-title">
-      <div class="hero-copy">
-        <p class="eyebrow"><span class="small-rule" aria-hidden="true"></span>SEWARD, ALASKA</p>
-        <h1 id="hero-title">Your Seward<br>starts here.</h1>
-        <p class="hero-description">Plan your time in Seward. Explore tours, places to stay, and transportation and book directly with local providers.</p>
-        <div class="hero-choices" role="group" aria-label="Explore Seward by category">
-          <button type="button" data-explore-type="lodging"><strong>Lodging</strong><span>Find your place to stay ↗</span></button>
-          <button type="button" data-explore-type="tour"><strong>Activities</strong><span>Get out and explore ↗</span></button>
-          <button type="button" data-explore-type="transportation"><strong>Transport</strong><span>Get here and around ↗</span></button>
-        </div>
+    <section class="video-landing page-width" aria-labelledby="hero-title">
+      <div class="video-stage">
+        <h1 class="video-eyebrow" id="hero-title">30-second preview</h1>
+        <figure class="video-preview">
+          <video class="landing-video" id="landing-video" controls playsinline muted loop preload="metadata" poster="/videos/seward-onestop-demo-poster.png" width="1080" height="1920" aria-label="Seward OneStop concept preview" aria-describedby="video-description video-caption">
+            <source src="/videos/seward-onestop-demo.mp4" type="video/mp4">
+            Your browser does not support embedded video. <a href="/videos/seward-onestop-demo.mp4">Open the video</a>.
+          </video>
+          <figcaption id="video-caption">Concept demo · Illustrative bookings and prices</figcaption>
+        </figure>
+        <p class="sr-only" id="video-description">A simulated booking: an example operator publishes two kayak spots at $120 per person, 20% below the example $150 price. A traveler receives a notification and books both spots for $240. The operator sees $240 in booking revenue before fees and costs. Audio contains music and chimes only.</p>
+        <p class="video-fallback"><span id="video-error" hidden>The preview could not be loaded. </span><a href="/videos/seward-onestop-demo.mp4" target="_blank" rel="noopener">Open video<span class="sr-only"> in a new tab</span> ↗</a></p>
       </div>
-      <div class="landscape" aria-hidden="true">
-        <img class="landscape-art" src="/images/seward-hero.jpg" alt="" width="620" height="480">
-        <div class="landscape-caption"><span>Aialik Glacier, Kenai Fjords · Photo: NPS</span><span>01 / SEWARD</span></div>
-      </div>
+      <a class="video-explore" href="#experiences">Explore listings <span aria-hidden="true">↓</span></a>
     </section>
 
     <section class="catalog-section page-width" id="experiences" aria-labelledby="catalog-title">

@@ -7,7 +7,8 @@ import { addPropertyControls, ControlType } from "framer"
 // Never place API keys, cookies, provider credentials, or secrets in this file.
 
 const DEFAULT_SOURCE = "https://raw.githubusercontent.com/legooz/Seward-Travel-OTA/main/data/catalog.json"
-const HERO_IMAGE = "https://raw.githubusercontent.com/legooz/Seward-Travel-OTA/main/public/images/seward-hero.jpg"
+const DEMO_VIDEO = "https://raw.githubusercontent.com/legooz/Seward-Travel-OTA/main/public/videos/seward-onestop-demo.mp4"
+const DEMO_POSTER = "https://raw.githubusercontent.com/legooz/Seward-Travel-OTA/main/public/videos/seward-onestop-demo-poster.png"
 type Departure = { id: string; time: string; label: string; remaining: number | null; unit: string; evidenceText: string }
 type Availability = { status: string; date: string; checkedAt?: string; expiresAt?: string; lastAttemptAt?: string; message?: string; departures: Departure[] }
 type ListingType = "tour" | "lodging" | "transportation"
@@ -764,6 +765,35 @@ function ListingImage({ product }: { product: Product }) {
     return <div className="swt-listing-image">{source && !failed ? <img src={source} alt={product.imageAlt || product.name} loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={() => setFailed(true)} /> : <div className="swt-image-fallback"><TypeIcon type={listingType(product)} /><span>{listingType(product) === "lodging" ? "Lodging" : listingType(product) === "tour" ? "Activity" : "Transport"}</span><small>Photo unavailable</small></div>}</div>
 }
 
+function LandingVideo({ onExplore }: { onExplore: () => void }) {
+    const player = React.useRef<HTMLVideoElement | null>(null)
+    const [autoplay, setAutoplay] = React.useState(false)
+    const [failed, setFailed] = React.useState(false)
+    React.useEffect(() => {
+        const preference = window.matchMedia("(prefers-reduced-motion: reduce)")
+        const update = () => setAutoplay(!preference.matches)
+        update()
+        preference.addEventListener("change", update)
+        return () => preference.removeEventListener("change", update)
+    }, [])
+    React.useEffect(() => {
+        if (autoplay) player.current?.play().catch(() => { /* Native controls remain available when autoplay is blocked. */ })
+        else player.current?.pause()
+    }, [autoplay])
+    return <section className="swt-video-landing" aria-labelledby="swt-hero-title">
+        <h1 id="swt-hero-title" className="swt-sr">Seward OneStop: last-minute openings, local deals, easy booking.</h1>
+        <figure className="swt-video-stage">
+            <video ref={player} className="swt-demo-video" src={DEMO_VIDEO} poster={DEMO_POSTER} controls muted loop playsInline autoPlay={autoplay} preload="metadata" aria-label="Seward OneStop 30-second iPhone demo" aria-describedby="swt-video-description" onError={() => setFailed(true)}>
+                Your browser does not support this video. <a href={DEMO_VIDEO}>Watch the Seward OneStop demo</a>.
+            </video>
+            <figcaption>Concept demo · Illustrative bookings and prices</figcaption>
+            {failed && <p className="swt-video-error">The video could not load. <a href={DEMO_VIDEO} target="_blank" rel="noopener noreferrer">Open the demo video ↗</a></p>}
+        </figure>
+        <p id="swt-video-description" className="swt-sr">A vendor publishes two canceled kayak seats, discounted from $150 to $120 per person. A traveler gets an opening notification and books both for $240, saving $60. The vendor fills the two seats. This is an illustrative concept, not live inventory. Audio contains music and notification sounds, with no speech.</p>
+        <button type="button" className="swt-video-explore" onClick={onExplore}>Explore listings <span aria-hidden="true">↓</span></button>
+    </section>
+}
+
 /**
  * @framerSupportedLayoutWidth any
  * @framerSupportedLayoutHeight auto
@@ -901,8 +931,7 @@ export default function SewardTours({ sourceURL = DEFAULT_SOURCE, apiBase = "", 
         <style>{CSS}</style>
         {showHero && <>
             <header className="swt-home-header"><a className="swt-wordmark" href="#seward-tours" aria-label="Seward OneStop home">Seward<span>OneStop</span></a><nav aria-label="Explore Seward">{([['lodging', 'Lodging'], ['tour', 'Activities'], ['transportation', 'Transport']] as const).map(([value, label]) => <button type="button" key={value} onClick={() => selectType(value, true)}>{label}</button>)}</nav></header>
-            <section className="swt-home-hero" aria-labelledby="swt-hero-title"><img className="swt-hero-photo" src={HERO_IMAGE} alt="A glacier and mountain-lined fjord in Kenai Fjords National Park" referrerPolicy="no-referrer" /><div className="swt-hero-shade" /><div className="swt-hero-copy"><p>SEWARD, ALASKA</p><h1 id="swt-hero-title">Make Seward<br />your next stop.</h1><span>Find a place to stay, a day to remember,<br className="swt-desktop-break" /> and your way around.</span></div><span className="swt-hero-credit">Photo: National Park Service</span></section>
-            <div className="swt-entry-buttons" role="group" aria-label="Start exploring Seward">{([['lodging', 'Lodging', 'Hotels & lodges'], ['tour', 'Activities', 'Tours & outdoor adventures'], ['transportation', 'Transport', 'Rail, coach & local rides']] as const).map(([value, label, detail]) => <button type="button" key={value} aria-pressed={selectedType === value} onClick={() => selectType(value, true)}><TypeIcon type={value} /><span><strong>{label}</strong><small>{detail}</small></span><span className="swt-entry-arrow" aria-hidden="true">↗</span></button>)}</div>
+            <LandingVideo onExplore={() => selectType("all", true)} />
         </>}
         <section id="seward-listings" ref={resultsRef} aria-label="Seward vendor directory" className="swt-content">
             <div className="swt-section-head"><div><p className="swt-directory-eyebrow">THE SEWARD DIRECTORY</p><h2>{selectedType === "lodging" ? "Find your stay" : selectedType === "tour" ? "Find your next adventure" : selectedType === "transportation" ? "Find your way here" : "Explore Seward"}</h2></div><span>{filtered.length} {filtered.length === 1 ? "listing" : "listings"}</span></div>
@@ -953,5 +982,6 @@ const CSS = `
 @container(max-width:780px){.swt-home-header,.swt-entry-buttons,.swt-content{width:calc(100% - 44px)}.swt-home-header{height:75px}.swt-home-hero{min-height:282px;width:calc(100% - 24px)}.swt-hero-copy{padding:29px 30px 48px}.swt-hero-copy h1{font-size:43px}.swt-entry-buttons{gap:10px}.swt-entry-buttons>button{padding:15px 13px;min-height:85px;gap:10px}.swt-entry-buttons svg{width:24px;height:24px}.swt-entry-buttons strong{font-size:16px}.swt-entry-buttons small{font-size:9px}.swt-entry-arrow{display:none}.swt-content{padding-top:35px}.swt-section-head h2{font-size:27px}.swt-row-main{grid-template-columns:150px minmax(0,1fr) 150px;gap:17px}.swt-listing-image{height:154px}.swt-row-copy h3,.swt-row-copy h4{font-size:18px}.swt-description{font-size:12px}.swt-price dd{font-size:13px}.swt-book{font-size:11px;padding-inline:10px;gap:8px}.swt-operator-details{margin-left:167px}.swt-details-body{grid-template-columns:1fr 1fr}.swt-details-body>div:nth-child(3){grid-column:1/-1}.swt-results{display:block;padding:15px 0 18px}.swt-results>p{text-align:left;margin-top:6px}.swt-toolbar{gap:13px}.swt-toolbar>.swt-search{flex-basis:100%}.swt-home-header nav{gap:21px}.swt-home-header nav button{font-size:11px}.swt-wordmark{font-size:24px}}
 @container(max-width:640px){.swt-row-main{grid-template-columns:125px minmax(0,1fr);gap:14px 18px}.swt-listing-image{height:143px}.swt-row-copy h3,.swt-row-copy h4{font-size:21px}.swt-row-booking{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:20px;text-align:left;border-top:1px solid #edf1f3;padding-top:13px}.swt-row-booking>.swt-price{flex:1;max-width:360px}.swt-row-booking>.swt-action{width:160px;flex-shrink:0;margin-top:0}.swt-price dt{margin-bottom:4px}.swt-price dd{font-size:14px}.swt-price .swt-fact-note{margin-top:3px!important}.swt-operator-details{margin-left:0;margin-top:12px}.swt-book{font-size:12px;padding-inline:12px}.swt-action>span{font-size:8px}.swt-description{font-size:12px}.swt-location{font-size:10px}.swt-inline-facts{font-size:10px}.swt-service-note{font-size:10px}.swt-row{padding:20px 0 17px}.swt-details-body{grid-template-columns:1fr;gap:18px}.swt-details-body>div:nth-child(3){grid-column:auto}}
 @container(max-width:440px){.swt-home-header,.swt-entry-buttons,.swt-content{width:calc(100% - 34px)}.swt-home-header{height:auto;min-height:88px;flex-wrap:wrap;justify-content:center;gap:13px;padding:16px 0}.swt-wordmark{font-size:22px;letter-spacing:-.65px}.swt-home-header nav{width:100%;justify-content:center;gap:28px}.swt-home-header nav button{font-size:10px}.swt-home-hero{width:calc(100% - 18px);min-height:268px}.swt-hero-copy{padding:25px 22px 51px}.swt-hero-copy h1{font-size:38px;letter-spacing:-1.4px}.swt-hero-copy>p{font-size:8px;letter-spacing:1.8px;margin-bottom:14px}.swt-hero-copy>span{font-size:12px}.swt-hero-credit{font-size:6px;right:11px;bottom:28px}.swt-entry-buttons{gap:7px;margin-top:-22px}.swt-entry-buttons>button{display:flex;flex-direction:column;gap:8px;padding:12px 7px;min-height:105px;text-align:center}.swt-entry-buttons svg{width:25px;height:25px}.swt-entry-buttons strong{font-size:15px}.swt-entry-buttons small{font-size:8px;line-height:1.4;margin-top:3px}.swt-content{padding:31px 0 28px}.swt-section-head{margin-bottom:15px;align-items:flex-end}.swt-section-head h2{font-size:25px}.swt-section-head>span{font-size:10px}.swt-directory-eyebrow{font-size:8px;letter-spacing:1.4px}.swt-categories{gap:4px 18px;margin-bottom:20px}.swt-categories button{font-size:12px;padding:10px 0}.swt-toolbar{gap:12px}.swt-toolbar>label{flex:1 1 125px}.swt-toolbar input,.swt-toolbar select{font-size:12px}.swt-results>p{font-size:10px;line-height:1.7}.swt-row-main{grid-template-columns:106px minmax(0,1fr);gap:13px 14px}.swt-listing-image{height:130px}.swt-row-copy h3,.swt-row-copy h4{font-size:18px;line-height:1.26}.swt-operator{font-size:9px;margin-bottom:4px!important}.swt-description{font-size:11px;line-height:1.6;margin-top:8px!important}.swt-location{margin-top:6px;gap:3px 8px}.swt-map-link{font-size:9px}.swt-inline-facts{font-size:10px;margin-top:8px!important}.swt-service-note{font-size:9px;line-height:1.55;margin-top:7px!important}.swt-row-booking{gap:15px}.swt-row-booking>.swt-action{width:140px}.swt-price dd{font-size:13px}.swt-price dt{font-size:8px}.swt-row .swt-fact-note{font-size:9px}.swt-book{font-size:11px;min-height:41px}.swt-action>span{font-size:7px}.swt-group+.swt-group{margin-top:23px}.swt-group-heading h3{font-size:16px}.swt-catalog-details{font-size:10px}.swt-calendar{padding:13px}.swt-departures li{grid-template-columns:1fr}.swt-count,.swt-unknown{justify-self:start}}
+.swt-video-landing{width:calc(100% - 48px);max-width:1360px;margin:0 auto;text-align:center}.swt-video-stage{margin:0;border-radius:10px;background:#10383d;padding:20px 24px 14px;display:flex;flex-direction:column;align-items:center;gap:12px;overflow:hidden}.swt-demo-video{display:block;height:min(72svh,680px);max-width:100%;width:auto;aspect-ratio:9/16;object-fit:contain;background:#061b1e;border-radius:5px}.swt-video-stage figcaption{font-size:10px;line-height:1.5;color:#cbdedc;letter-spacing:.15px}.swt-video-error{font-size:12px;color:#fff}.swt-video-error a{color:inherit;text-decoration:underline}.swt-video-explore{display:inline-flex;gap:16px;align-items:center;justify-content:center;border:1px solid #bed0cf;border-radius:5px;background:white;color:var(--ink);min-height:44px;padding:12px 22px;margin:18px auto 4px;font:600 13px Inter,"Segoe UI",Arial,sans-serif;cursor:pointer}.swt-video-explore:hover{background:#eef5f4}.swt-video-explore:focus-visible{outline:3px solid #28686b;outline-offset:3px}@container(max-width:640px){.swt-video-landing{width:calc(100% - 24px)}.swt-video-stage{padding:12px 12px 10px;gap:10px}.swt-demo-video{height:auto;width:min(100%,calc(70svh * 9 / 16));max-height:680px}.swt-video-stage figcaption{font-size:9px}.swt-video-explore{margin-top:14px}}
 @media(prefers-reduced-motion:reduce){.swt-root *{scroll-behavior:auto!important}}
 `

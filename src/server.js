@@ -11,6 +11,8 @@ const STATIC_FILES = new Map([
   ['/app.js', ['app.js', 'text/javascript; charset=utf-8']],
   ['/style.css', ['style.css', 'text/css; charset=utf-8']],
   ['/images/seward-hero.jpg', ['images/seward-hero.jpg', 'image/jpeg']],
+  ['/videos/seward-onestop-demo.mp4', ['videos/seward-onestop-demo.mp4', 'video/mp4']],
+  ['/videos/seward-onestop-demo-poster.png', ['videos/seward-onestop-demo-poster.png', 'image/png']],
 ]);
 
 class HttpError extends Error {

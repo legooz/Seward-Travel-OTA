@@ -389,6 +389,29 @@ dateInput.addEventListener('change', () => {
   $('#date-note').textContent = valid ? 'This date applies only to supported tour calendars. Choose stay and transportation dates on the provider’s website.' : 'Enter a valid date to read a tour booking calendar.';
   render();
 });
-for (const button of document.querySelectorAll('[data-explore-type]')) button.addEventListener('click', () => chooseType(button.dataset.exploreType, true));
 for (const button of document.querySelectorAll('#type-filters [data-type]')) button.addEventListener('click', () => chooseType(button.dataset.type));
+
+function setupLandingVideo() {
+  const video = $('#landing-video');
+  if (!video || typeof video.play !== 'function') return;
+  const showVideoError = () => { $('#video-error').hidden = false; };
+  video.addEventListener('error', showVideoError);
+  video.querySelector('source')?.addEventListener('error', showVideoError);
+  // Leave autoplay off in HTML so reduced-motion visitors never start playback.
+  if (typeof window.matchMedia !== 'function') return;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const applyMotionPreference = () => {
+    video.autoplay = !reducedMotion.matches;
+    if (reducedMotion.matches) video.pause();
+    else {
+      video.muted = true;
+      const playback = video.play();
+      playback?.catch(() => {}); // Native controls remain available if autoplay is blocked.
+    }
+  };
+  applyMotionPreference();
+  reducedMotion.addEventListener?.('change', applyMotionPreference);
+}
+
+setupLandingVideo();
 loadCatalog();
