@@ -12,6 +12,7 @@ Start with three to five cooperating Seward operators, approved booking/referral
 - [FareHarbor access, capacity semantics, and website/agent options](docs/fareharbor.md)
 - [Rezdy, Bókun, Viator, OCTO, and verified local operator leads](docs/integration-options.md)
 - [FareHarbor scraper prototype: offline demo, configuration, and limits](docs/scraper.md)
+- [First verified target: Miller's Landing and its visible availability limits](docs/millers-landing.md)
 
 Research checked October 3, 2026. Supplier access and commercial terms still need confirmation.
 

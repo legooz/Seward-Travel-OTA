@@ -2,6 +2,8 @@
 
 This is a configurable scraper foundation, with offline evidence conversion tested locally. **It has not been calibrated or tested against a live FareHarbor operator page.** The example configuration deliberately has no URL or selectors. A page-specific adapter is still needed before it can collect real departures.
 
+The first identified operator is [Miller's Landing](millers-landing.md). Limited public-calendar inspection confirmed FareHarbor use and contact-required departures, but did not establish numeric remaining seats or validate the unattended collector.
+
 ## What it does
 
 - Opens one configured FareHarbor HTTPS page using Playwright.

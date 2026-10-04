@@ -37,6 +37,7 @@ test('ambiguous, combined, price, dropdown and oversized count fixtures remain u
     'Sold out\n6 seats remaining', '6 seats remaining for adults only',
     'Guests: 1 2 3 4 5 6', '$6 per seat', '6 seats remaining, $50',
     'Book now', 'Maximum capacity 6', '9007199254740992 spots available',
+    'Call to book', 'Combo Charter - 10 passenger boat', 'Combo Charter - 14 passenger boat Call to book',
     '6.5 spots available', '-1 seats remaining', '3 seats remaining\nNot available',
   ];
   const { feed, warnings } = buildObservation(capture(fixtures));

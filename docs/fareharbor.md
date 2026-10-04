@@ -1,6 +1,6 @@
 # FareHarbor integration decision
 
-Research checked October 3, 2026 (America/Anchorage). Primary sources only. No live operator inventory was queried, no affiliate application was submitted, and no reservation was made.
+Initial API research checked October 3, 2026 (America/Anchorage). Primary sources only. That initial research did not query live operator inventory, submit an affiliate application, or make a reservation. See [Miller's Landing](millers-landing.md) for subsequent limited public-calendar observations.
 
 ## Recommended MVP route
 

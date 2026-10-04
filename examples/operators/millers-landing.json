@@ -1,0 +1,21 @@
+{
+  "id": "millers-landing",
+  "name": "Miller's Landing",
+  "website": "https://www.millerslandingak.com/",
+  "platform": "fareharbor",
+  "companyShortname": "millerslandingak",
+  "timeZone": "America/Anchorage",
+  "integrationStatus": "identified_not_connected",
+  "automationPermission": "not_confirmed",
+  "products": [
+    {
+      "providerItemId": "84318",
+      "name": "Full-Day Halibut and Species in Season Charter",
+      "sourcePage": "https://www.millerslandingak.com/seward-alaska-fishing/full-day-halibut-species-in-season-charter/",
+      "bookingUrl": "https://fareharbor.com/embeds/book/millerslandingak/items/84318/calendar/?ref=https://www.millerslandingak.com&full-items=yes",
+      "salesModesToVerify": ["per_person", "whole_boat"],
+      "remainingSeatCountVerified": false,
+      "notes": "Operator catalog metadata only; not a scraper configuration or live availability feed. Boat-label capacities are not remaining inventory."
+    }
+  ]
+}
