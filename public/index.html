@@ -44,17 +44,23 @@
         <button class="button button-outline refresh-button" id="refresh-button" type="button"><span aria-hidden="true">↻</span><span id="refresh-label">Refresh source pages</span></button>
       </div>
 
-      <div class="search-bar">
+      <div class="catalog-controls">
+        <div class="type-filter-row"><div class="primary-filters" id="type-filters" role="group" aria-label="Filter listings">
+          <button type="button" class="filter-button is-selected" data-type="lodging" aria-pressed="true">Lodging</button>
+          <button type="button" class="filter-button" data-type="tour" aria-pressed="false">Activities</button>
+          <button type="button" class="filter-button" data-type="transportation" aria-pressed="false">Transport</button>
+          <button type="button" class="filter-button" data-type="all" aria-pressed="false">All listings</button>
+        </div></div>
+        <div class="search-bar without-calendar">
         <div class="search-field">
           <label for="search">FIND TOURS, STAYS & TRANSPORT</label>
           <div class="input-with-icon"><svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg><input id="search" type="search" placeholder="Kayaking, hotels, train, providers…" autocomplete="off"></div>
         </div>
-        <div class="date-field"><label for="travel-date">TOUR CALENDAR DATE · ALASKA TIME</label><input id="travel-date" type="date" value="2027-07-15" required aria-describedby="date-note"></div>
-        <div class="platform-field"><label for="platform">BOOKING PLATFORM</label><select id="platform"><option value="all">All platforms</option></select></div>
+        <div class="date-field" hidden><label for="travel-date">TOUR CALENDAR DATE · ALASKA TIME</label><input id="travel-date" type="date" value="2027-07-15" required aria-describedby="date-note"></div>
+        </div>
+        <p class="date-note" id="date-note" hidden>This date applies only to supported tour calendars. Choose stay and transportation dates on the provider’s website.</p>
+        <p class="results-count" id="results-count" aria-live="polite">Loading catalog…</p>
       </div>
-      <p class="date-note" id="date-note">This date applies only to supported tour calendars. Choose stay and transportation dates on the provider’s website.</p>
-      <div class="type-filter-row"><span class="filter-label" id="type-filter-label">LISTING TYPE</span><div class="category-filters" id="type-filters" role="group" aria-labelledby="type-filter-label"><button type="button" class="filter-button is-selected" data-type="all" aria-pressed="true">All listings</button></div></div>
-      <div class="filter-row"><div class="category-filters" id="category-filters" role="group" aria-label="Filter by category"><button type="button" class="filter-button is-selected" data-category="all" aria-pressed="true">All categories</button></div><p class="results-count" id="results-count" aria-live="polite">Loading catalog…</p></div>
 
       <div class="catalog-status" id="catalog-status"><span class="status-dot" aria-hidden="true"></span><span id="catalog-status-text">Loading saved source observations…</span></div>
       <div class="banner is-hidden" id="error-banner" role="alert"></div>

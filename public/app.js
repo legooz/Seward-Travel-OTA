@@ -1,9 +1,8 @@
 const $ = selector => document.querySelector(selector);
-const state = { products: [], type: 'lodging', category: 'all', platform: 'all', search: '', loading: true, refreshing: false, checking: new Set(), refreshedAt: null, capabilities: { refresh: false, calendar: false } };
+const state = { products: [], type: 'lodging', search: '', loading: true, refreshing: false, checking: new Set(), refreshedAt: null, capabilities: { refresh: false, calendar: false } };
 const cards = $('#cards');
 const dateInput = $('#travel-date');
 const announcer = $('#announcer');
-const platformSelect = $('#platform');
 const expandedListings = new Set();
 let expiryTimer;
 
@@ -55,12 +54,6 @@ function formatDate(value) {
   return new Intl.DateTimeFormat('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(`${value}T12:00:00Z`));
 }
 
-function platformName(value) {
-  if (String(value).toLowerCase() === 'fareharbor') return 'FareHarbor';
-  if (!value || value === 'unknown' || value === 'direct') return 'Provider website';
-  return String(value).replace(/[_-]/g, ' ').replace(/\b\w/g, letter => letter.toUpperCase());
-}
-
 function categoryName(value) {
   return String(value || 'Tours').replace(/[_-]/g, ' ').replace(/\b\w/g, letter => letter.toUpperCase());
 }
@@ -84,8 +77,6 @@ function canReadCalendar(product) {
 function chooseType(value, scroll = false) {
   window.SewardAnalytics?.send('category_select', value);
   state.type = value;
-  state.category = 'all';
-  state.platform = 'all';
   state.search = '';
   $('#search').value = '';
   if (!state.loading) { buildFilters(); render(); }
@@ -125,49 +116,12 @@ function readSnapshot(snapshot) {
 }
 
 function buildFilters() {
-  const types = [...new Set(state.products.map(listingType))];
-  if (!types.includes(state.type)) state.type = 'all';
-  const typeContainer = $('#type-filters');
-  typeContainer.replaceChildren();
-  for (const [value, label] of [['lodging', 'Lodging'], ['tour', 'Activities'], ['transportation', 'Transport'], ['all', 'All listings']]) {
-    if (value !== 'all' && !types.includes(value)) continue;
-    const button = element('button', `filter-button${state.type === value ? ' is-selected' : ''}`, label);
-    button.type = 'button';
-    button.dataset.type = value;
-    button.setAttribute('aria-pressed', String(state.type === value));
-    button.addEventListener('click', () => chooseType(value));
-    typeContainer.append(button);
+  // Keep these buttons mounted so keyboard focus survives selection and refresh.
+  for (const button of document.querySelectorAll('#type-filters [data-type]')) {
+    const selected = button.dataset.type === state.type;
+    button.classList.toggle('is-selected', selected);
+    button.setAttribute('aria-pressed', String(selected));
   }
-  const typeProducts = state.products.filter(product => state.type === 'all' || listingType(product) === state.type);
-  const categories = [...new Set(typeProducts.map(product => product.category || 'Tours'))].sort();
-  if (!categories.includes(state.category)) state.category = 'all';
-  const container = $('#category-filters');
-  container.replaceChildren();
-  for (const [value, label] of [['all', 'All categories'], ...categories.map(category => [category, categoryName(category)])]) {
-    const button = element('button', `filter-button${state.category === value ? ' is-selected' : ''}`, label);
-    button.type = 'button';
-    button.dataset.category = value;
-    button.setAttribute('aria-pressed', String(state.category === value));
-    button.addEventListener('click', () => {
-      state.category = value;
-      for (const sibling of container.children) {
-        const selected = sibling.dataset.category === value;
-        sibling.classList.toggle('is-selected', selected);
-        sibling.setAttribute('aria-pressed', String(selected));
-      }
-      render();
-    });
-    container.append(button);
-  }
-  const platforms = [...new Set(typeProducts.map(product => product.platform || 'unknown'))].sort();
-  if (!platforms.includes(state.platform)) state.platform = 'all';
-  platformSelect.replaceChildren();
-  for (const [value, label] of [['all', 'All platforms'], ...platforms.map(platform => [platform, platformName(platform)])]) {
-    const option = element('option', '', label);
-    option.value = value;
-    platformSelect.append(option);
-  }
-  platformSelect.value = state.platform;
 }
 
 function calendarPanel(product) {
@@ -360,7 +314,7 @@ function render() {
   $('.search-bar').classList.toggle('without-calendar', !tourControls);
   const filtered = state.products.filter(product => {
     const words = `${product.name} ${product.operator || ''} ${product.category || ''} ${product.subcategory || ''} ${product.platform || ''} ${product.locationText || ''} ${product.serviceLabel || ''} ${product.description || ''}`.toLowerCase();
-    return (!state.search || words.includes(state.search)) && (state.type === 'all' || listingType(product) === state.type) && (state.category === 'all' || (product.category || 'Tours') === state.category) && (state.platform === 'all' || (product.platform || 'unknown') === state.platform);
+    return (!state.search || words.includes(state.search)) && (state.type === 'all' || listingType(product) === state.type);
   });
   $('#results-count').textContent = `${filtered.length} ${filtered.length === 1 ? 'listing' : 'listings'}${filtered.length !== state.products.length ? ` of ${state.products.length}` : ''}`;
   const operators = new Set(state.products.map(product => product.operator).filter(Boolean)).size;
@@ -368,11 +322,11 @@ function render() {
   cards.replaceChildren();
   if (!filtered.length) {
     const empty = element('div', 'empty-state');
-    empty.append(element('span', 'empty-mark', '↗'), element('h3', '', state.products.length ? 'No matching listings.' : 'Ready when the sources are.'), element('p', '', state.products.length ? 'Try another listing type, category, platform, or search term.' : 'Refresh the source pages to collect the configured tours. If collection fails, the error will appear here.'));
+    empty.append(element('span', 'empty-mark', '↗'), element('h3', '', state.products.length ? 'No matching listings.' : 'Ready when the sources are.'), element('p', '', state.products.length ? 'Choose Lodging, Activities, Transport, All listings, or try another search term.' : 'Refresh the source pages to collect the configured tours. If collection fails, the error will appear here.'));
     if (state.products.length) {
       const reset = element('button', 'button button-outline', 'Clear filters');
       reset.type = 'button';
-      reset.addEventListener('click', () => { state.search = ''; state.type = 'all'; state.category = 'all'; state.platform = 'all'; $('#search').value = ''; buildFilters(); render(); });
+      reset.addEventListener('click', () => { state.search = ''; state.type = 'all'; $('#search').value = ''; buildFilters(); render(); });
       empty.append(reset);
     }
     cards.append(empty);
@@ -429,7 +383,6 @@ async function checkCalendar(product) {
 
 $('#refresh-button').addEventListener('click', () => loadCatalog(true));
 $('#search').addEventListener('input', event => { state.search = event.target.value.toLowerCase().trim(); render(); });
-platformSelect.addEventListener('change', event => { state.platform = event.target.value; render(); });
 dateInput.addEventListener('change', () => {
   const valid = validDate(dateInput.value);
   dateInput.setAttribute('aria-invalid', String(!valid));
@@ -437,4 +390,5 @@ dateInput.addEventListener('change', () => {
   render();
 });
 for (const button of document.querySelectorAll('[data-explore-type]')) button.addEventListener('click', () => chooseType(button.dataset.exploreType, true));
+for (const button of document.querySelectorAll('#type-filters [data-type]')) button.addEventListener('click', () => chooseType(button.dataset.type));
 loadCatalog();
