@@ -1,0 +1,13 @@
+{
+  "name": "seward-travel-ota",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Local availability MVP with explicit provenance, freshness and party-size scope.",
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node src/server.js",
+    "demo": "node src/cli.js",
+    "test": "node --test"
+  }
+}

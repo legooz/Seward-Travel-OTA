@@ -1,0 +1,25 @@
+{
+  "products": [
+    {
+      "id": "example-product",
+      "name": "Schema example only — replace with authorized operator data",
+      "description": "Deliberately expired and unknown. Replace this schema example with authorized observations.",
+      "bookingUrl": null
+    }
+  ],
+  "availability": [
+    {
+      "id": "example-departure",
+      "productId": "example-product",
+      "startAt": "2026-10-05T12:00:00-08:00",
+      "seatsRemaining": null,
+      "bookable": null,
+      "checkedPartySize": null,
+      "observedAt": "2020-01-01T00:00:00Z",
+      "expiresAt": "2020-01-01T00:05:00Z",
+      "sourceKind": "operator_manual",
+      "evidenceUrl": null,
+      "bookingUrl": null
+    }
+  ]
+}
