@@ -110,14 +110,14 @@ function readSnapshot(snapshot) {
   state.products = snapshot.products.filter(product => product && typeof product.id === 'string' && typeof product.name === 'string');
   state.refreshedAt = snapshot.refreshedAt;
   state.capabilities = { refresh: snapshot.mode !== 'snapshot' && snapshot.capabilities?.refresh !== false, calendar: snapshot.mode !== 'snapshot' && snapshot.capabilities?.calendar !== false };
-  $('.preview-label').hidden = snapshot.mode === 'snapshot';
   $('#catalog-notice').textContent = snapshot.notice || 'Published source observations are snapshots. Confirm current details and availability with the operator.';
   buildFilters();
 }
 
 function buildFilters() {
   // Keep these buttons mounted so keyboard focus survives selection and refresh.
-  for (const button of document.querySelectorAll('#type-filters [data-type]')) {
+  for (const button of document.querySelectorAll('[data-explore-type]')) button.addEventListener('click', () => chooseType(button.dataset.exploreType, true));
+for (const button of document.querySelectorAll('#type-filters [data-type]')) {
     const selected = button.dataset.type === state.type;
     button.classList.toggle('is-selected', selected);
     button.setAttribute('aria-pressed', String(selected));
@@ -390,28 +390,4 @@ dateInput.addEventListener('change', () => {
   render();
 });
 for (const button of document.querySelectorAll('#type-filters [data-type]')) button.addEventListener('click', () => chooseType(button.dataset.type));
-
-function setupLandingVideo() {
-  const video = $('#landing-video');
-  if (!video || typeof video.play !== 'function') return;
-  const showVideoError = () => { $('#video-error').hidden = false; };
-  video.addEventListener('error', showVideoError);
-  video.querySelector('source')?.addEventListener('error', showVideoError);
-  // Leave autoplay off in HTML so reduced-motion visitors never start playback.
-  if (typeof window.matchMedia !== 'function') return;
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const applyMotionPreference = () => {
-    video.autoplay = !reducedMotion.matches;
-    if (reducedMotion.matches) video.pause();
-    else {
-      video.muted = true;
-      const playback = video.play();
-      playback?.catch(() => {}); // Native controls remain available if autoplay is blocked.
-    }
-  };
-  applyMotionPreference();
-  reducedMotion.addEventListener?.('change', applyMotionPreference);
-}
-
-setupLandingVideo();
 loadCatalog();

@@ -8,7 +8,13 @@ const MAX_BODY_BYTES = 8192;
 const REFRESH_INTERVAL_MS = 60_000;
 const STATIC_FILES = new Map([
   ['/', ['index.html', 'text/html; charset=utf-8']],
+  ['/booking', ['booking/index.html', 'text/html; charset=utf-8']],
+  ['/booking/', ['booking/index.html', 'text/html; charset=utf-8']],
+  ['/booking/index.html', ['booking/index.html', 'text/html; charset=utf-8']],
   ['/app.js', ['app.js', 'text/javascript; charset=utf-8']],
+  ['/welcome.js', ['welcome.js', 'text/javascript; charset=utf-8']],
+  ['/navigation.js', ['navigation.js', 'text/javascript; charset=utf-8']],
+  ['/venue-tracking.js', ['venue-tracking.js', 'text/javascript; charset=utf-8']],
   ['/style.css', ['style.css', 'text/css; charset=utf-8']],
   ['/images/seward-hero.jpg', ['images/seward-hero.jpg', 'image/jpeg']],
   ['/videos/seward-onestop-demo.mp4', ['videos/seward-onestop-demo.mp4', 'video/mp4']],
@@ -131,7 +137,8 @@ export function createServer({ mode = 'demo', feedPath, clock = Date.now, catalo
       if (!STATIC_FILES.has(url.pathname) && !['/health', '/api/products', '/api/availability', '/api/catalog'].includes(url.pathname) && !postRoute) {
         return send(404, { error: { code: 'not_found', message: 'Unknown endpoint' } });
       }
-      const allowed = url.pathname === '/api/availability' ? ['date', 'partySize'] : [];
+      const pageRoute = ['/', '/booking', '/booking/', '/booking/index.html'].includes(url.pathname);
+      const allowed = url.pathname === '/api/availability' ? ['date', 'partySize'] : pageRoute ? ['venue'] : [];
       for (const key of url.searchParams.keys()) {
         if (!allowed.includes(key) || url.searchParams.getAll(key).length !== 1) throw new InputError(`unsupported or repeated query parameter: ${key}`);
       }

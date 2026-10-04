@@ -71,11 +71,13 @@ await build({
     'process.env.VERCEL_OBSERVABILITY_CLIENT_CONFIG': JSON.stringify(process.env.VERCEL_OBSERVABILITY_CLIENT_CONFIG || ''),
   },
 });
-const indexPath = join(output, 'index.html');
-const html = await readFile(indexPath, 'utf8');
-const appScript = /<script\b[^>]*\bsrc=["']\/app\.js["'][^>]*>\s*<\/script>/gi;
-if ([...html.matchAll(appScript)].length !== 1 || /<script\b[^>]*\bsrc=["']\/analytics\.js["']/i.test(html)) {
-  throw new Error('Expected one app.js script and no analytics script in the source HTML.');
+for (const [page, entry] of [['index.html', 'welcome'], ['booking/index.html', 'app']]) {
+  const indexPath = join(output, page);
+  const html = await readFile(indexPath, 'utf8');
+  const pageScript = new RegExp(`<script\\b[^>]*\\bsrc=["']/${entry}\\.js["'][^>]*>\\s*</script>`, 'gi');
+  if ([...html.matchAll(pageScript)].length !== 1 || /<script\b[^>]*\bsrc=["']\/analytics\.js["']/i.test(html)) {
+    throw new Error(`Expected one ${entry}.js script and no analytics script in ${page}.`);
+  }
+  await writeFile(indexPath, html.replace(pageScript, '$&\n  <script defer src="/analytics.js"></script>'));
 }
-await writeFile(indexPath, html.replace(appScript, '$&\n  <script defer src="/analytics.js"></script>'));
 console.log(`Built ${products.length} saved listings in dist/. Analytics ${analyticsEnabled ? 'enabled for production' : 'disabled'}. No live collector was run.`);

@@ -5,6 +5,8 @@
   "buildCommand": "node scripts/build-vercel.mjs",
   "outputDirectory": "dist",
   "rewrites": [
+    { "source": "/booking", "destination": "/booking/index.html" },
+    { "source": "/booking/", "destination": "/booking/index.html" },
     { "source": "/api/catalog", "destination": "/data/catalog.json" }
   ],
   "headers": [

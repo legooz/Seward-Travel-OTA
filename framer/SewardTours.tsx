@@ -1,5 +1,6 @@
 import * as React from "react"
-import { addPropertyControls, ControlType } from "framer"
+import { motion } from "framer-motion"
+import { addPropertyControls, ControlType, Link } from "framer"
 
 // Paste this entire file into Assets > Code > Create Code File in Framer.
 // The default mode reads a PUBLIC SAVED SNAPSHOT. It does not run a scraper.
@@ -7,6 +8,10 @@ import { addPropertyControls, ControlType } from "framer"
 // Never place API keys, cookies, provider credentials, or secrets in this file.
 
 const DEFAULT_SOURCE = "https://raw.githubusercontent.com/legooz/Seward-Travel-OTA/main/data/catalog.json"
+const HERO_IMAGE = "https://raw.githubusercontent.com/legooz/Seward-Travel-OTA/main/public/images/seward-hero.jpg"
+const INTEREST_URL = "https://forms.zohopublic.com/vcprovenzagm1/form/SewardOneStop/formperma/8Q_3lbfTA-WTfM0g8tOUpenqwokVZkm9vclwHw3Vxyg"
+const WELCOME_PAGE = { webPageId: "augiA20Il" }
+const BOOKING_PAGE = { webPageId: "TPt6fFlZ6" }
 const DEMO_VIDEO = "https://raw.githubusercontent.com/legooz/Seward-Travel-OTA/main/public/videos/seward-onestop-demo.mp4"
 const DEMO_POSTER = "https://raw.githubusercontent.com/legooz/Seward-Travel-OTA/main/public/videos/seward-onestop-demo-poster.png"
 type Departure = { id: string; time: string; label: string; remaining: number | null; unit: string; evidenceText: string }
@@ -15,7 +20,7 @@ type ListingType = "tour" | "lodging" | "transportation"
 type BookingAction = "rates" | "schedule" | "contact" | "dates"
 type Product = { id: string; operator: string; name: string; category: string; listingType?: ListingType; subcategory?: string; serviceLabel?: string; serviceEvidence?: string; serviceNotes?: string; locationText?: string; locationLabel?: string; mapQuery?: string; locationEvidence?: string; locationEvidenceUrl?: string; imageUrl?: string | null; imageAlt?: string | null; imageSourceUrl?: string | null; imageCredit?: string | null; mediaReviewedAt?: string; imageEvidence?: string; bookingAction?: BookingAction; sourceReferences?: { label: string; url: string }[]; sourceMode?: string; platform: string; sourceUrl: string; bookingUrl: string; priceText: string | null; durationText: string | null; durationMinutesMin?: number | null; durationMinutesMax?: number | null; durationLabel?: string; durationBasis?: string; durationEvidence?: string; description?: string; detailsCheckedAt?: string; priceCaveat?: string; checkedAt?: string | null; lastAttemptAt?: string | null; fetchStatus: string; error?: string; calendarSupported?: boolean; availability?: Availability; inventoryUnit?: string | null }
 type Catalog = { products: Product[]; refreshedAt: string | null; notice: string }
-type Props = { sourceURL?: string; apiBase?: string; showHero?: boolean; style?: React.CSSProperties }
+type Props = { page?: "welcome" | "booking"; sourceURL?: string; apiBase?: string; showHero?: boolean; style?: React.CSSProperties }
 
 // Exact saved operator observations copied from data/catalog.json, not sample inventory.
 const SAVED_CATALOG: Catalog = {
@@ -765,7 +770,7 @@ function ListingImage({ product }: { product: Product }) {
     return <div className="swt-listing-image">{source && !failed ? <img src={source} alt={product.imageAlt || product.name} loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={() => setFailed(true)} /> : <div className="swt-image-fallback"><TypeIcon type={listingType(product)} /><span>{listingType(product) === "lodging" ? "Lodging" : listingType(product) === "tour" ? "Activity" : "Transport"}</span><small>Photo unavailable</small></div>}</div>
 }
 
-function LandingVideo({ onExplore }: { onExplore: () => void }) {
+function LandingVideo() {
     const player = React.useRef<HTMLVideoElement | null>(null)
     const [autoplay, setAutoplay] = React.useState(false)
     const [failed, setFailed] = React.useState(false)
@@ -790,17 +795,26 @@ function LandingVideo({ onExplore }: { onExplore: () => void }) {
             {failed && <p className="swt-video-error">The video could not load. <a href={DEMO_VIDEO} target="_blank" rel="noopener noreferrer">Open the demo video ↗</a></p>}
         </figure>
         <p id="swt-video-description" className="swt-sr">A vendor publishes two canceled kayak seats, discounted from $150 to $120 per person. A traveler gets an opening notification and books both for $240, saving $60. The vendor fills the two seats. This is an illustrative concept, not live inventory. Audio contains music and notification sounds, with no speech.</p>
-        <button type="button" className="swt-video-explore" onClick={onExplore}>Explore listings <span aria-hidden="true">↓</span></button>
+        <PageLink pageId={BOOKING_PAGE.webPageId} className="swt-video-explore">Browse bookings <span aria-hidden="true">→</span></PageLink>
     </section>
 }
 
-/**
- * @framerSupportedLayoutWidth any
- * @framerSupportedLayoutHeight auto
- * @framerIntrinsicWidth 1120
- * @framerIntrinsicHeight 1500
- */
-export default function SewardTours({ sourceURL = DEFAULT_SOURCE, apiBase = "", showHero = true, style }: Props) {
+function PageLink({ pageId, children, ...props }: { pageId: string; children: React.ReactNode; className?: string; "aria-label"?: string; "aria-current"?: "page" }) {
+    return <Link href={{ webPageId: pageId }} motionChild><motion.a {...props}>{children}</motion.a></Link>
+}
+
+function SiteHeader({ active }: { active: "welcome" | "booking" }) {
+    return <header className="swt-home-header">
+        <PageLink pageId={WELCOME_PAGE.webPageId} className="swt-wordmark" aria-label="Seward OneStop home">Seward<span>OneStop</span></PageLink>
+        <nav aria-label="Main navigation">
+            <PageLink pageId={WELCOME_PAGE.webPageId} aria-current={active === "welcome" ? "page" : undefined}>Welcome</PageLink>
+            <PageLink pageId={BOOKING_PAGE.webPageId} aria-current={active === "booking" ? "page" : undefined}>Booking</PageLink>
+            <a href={INTEREST_URL} target="_blank" rel="noopener noreferrer" aria-label="Interest (opens in a new tab)">Interest <span aria-hidden="true">↗</span></a>
+        </nav>
+    </header>
+}
+
+function BookingDirectory({ sourceURL = DEFAULT_SOURCE, apiBase = "", showHero = true, style }: Props) {
     const [catalog, setCatalog] = React.useState<Catalog>(SAVED_CATALOG)
     const [mode, setMode] = React.useState<"embedded" | "snapshot" | "backend">("embedded")
     const [loading, setLoading] = React.useState(false)
@@ -929,9 +943,10 @@ export default function SewardTours({ sourceURL = DEFAULT_SOURCE, apiBase = "", 
 
     return <div id="seward-tours" className="swt-root" style={{ width: "100%", ...style }}>
         <style>{CSS}</style>
+        <SiteHeader active="booking" />
         {showHero && <>
-            <header className="swt-home-header"><a className="swt-wordmark" href="#seward-tours" aria-label="Seward OneStop home">Seward<span>OneStop</span></a><nav aria-label="Explore Seward">{([['lodging', 'Lodging'], ['tour', 'Activities'], ['transportation', 'Transport']] as const).map(([value, label]) => <button type="button" key={value} onClick={() => selectType(value, true)}>{label}</button>)}</nav></header>
-            <LandingVideo onExplore={() => selectType("all", true)} />
+            <section className="swt-home-hero" aria-labelledby="swt-hero-title"><img className="swt-hero-photo" src={HERO_IMAGE} alt="A glacier and mountain-lined fjord in Kenai Fjords National Park" referrerPolicy="no-referrer" /><div className="swt-hero-shade" /><div className="swt-hero-copy"><p>SEWARD, ALASKA</p><h1 id="swt-hero-title">Make Seward<br />your next stop.</h1><span>Find a place to stay, a day to remember,<br className="swt-desktop-break" /> and your way around.</span></div><span className="swt-hero-credit">Photo: National Park Service</span></section>
+            <div className="swt-entry-buttons" role="group" aria-label="Start exploring Seward">{([['lodging', 'Lodging', 'Hotels & lodges'], ['tour', 'Activities', 'Tours & outdoor adventures'], ['transportation', 'Transport', 'Rail, coach & local rides']] as const).map(([value, label, detail]) => <button type="button" key={value} aria-pressed={selectedType === value} onClick={() => selectType(value, true)}><TypeIcon type={value} /><span><strong>{label}</strong><small>{detail}</small></span><span className="swt-entry-arrow" aria-hidden="true">↗</span></button>)}</div>
         </>}
         <section id="seward-listings" ref={resultsRef} aria-label="Seward vendor directory" className="swt-content">
             <div className="swt-section-head"><div><p className="swt-directory-eyebrow">THE SEWARD DIRECTORY</p><h2>{selectedType === "lodging" ? "Find your stay" : selectedType === "tour" ? "Find your next adventure" : selectedType === "transportation" ? "Find your way here" : "Explore Seward"}</h2></div><span>{filtered.length} {filtered.length === 1 ? "listing" : "listings"}</span></div>
@@ -970,7 +985,23 @@ export default function SewardTours({ sourceURL = DEFAULT_SOURCE, apiBase = "", 
     </div>
 }
 
+/**
+ * @framerSupportedLayoutWidth any
+ * @framerSupportedLayoutHeight auto
+ * @framerIntrinsicWidth 1120
+ * @framerIntrinsicHeight 1500
+ */
+export default function SewardTours({ page = "welcome", ...props }: Props) {
+    if (page === "booking") return <BookingDirectory {...props} />
+    return <div id="seward-welcome" className="swt-root" style={{ width: "100%", ...props.style }}>
+        <style>{CSS}</style>
+        <SiteHeader active="welcome" />
+        <LandingVideo />
+    </div>
+}
+
 addPropertyControls(SewardTours, {
+    page: { type: ControlType.Enum, title: "Page", options: ["welcome", "booking"], optionTitles: ["Welcome", "Booking"], defaultValue: "welcome" },
     showHero: { type: ControlType.Boolean, title: "Show Hero", defaultValue: true },
     sourceURL: { type: ControlType.String, title: "Catalog URL", defaultValue: DEFAULT_SOURCE, description: "Public HTTPS saved catalog JSON. Refreshing this file is not a live scrape." },
     apiBase: { type: ControlType.String, title: "API Base", defaultValue: "", description: "Optional deployed HTTPS backend origin/base path with CORS. Leave blank for the saved catalog demo. Never use localhost or put credentials here." },
@@ -983,5 +1014,6 @@ const CSS = `
 @container(max-width:640px){.swt-row-main{grid-template-columns:125px minmax(0,1fr);gap:14px 18px}.swt-listing-image{height:143px}.swt-row-copy h3,.swt-row-copy h4{font-size:21px}.swt-row-booking{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:20px;text-align:left;border-top:1px solid #edf1f3;padding-top:13px}.swt-row-booking>.swt-price{flex:1;max-width:360px}.swt-row-booking>.swt-action{width:160px;flex-shrink:0;margin-top:0}.swt-price dt{margin-bottom:4px}.swt-price dd{font-size:14px}.swt-price .swt-fact-note{margin-top:3px!important}.swt-operator-details{margin-left:0;margin-top:12px}.swt-book{font-size:12px;padding-inline:12px}.swt-action>span{font-size:8px}.swt-description{font-size:12px}.swt-location{font-size:10px}.swt-inline-facts{font-size:10px}.swt-service-note{font-size:10px}.swt-row{padding:20px 0 17px}.swt-details-body{grid-template-columns:1fr;gap:18px}.swt-details-body>div:nth-child(3){grid-column:auto}}
 @container(max-width:440px){.swt-home-header,.swt-entry-buttons,.swt-content{width:calc(100% - 34px)}.swt-home-header{height:auto;min-height:88px;flex-wrap:wrap;justify-content:center;gap:13px;padding:16px 0}.swt-wordmark{font-size:22px;letter-spacing:-.65px}.swt-home-header nav{width:100%;justify-content:center;gap:28px}.swt-home-header nav button{font-size:10px}.swt-home-hero{width:calc(100% - 18px);min-height:268px}.swt-hero-copy{padding:25px 22px 51px}.swt-hero-copy h1{font-size:38px;letter-spacing:-1.4px}.swt-hero-copy>p{font-size:8px;letter-spacing:1.8px;margin-bottom:14px}.swt-hero-copy>span{font-size:12px}.swt-hero-credit{font-size:6px;right:11px;bottom:28px}.swt-entry-buttons{gap:7px;margin-top:-22px}.swt-entry-buttons>button{display:flex;flex-direction:column;gap:8px;padding:12px 7px;min-height:105px;text-align:center}.swt-entry-buttons svg{width:25px;height:25px}.swt-entry-buttons strong{font-size:15px}.swt-entry-buttons small{font-size:8px;line-height:1.4;margin-top:3px}.swt-content{padding:31px 0 28px}.swt-section-head{margin-bottom:15px;align-items:flex-end}.swt-section-head h2{font-size:25px}.swt-section-head>span{font-size:10px}.swt-directory-eyebrow{font-size:8px;letter-spacing:1.4px}.swt-categories{gap:4px 18px;margin-bottom:20px}.swt-categories button{font-size:12px;padding:10px 0}.swt-toolbar{gap:12px}.swt-toolbar>label{flex:1 1 125px}.swt-toolbar input,.swt-toolbar select{font-size:12px}.swt-results>p{font-size:10px;line-height:1.7}.swt-row-main{grid-template-columns:106px minmax(0,1fr);gap:13px 14px}.swt-listing-image{height:130px}.swt-row-copy h3,.swt-row-copy h4{font-size:18px;line-height:1.26}.swt-operator{font-size:9px;margin-bottom:4px!important}.swt-description{font-size:11px;line-height:1.6;margin-top:8px!important}.swt-location{margin-top:6px;gap:3px 8px}.swt-map-link{font-size:9px}.swt-inline-facts{font-size:10px;margin-top:8px!important}.swt-service-note{font-size:9px;line-height:1.55;margin-top:7px!important}.swt-row-booking{gap:15px}.swt-row-booking>.swt-action{width:140px}.swt-price dd{font-size:13px}.swt-price dt{font-size:8px}.swt-row .swt-fact-note{font-size:9px}.swt-book{font-size:11px;min-height:41px}.swt-action>span{font-size:7px}.swt-group+.swt-group{margin-top:23px}.swt-group-heading h3{font-size:16px}.swt-catalog-details{font-size:10px}.swt-calendar{padding:13px}.swt-departures li{grid-template-columns:1fr}.swt-count,.swt-unknown{justify-self:start}}
 .swt-video-landing{width:calc(100% - 48px);max-width:1360px;margin:0 auto;text-align:center}.swt-video-stage{margin:0;border-radius:10px;background:#10383d;padding:20px 24px 14px;display:flex;flex-direction:column;align-items:center;gap:12px;overflow:hidden}.swt-demo-video{display:block;height:min(72svh,680px);max-width:100%;width:auto;aspect-ratio:9/16;object-fit:contain;background:#061b1e;border-radius:5px}.swt-video-stage figcaption{font-size:10px;line-height:1.5;color:#cbdedc;letter-spacing:.15px}.swt-video-error{font-size:12px;color:#fff}.swt-video-error a{color:inherit;text-decoration:underline}.swt-video-explore{display:inline-flex;gap:16px;align-items:center;justify-content:center;border:1px solid #bed0cf;border-radius:5px;background:white;color:var(--ink);min-height:44px;padding:12px 22px;margin:18px auto 4px;font:600 13px Inter,"Segoe UI",Arial,sans-serif;cursor:pointer}.swt-video-explore:hover{background:#eef5f4}.swt-video-explore:focus-visible{outline:3px solid #28686b;outline-offset:3px}@container(max-width:640px){.swt-video-landing{width:calc(100% - 24px)}.swt-video-stage{padding:12px 12px 10px;gap:10px}.swt-demo-video{height:auto;width:min(100%,calc(70svh * 9 / 16));max-height:680px}.swt-video-stage figcaption{font-size:9px}.swt-video-explore{margin-top:14px}}
+.swt-home-header nav a{display:inline-flex;align-items:center;gap:5px;padding:10px 0;color:#415b6d;font-size:12px;font-weight:600;text-decoration:none;white-space:nowrap}.swt-home-header nav a[aria-current=page]{color:#102f47;text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:2px}.swt-home-header nav a:hover{color:#0d2b42;text-decoration:underline;text-underline-offset:6px}.swt-video-explore{text-decoration:none}@container(max-width:440px){.swt-home-header nav a{font-size:11px}.swt-home-header nav{gap:27px}}
 @media(prefers-reduced-motion:reduce){.swt-root *{scroll-behavior:auto!important}}
 `
