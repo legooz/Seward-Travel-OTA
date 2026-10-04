@@ -1,5 +1,5 @@
 const $ = selector => document.querySelector(selector);
-const state = { products: [], category: 'all', platform: 'all', search: '', loading: true, refreshing: false, checking: new Set(), refreshedAt: null };
+const state = { products: [], type: 'all', category: 'all', platform: 'all', search: '', loading: true, refreshing: false, checking: new Set(), refreshedAt: null };
 const cards = $('#cards');
 const dateInput = $('#travel-date');
 const announcer = $('#announcer');
@@ -56,16 +56,28 @@ function formatDate(value) {
 
 function platformName(value) {
   if (String(value).toLowerCase() === 'fareharbor') return 'FareHarbor';
-  if (!value || value === 'unknown') return 'Operator website';
+  if (!value || value === 'unknown' || value === 'direct') return 'Provider website';
   return String(value).replace(/[_-]/g, ' ').replace(/\b\w/g, letter => letter.toUpperCase());
 }
 
 function categoryName(value) {
-  return String(value || 'Experiences').replace(/[_-]/g, ' ').replace(/\b\w/g, letter => letter.toUpperCase());
+  return String(value || 'Tours').replace(/[_-]/g, ' ').replace(/\b\w/g, letter => letter.toUpperCase());
+}
+
+function listingType(product) {
+  return ['tour', 'lodging', 'transportation'].includes(product.listingType) ? product.listingType : 'tour';
+}
+
+function providerAction(product) {
+  if (product.bookingAction === 'contact' || product.bookingMode === 'contact_operator') return 'Contact provider ↗';
+  if (listingType(product) === 'lodging' || product.bookingAction === 'rates') return 'Check rates ↗';
+  if (product.bookingAction === 'schedule') return 'View schedule ↗';
+  if (listingType(product) === 'transportation') return 'Contact provider ↗';
+  return 'Check with operator ↗';
 }
 
 function canReadCalendar(product) {
-  return String(product.platform).toLowerCase() === 'fareharbor' && product.calendarSupported === true;
+  return listingType(product) === 'tour' && String(product.platform).toLowerCase() === 'fareharbor' && product.calendarSupported === true;
 }
 
 function showError(message) {
@@ -98,11 +110,30 @@ function readSnapshot(snapshot) {
 }
 
 function buildFilters() {
-  const categories = [...new Set(state.products.map(product => product.category || 'Experiences'))].sort();
+  const types = [...new Set(state.products.map(listingType))];
+  if (!types.includes(state.type)) state.type = 'all';
+  const typeContainer = $('#type-filters');
+  typeContainer.replaceChildren();
+  for (const [value, label] of [['all', 'All listings'], ['tour', 'Tours'], ['lodging', 'Lodging'], ['transportation', 'Transportation']]) {
+    if (value !== 'all' && !types.includes(value)) continue;
+    const button = element('button', `filter-button${state.type === value ? ' is-selected' : ''}`, label);
+    button.type = 'button';
+    button.dataset.type = value;
+    button.setAttribute('aria-pressed', String(state.type === value));
+    button.addEventListener('click', () => {
+      state.type = value;
+      state.category = 'all';
+      buildFilters();
+      render();
+    });
+    typeContainer.append(button);
+  }
+  const typeProducts = state.products.filter(product => state.type === 'all' || listingType(product) === state.type);
+  const categories = [...new Set(typeProducts.map(product => product.category || 'Tours'))].sort();
   if (!categories.includes(state.category)) state.category = 'all';
   const container = $('#category-filters');
   container.replaceChildren();
-  for (const [value, label] of [['all', 'All experiences'], ...categories.map(category => [category, categoryName(category)])]) {
+  for (const [value, label] of [['all', 'All categories'], ...categories.map(category => [category, categoryName(category)])]) {
     const button = element('button', `filter-button${state.category === value ? ' is-selected' : ''}`, label);
     button.type = 'button';
     button.dataset.category = value;
@@ -118,7 +149,7 @@ function buildFilters() {
     });
     container.append(button);
   }
-  const platforms = [...new Set(state.products.map(product => product.platform || 'unknown'))].sort();
+  const platforms = [...new Set(typeProducts.map(product => product.platform || 'unknown'))].sort();
   if (!platforms.includes(state.platform)) state.platform = 'all';
   platformSelect.replaceChildren();
   for (const [value, label] of [['all', 'All platforms'], ...platforms.map(platform => [platform, platformName(platform)])]) {
@@ -195,32 +226,71 @@ function calendarPanel(product) {
   return panel;
 }
 
+function servicePanel(product) {
+  const panel = element('section', 'availability-panel service-panel');
+  const lodging = listingType(product) === 'lodging';
+  panel.setAttribute('aria-label', `Provider information for ${product.name}`);
+  const heading = element('div', 'availability-heading');
+  heading.append(element('h4', '', lodging ? 'Plan your stay' : product.serviceLabel || 'Transportation details'));
+  panel.append(heading);
+  if (product.serviceNotes) panel.append(element('p', 'availability-message', product.serviceNotes));
+  panel.append(element('p', 'availability-message', lodging
+    ? 'Choose stay dates, guests, and a room on the provider’s website. Room availability and a nightly rate have not been checked.'
+    : product.bookingAction === 'contact' || product.bookingMode === 'contact_operator'
+      ? 'Contact the provider for a quote and pickup arrangement. Availability has not been checked.'
+      : 'Published schedules and fares are reference information. Confirm your travel date and seats with the provider.'));
+  if (Array.isArray(product.sourceReferences) && product.sourceReferences.length) {
+    const references = element('details', 'evidence-detail provider-references');
+    references.append(element('summary', '', 'Provider details and booking links'));
+    const list = element('ul', 'reference-list');
+    for (const reference of product.sourceReferences) {
+      if (!reference || !safeLink(reference.url)) continue;
+      const item = element('li');
+      item.append(link(reference.label || 'Provider source', reference.url, 'source-link'));
+      list.append(item);
+    }
+    references.append(list);
+    panel.append(references);
+  }
+  return panel;
+}
+
 function productCard(product, index) {
   const card = element('article', 'tour-card');
+  card.dataset.listingType = listingType(product);
+  card.dataset.productId = product.id;
   card.style.setProperty('--card-delay', `${Math.min(index, 8) * 35}ms`);
   const topline = element('div', 'card-topline');
-  topline.append(element('span', 'activity-label', categoryName(product.category)), element('span', 'platform-label', platformName(product.platform)));
+  topline.append(element('span', 'activity-label', [categoryName(product.category), product.subcategory].filter(Boolean).join(' · ')), element('span', 'platform-label', platformName(product.platform)));
   card.append(topline, element('p', 'operator-name', product.operator || 'Local operator'), element('h3', 'tour-name', product.name));
+  if (product.locationText) card.append(element('p', 'location-text', product.locationText));
+  if (product.description) card.append(element('p', 'listing-description', product.description));
   const facts = element('div', 'tour-facts');
-  facts.append(element('span', 'price-text', product.priceText || 'Price on operator site'));
-  if (product.durationText) facts.append(element('span', 'duration-text', product.durationText));
+  facts.append(element('span', 'price-text', product.priceText || (listingType(product) === 'lodging' ? 'Rates depend on stay dates and room' : listingType(product) === 'transportation' ? 'Request a route-specific quote' : 'Price on operator site')));
+  const duration = product.durationLabel || product.durationText;
+  if (listingType(product) !== 'lodging' && duration) facts.append(element('span', 'duration-text', duration));
   card.append(facts);
   if (product.priceCaveat) {
     const priceDetails = element('details', 'price-caveat');
     priceDetails.append(element('summary', '', 'Price details'), element('p', '', product.priceCaveat));
     card.append(priceDetails);
   }
+  if (listingType(product) !== 'lodging' && product.durationEvidence) {
+    const durationDetails = element('details', 'price-caveat duration-caveat');
+    durationDetails.append(element('summary', '', 'Timing details'), element('p', '', product.durationEvidence));
+    card.append(durationDetails);
+  }
   const source = element('div', 'source-line');
   const attemptedAt = product.lastAttemptAt || product.checkedAt;
   const sourceStatus = product.fetchStatus === 'error' ? `Source read failed${attemptedAt ? ` · ${formatTime(attemptedAt)}` : ''}`
-    : product.checkedAt ? `Source checked ${formatTime(product.checkedAt)}` : 'Source page not checked yet';
+    : product.checkedAt ? `${product.sourceMode === 'website-review' ? 'Website reviewed' : 'Source checked'} ${formatTime(product.checkedAt)}` : 'Source page not checked yet';
   source.append(element('span', `source-dot${product.fetchStatus === 'error' ? ' has-error' : product.fetchStatus !== 'ok' ? ' is-unknown' : ''}`), element('span', '', sourceStatus));
   card.append(source);
   if (product.fetchStatus === 'error') card.append(element('p', 'source-error', typeof product.error === 'string' ? product.error : product.error?.message || 'The source page could not be collected. Published details may be unavailable or from an earlier observation.'));
   if (product.fetchStatus === 'error' && product.checkedAt && product.lastAttemptAt && product.checkedAt !== product.lastAttemptAt) card.append(element('p', 'checked-label', `Published details last read ${formatTime(product.checkedAt)}`));
-  card.append(calendarPanel(product));
+  card.append(listingType(product) === 'tour' ? calendarPanel(product) : servicePanel(product));
   const footer = element('div', 'card-footer');
-  footer.append(link('View source ↗', product.sourceUrl, 'source-link'), link('Check with operator ↗', product.bookingUrl || product.sourceUrl, 'button button-dark'));
+  footer.append(link('View source ↗', product.sourceUrl, 'source-link'), link(providerAction(product), product.bookingUrl || product.sourceUrl, 'button button-dark'));
   card.append(footer);
   return card;
 }
@@ -232,20 +302,20 @@ function render() {
   updateControls();
   if (state.loading) return;
   const filtered = state.products.filter(product => {
-    const words = `${product.name} ${product.operator || ''} ${product.category || ''} ${product.platform || ''}`.toLowerCase();
-    return (!state.search || words.includes(state.search)) && (state.category === 'all' || (product.category || 'Experiences') === state.category) && (state.platform === 'all' || (product.platform || 'unknown') === state.platform);
+    const words = `${product.name} ${product.operator || ''} ${product.category || ''} ${product.subcategory || ''} ${product.platform || ''} ${product.locationText || ''} ${product.serviceLabel || ''} ${product.description || ''}`.toLowerCase();
+    return (!state.search || words.includes(state.search)) && (state.type === 'all' || listingType(product) === state.type) && (state.category === 'all' || (product.category || 'Tours') === state.category) && (state.platform === 'all' || (product.platform || 'unknown') === state.platform);
   });
-  $('#results-count').textContent = `${filtered.length} ${filtered.length === 1 ? 'experience' : 'experiences'}${filtered.length !== state.products.length ? ` of ${state.products.length}` : ''}`;
+  $('#results-count').textContent = `${filtered.length} ${filtered.length === 1 ? 'listing' : 'listings'}${filtered.length !== state.products.length ? ` of ${state.products.length}` : ''}`;
   const operators = new Set(state.products.map(product => product.operator).filter(Boolean)).size;
-  $('#catalog-status-text').textContent = state.refreshing ? 'Reading configured operator source pages. This can take a moment.' : state.products.length ? `${operators} ${operators === 1 ? 'operator' : 'operators'} · Public source observations · ${state.refreshedAt ? `Last refresh ${formatTime(state.refreshedAt)}` : 'No refresh time reported'}` : 'No operator observations loaded';
+  $('#catalog-status-text').textContent = state.refreshing ? 'Reading configured tour source pages. Other provider reviews retain their own dates.' : state.products.length ? `${operators} ${operators === 1 ? 'provider' : 'providers'} · Public source observations · ${state.refreshedAt ? `Tour source refresh ${formatTime(state.refreshedAt)}` : 'No refresh time reported'}` : 'No provider observations loaded';
   cards.replaceChildren();
   if (!filtered.length) {
     const empty = element('div', 'empty-state');
-    empty.append(element('span', 'empty-mark', '↗'), element('h3', '', state.products.length ? 'A different adventure, perhaps.' : 'Ready when the sources are.'), element('p', '', state.products.length ? 'Try another activity, platform, or search term.' : 'Refresh the source pages to collect the configured tours. If collection fails, the error will appear here.'));
+    empty.append(element('span', 'empty-mark', '↗'), element('h3', '', state.products.length ? 'No matching listings.' : 'Ready when the sources are.'), element('p', '', state.products.length ? 'Try another listing type, category, platform, or search term.' : 'Refresh the source pages to collect the configured tours. If collection fails, the error will appear here.'));
     if (state.products.length) {
       const reset = element('button', 'button button-outline', 'Clear filters');
       reset.type = 'button';
-      reset.addEventListener('click', () => { state.search = ''; state.category = 'all'; state.platform = 'all'; $('#search').value = ''; buildFilters(); render(); });
+      reset.addEventListener('click', () => { state.search = ''; state.type = 'all'; state.category = 'all'; state.platform = 'all'; $('#search').value = ''; buildFilters(); render(); });
       empty.append(reset);
     }
     cards.append(empty);
@@ -261,10 +331,10 @@ async function loadCatalog(refresh = false) {
     const snapshot = await request(refresh ? '/api/catalog/refresh' : '/api/catalog', refresh ? { method: 'POST', body: JSON.stringify({}) } : {});
     readSnapshot(snapshot);
     const errors = state.products.filter(product => product.fetchStatus === 'error').length;
-    announcer.textContent = `${refresh ? 'Source refresh finished.' : 'Catalog loaded.'} ${state.products.length} experiences.${errors ? ` ${errors} source pages could not be read.` : ''}`;
+    announcer.textContent = `${refresh ? 'Source refresh finished.' : 'Catalog loaded.'} ${state.products.length} listings.${errors ? ` ${errors} source pages could not be read.` : ''}`;
   } catch (error) {
     showError(`${refresh ? 'Source refresh failed.' : 'The catalog could not be loaded.'} ${error.message}${state.products.length ? ' The previous observations remain visible.' : ''}`);
-    announcer.textContent = 'The catalog request failed. Details are shown above the experiences.';
+    announcer.textContent = 'The catalog request failed. Details are shown above the listings.';
   } finally {
     state.loading = false;
     state.refreshing = false;
@@ -274,7 +344,7 @@ async function loadCatalog(refresh = false) {
 
 async function checkCalendar(product) {
   const date = dateInput.value;
-  if (!validDate(date) || state.checking.has(product.id)) return;
+  if (!canReadCalendar(product) || !validDate(date) || state.checking.has(product.id)) return;
   state.checking.add(product.id);
   render();
   try {
@@ -299,7 +369,7 @@ platformSelect.addEventListener('change', event => { state.platform = event.targ
 dateInput.addEventListener('change', () => {
   const valid = validDate(dateInput.value);
   dateInput.setAttribute('aria-invalid', String(!valid));
-  $('#date-note').textContent = valid ? 'Choose a date, then read a supported tour’s booking calendar.' : 'Enter a valid date to read a booking calendar.';
+  $('#date-note').textContent = valid ? 'This date applies only to supported tour calendars. Choose stay and transportation dates on the provider’s website.' : 'Enter a valid date to read a tour booking calendar.';
   render();
 });
 loadCatalog();

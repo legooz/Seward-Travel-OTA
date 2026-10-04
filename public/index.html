@@ -9,11 +9,11 @@
   <script type="module" src="/app.js"></script>
 </head>
 <body>
-  <a class="skip-link" href="#experiences">Skip to experiences</a>
+  <a class="skip-link" href="#experiences">Skip to listings</a>
   <header class="site-header page-width">
     <a class="wordmark" href="/" aria-label="Seward Travel OTA home">SEWARD<span>TRAVEL OTA</span></a>
     <nav aria-label="Main navigation">
-      <a class="nav-link" href="#experiences">Explore experiences <span aria-hidden="true">↗</span></a>
+      <a class="nav-link" href="#experiences">Explore Seward <span aria-hidden="true">↗</span></a>
       <span class="preview-label"><span class="status-dot" aria-hidden="true"></span>Local preview</span>
     </nav>
   </header>
@@ -23,8 +23,8 @@
       <div class="hero-copy">
         <p class="eyebrow"><span class="small-rule" aria-hidden="true"></span>SEWARD, ALASKA</p>
         <h1 id="hero-title">A little closer<br>to <em>the wild.</em></h1>
-        <p class="hero-description">Find your next Seward adventure. Explore local operators, read their published tour details, and check supported booking calendars.</p>
-        <a class="hero-link" href="#experiences">Find an experience <span aria-hidden="true">↓</span></a>
+        <p class="hero-description">Plan your time in Seward. Explore tours, places to stay, and transportation using published provider details and supported tour calendars.</p>
+        <a class="hero-link" href="#experiences">Explore the listings <span aria-hidden="true">↓</span></a>
       </div>
       <div class="landscape" aria-hidden="true">
         <svg class="landscape-art" viewBox="0 0 620 480" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -52,35 +52,36 @@
 
     <section class="catalog-section page-width" id="experiences" aria-labelledby="catalog-title">
       <div class="section-heading">
-        <div><p class="eyebrow">MAKE A DAY OF IT</p><h2 id="catalog-title">Out here, there’s more.</h2></div>
+        <div><p class="eyebrow">PLAN YOUR SEWARD VISIT</p><h2 id="catalog-title">Out here, there’s more.</h2></div>
         <button class="button button-outline refresh-button" id="refresh-button" type="button"><span aria-hidden="true">↻</span><span id="refresh-label">Refresh source pages</span></button>
       </div>
 
       <div class="search-bar">
         <div class="search-field">
-          <label for="search">FIND AN EXPERIENCE</label>
-          <div class="input-with-icon"><svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg><input id="search" type="search" placeholder="Cruises, kayaking, operators…" autocomplete="off"></div>
+          <label for="search">FIND TOURS, STAYS & TRANSPORT</label>
+          <div class="input-with-icon"><svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg><input id="search" type="search" placeholder="Kayaking, hotels, train, providers…" autocomplete="off"></div>
         </div>
-        <div class="date-field"><label for="travel-date">CALENDAR DATE · ALASKA TIME</label><input id="travel-date" type="date" value="2027-07-15" required aria-describedby="date-note"></div>
+        <div class="date-field"><label for="travel-date">TOUR CALENDAR DATE · ALASKA TIME</label><input id="travel-date" type="date" value="2027-07-15" required aria-describedby="date-note"></div>
         <div class="platform-field"><label for="platform">BOOKING PLATFORM</label><select id="platform"><option value="all">All platforms</option></select></div>
       </div>
-      <p class="date-note" id="date-note">Choose a date, then read a supported tour’s booking calendar.</p>
-      <div class="filter-row"><div class="category-filters" id="category-filters" role="group" aria-label="Filter by activity"><button type="button" class="filter-button is-selected" data-category="all" aria-pressed="true">All experiences</button></div><p class="results-count" id="results-count" aria-live="polite">Loading catalog…</p></div>
+      <p class="date-note" id="date-note">This date applies only to supported tour calendars. Choose stay and transportation dates on the provider’s website.</p>
+      <div class="type-filter-row"><span class="filter-label" id="type-filter-label">LISTING TYPE</span><div class="category-filters" id="type-filters" role="group" aria-labelledby="type-filter-label"><button type="button" class="filter-button is-selected" data-type="all" aria-pressed="true">All listings</button></div></div>
+      <div class="filter-row"><div class="category-filters" id="category-filters" role="group" aria-label="Filter by category"><button type="button" class="filter-button is-selected" data-category="all" aria-pressed="true">All categories</button></div><p class="results-count" id="results-count" aria-live="polite">Loading catalog…</p></div>
 
       <div class="catalog-status" id="catalog-status"><span class="status-dot" aria-hidden="true"></span><span id="catalog-status-text">Loading saved source observations…</span></div>
       <div class="banner is-hidden" id="error-banner" role="alert"></div>
-      <div class="card-grid" id="cards" aria-busy="true"><div class="empty-state loading-state"><span class="spinner" aria-hidden="true"></span><h3>Opening the catalog</h3><p>Loading the latest saved operator observations.</p></div></div>
+      <div class="card-grid" id="cards" aria-busy="true"><div class="empty-state loading-state"><span class="spinner" aria-hidden="true"></span><h3>Opening the catalog</h3><p>Loading the latest saved provider observations.</p></div></div>
       <p class="catalog-notice" id="catalog-notice"></p>
     </section>
 
     <section class="how-it-works page-width" aria-labelledby="how-title">
       <div><p class="eyebrow">KNOW WHAT YOU’RE SEEING</p><h2 id="how-title">Real sources.<br>Clear limits.</h2></div>
-      <div class="explanation"><span class="explanation-number">01</span><h3>Published tour details</h3><p>Refresh reads the configured operator pages. Every card links to its source and shows when it was checked.</p></div>
+      <div class="explanation"><span class="explanation-number">01</span><h3>Published provider details</h3><p>Refresh reads configured tour pages. Lodging and transportation show their separate website review dates. Each listing links to its source.</p></div>
       <div class="explanation"><span class="explanation-number">02</span><h3>Counts with evidence</h3><p>A remaining count appears only when the calendar explicitly reports people. Boat capacities and missing values never become seat counts.</p></div>
-      <div class="explanation"><span class="explanation-number">03</span><h3>Book with the operator</h3><p>Calendar observations can change. Confirm your group’s availability and complete your reservation on the operator’s website.</p></div>
+      <div class="explanation"><span class="explanation-number">03</span><h3>Book with the provider</h3><p>Confirm tour seats, room rates, stay dates, or transportation directly with each provider. Published details and calendar observations can change.</p></div>
     </section>
   </main>
-  <footer class="site-footer page-width"><span class="footer-brand">SEWARD TRAVEL OTA</span><p>An independent local prototype. Reservations stay with the operator.</p><a href="#hero-title">Back to top ↑</a></footer>
+  <footer class="site-footer page-width"><span class="footer-brand">SEWARD TRAVEL OTA</span><p>An independent local prototype. Reservations stay with the provider.</p><a href="#hero-title">Back to top ↑</a></footer>
   <p class="sr-only" id="announcer" role="status" aria-live="polite" aria-atomic="true"></p>
 </body>
 </html>
